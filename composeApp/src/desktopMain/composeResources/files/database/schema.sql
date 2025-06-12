@@ -15,7 +15,7 @@ CREATE TABLE Projects (
     estimated_time INTEGER,
     hourly_price REAL,
     fixed_price REAL,
-    create_at INTEGER NOT NULL,
+    created_at INTEGER NOT NULL,
     deadline INTEGER,
     FOREIGN KEY (client_id) REFERENCES Clients(id)
 );
@@ -38,7 +38,7 @@ CREATE TABLE Tasks (
     name TEXT NOT NULL,
     description TEXT NOT NULL,
     estimated_time INTEGER,
-    create_at INTEGER NOT NULL,
+    created_at INTEGER NOT NULL,
     FOREIGN KEY (project_id) REFERENCES Projects(id),
     FOREIGN KEY (task_status_id) REFERENCES Task_Statuses(id),
     FOREIGN KEY (task_type_id) REFERENCES Task_Types(id)
