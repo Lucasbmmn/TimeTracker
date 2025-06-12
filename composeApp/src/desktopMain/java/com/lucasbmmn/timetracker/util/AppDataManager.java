@@ -14,6 +14,6 @@ public class AppDataManager {
             appDataPath = System.getProperty("user.home") + "/Library/Application Support/" + appName;
         }
 
-        return "C:\\Users\\Lucas\\Desktop";
+        return appDataPath;
     }
 }
