@@ -19,7 +19,7 @@ public class TaskTimeEntry {
     @NotNull
     private Duration duration;
     @NotNull
-    private Date created_at;
+    private Date createdAt;
 
 
     /**
@@ -69,19 +69,19 @@ public class TaskTimeEntry {
      * @return the date and time when this entry was created
      */
     @NotNull
-    public Date getCreated_at() {
-        return created_at;
+    public Date getCreatedAt() {
+        return createdAt;
     }
 
     /**
      * Sets the creation timestamp of this time entry.
      * This allows correcting the timestamp if necessary.
      *
-     * @param created_at the creation timestamp to set
+     * @param createdAt the creation timestamp to set
      */
-    public void setCreated_at(@NotNull Date created_at) {
+    public void setCreatedAt(@NotNull Date createdAt) {
         // TODO: Update DB
-        this.created_at = created_at;
+        this.createdAt = createdAt;
     }
 
     /**
@@ -91,13 +91,13 @@ public class TaskTimeEntry {
      * @param uuid the unique identifier for this time entry
      * @param task the task this time entry is associated with
      * @param duration the duration of time spent on the task
-     * @param created_at the timestamp when this entry was created
+     * @param createdAt the timestamp when this entry was created
      */
-    public TaskTimeEntry(@NotNull UUID uuid, @NotNull Task task, @NotNull Duration duration, @NotNull Date created_at) {
+    public TaskTimeEntry(@NotNull UUID uuid, @NotNull Task task, @NotNull Duration duration, @NotNull Date createdAt) {
         this.uuid = uuid;
         this.task = task;
         this.duration = duration;
-        this.created_at = created_at;
+        this.createdAt = createdAt;
     }
 
     /**
@@ -106,11 +106,11 @@ public class TaskTimeEntry {
      *
      * @param task the task this time entry is associated with
      * @param duration the duration of time spent on the task
-     * @param created_at the timestamp when this entry was created
+     * @param createdAt the timestamp when this entry was created
      */
-    public TaskTimeEntry(@NotNull Task task, @NotNull Duration duration, @NotNull Date created_at) {
+    public TaskTimeEntry(@NotNull Task task, @NotNull Duration duration, @NotNull Date createdAt) {
         // TODO: Insert into DB
-        this(UUID.randomUUID(), task, duration, created_at);
+        this(UUID.randomUUID(), task, duration, createdAt);
     }
 
     /**
@@ -124,7 +124,7 @@ public class TaskTimeEntry {
                 "uuid=" + uuid +
                 ", task=" + task +
                 ", duration=" + duration +
-                ", created_at=" + created_at +
+                ", created_at=" + createdAt +
                 '}';
     }
 }

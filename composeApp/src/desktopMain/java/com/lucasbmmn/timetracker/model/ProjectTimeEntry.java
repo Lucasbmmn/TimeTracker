@@ -20,7 +20,7 @@ public class ProjectTimeEntry {
     @NotNull
     private Duration duration;
     @NotNull
-    private Date created_at;
+    private Date createdAt;
     private boolean isBillable;
 
 
@@ -71,18 +71,18 @@ public class ProjectTimeEntry {
      * @return the date and time when this entry was created
      */
     @NotNull
-    public Date getCreated_at() {
-        return created_at;
+    public Date getCreatedAt() {
+        return createdAt;
     }
 
     /**
      * Sets the creation timestamp of this time entry.
      *
-     * @param created_at the creation timestamp to set
+     * @param createdAt the creation timestamp to set
      */
-    public void setCreated_at(@NotNull Date created_at) {
+    public void setCreatedAt(@NotNull Date createdAt) {
         // TODO: Update DB
-        this.created_at = created_at;
+        this.createdAt = createdAt;
     }
 
     /**
@@ -112,16 +112,16 @@ public class ProjectTimeEntry {
      * @param uuid       the unique identifier for the time entry
      * @param project    the associated project
      * @param duration   the duration of the time entry
-     * @param created_at the date/time when the entry was created
+     * @param createdAt the date/time when the entry was created
      * @param isBillable whether the time is billable
      */
     public ProjectTimeEntry(@NotNull UUID uuid, @NotNull Project project, @NotNull Duration duration,
-                            @NotNull Date created_at, boolean isBillable) {
+                            @NotNull Date createdAt, boolean isBillable) {
         // TODO: Select from DB
         this.uuid = uuid;
         this.project = project;
         this.duration = duration;
-        this.created_at = created_at;
+        this.createdAt = createdAt;
         this.isBillable = isBillable;
     }
 
@@ -131,16 +131,16 @@ public class ProjectTimeEntry {
      *
      * @param project    the associated project
      * @param duration   the duration of the time entry
-     * @param created_at the date/time when the entry was created
+     * @param createdAt the date/time when the entry was created
      * @param isBillable whether the time is billable
      */
     public ProjectTimeEntry(@NotNull Project project, @NotNull Duration duration,
-                            @NotNull Date created_at, boolean isBillable) {
+                            @NotNull Date createdAt, boolean isBillable) {
         // TODO: Insert into DB
         this.uuid = UUID.randomUUID();
         this.project = project;
         this.duration = duration;
-        this.created_at = created_at;
+        this.createdAt = createdAt;
         this.isBillable = isBillable;
     }
 
@@ -156,7 +156,7 @@ public class ProjectTimeEntry {
                 "uuid=" + uuid +
                 ", project=" + project +
                 ", duration=" + duration +
-                ", created_at=" + created_at +
+                ", created_at=" + createdAt +
                 ", isBillable=" + isBillable +
                 '}';
     }
