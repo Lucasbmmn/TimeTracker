@@ -2,6 +2,8 @@ package com.lucasbmmn.timetracker.data.dao;
 
 import com.lucasbmmn.timetracker.data.database.DatabaseManager;
 import com.lucasbmmn.timetracker.model.Project;
+import org.intellij.lang.annotations.Language;
+import org.jetbrains.annotations.NotNull;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -17,6 +19,11 @@ public class ProjectDao {
         this.dbManager = new DatabaseManager();
     }
 
+    public List<Project> getAllProjects() {
+        String sql = "SELECT * FROM Projects";
+        return dbManager.executeQuery(sql, this::mapRowToProject);
+    }
+
     public Project getProjectByID(String uuid) {
         String sql = "SELECT * FROM Projects WHERE id='" + uuid + "'";
         List<Project> projects = dbManager.executeQuery(sql, this::mapRowToProject);
@@ -28,6 +35,37 @@ public class ProjectDao {
 
     public Project getProjectByID(UUID uuid) {
         return this.getProjectByID(uuid.toString());
+    }
+
+    public void insertProject(@NotNull Project project) {
+        if (project == null) throw new IllegalArgumentException("Can't insert null project into the database");
+
+        // TODO: 12/06/2025 Insert project's client to the db if it's not already
+
+        @Language("SQL")
+        String sql = "INSERT INTO Projects (id, client_id, name, description, estimated_time, " +
+                "hourly_rate, fixed_price, create_at, deadline) " +
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        dbManager.executeUpdate(
+                sql,
+                project.getUuid(),
+                project.getClient() == null ? null : project.getClient().getUuid(),
+                project.getName(),
+                project.getDescription(),
+                project.getEstimatedTime() == null ? null : project.getEstimatedTime().toSeconds(),
+                project.getHourlyRate(),
+                project.getFixedPrice(),
+                project.getCreatedAt().getTime(),
+                project.getDeadline() == null ? null : project.getDeadline().getTime()
+        );
+    }
+
+    public void deleteProject(@NotNull Project project) {
+        if (project == null) throw new IllegalArgumentException("Can't delete null project from the database");
+
+        @Language("SQL")
+        String sql = "DELETE FROM Projects WHERE id=?";
+        dbManager.executeUpdate(sql, project.getUuid());
     }
 
     private Project mapRowToProject(ResultSet rs) {
