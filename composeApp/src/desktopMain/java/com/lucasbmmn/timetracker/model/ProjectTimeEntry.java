@@ -150,11 +150,7 @@ public class ProjectTimeEntry {
     public ProjectTimeEntry(@NotNull Project project, @NotNull Duration duration,
                             @NotNull Date createdAt, boolean isBillable) {
         // TODO: Insert into DB
-        this.uuid = UUID.randomUUID();
-        this.project = project;
-        this.duration = duration;
-        this.createdAt = createdAt;
-        this.isBillable = isBillable;
+        this(UUID.randomUUID(), project, duration, createdAt, isBillable);
     }
 
 

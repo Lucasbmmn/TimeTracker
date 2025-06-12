@@ -254,15 +254,8 @@ public class Project {
                    Duration estimatedTime, double hourlyRate, double fixedPrice,
                    @NotNull Date createdAt, Date deadline) {
         // TODO: Insert into DB
-        this.uuid = UUID.randomUUID();
-        this.client = client;
-        this.setName(name);
-        this.setDescription(description);
-        this.estimatedTime = estimatedTime;
-        this.hourlyRate = hourlyRate;
-        this.fixedPrice = fixedPrice;
-        this.setCreatedAt(createdAt);
-        this.deadline = deadline;
+        this(UUID.randomUUID(), client, name, description, estimatedTime, hourlyRate, fixedPrice,
+                createdAt, deadline);
     }
 
 

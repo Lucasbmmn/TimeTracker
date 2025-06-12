@@ -77,9 +77,7 @@ public class TaskType {
      */
     public TaskType(@NotNull String label) {
         // TODO: Insert into DB
-        this.uuid = UUID.randomUUID();
-        this.setLabel(label);
-        this.tasks = new ArrayList<>();
+        this(UUID.randomUUID(), label);
     }
 
 

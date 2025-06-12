@@ -188,12 +188,7 @@ public class Client {
     public Client(@NotNull String company, @NotNull String name, @NotNull String email,
                   @NotNull String phoneNumber, @NotNull String timezone) {
         // TODO: Insert into DB
-        this.uuid = UUID.randomUUID();
-        this.setCompany(company);
-        this.setName(name);
-        this.setEmail(email);
-        this.setPhoneNumber(phoneNumber);
-        this.setTimezone(timezone);
+        this(UUID.randomUUID(), company, name, email, phoneNumber, timezone);
     }
 
 
