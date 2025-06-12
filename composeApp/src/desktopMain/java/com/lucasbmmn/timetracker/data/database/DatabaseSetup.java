@@ -4,6 +4,8 @@ import com.lucasbmmn.timetracker.util.AppDataManager;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -17,6 +19,13 @@ public class DatabaseSetup {
 
         DatabaseManager dbManager = new DatabaseManager();
         if (!dbManager.databaseExists()) {
+            // Create the directory if it does not exist
+            try {
+                Files.createDirectories(Path.of(AppDataManager.getAppDataPath()));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+
             createDatabase();
             insertDefaultValues();
             isInitialized = true;

@@ -18,8 +18,7 @@ public class DatabaseManager {
 
         File databaseFile = new File(AppDataManager.getAppDataPath() + File.separator +
                 "TimeTracker.db");
-        if (databaseFile.exists()) doesExist = true;
-        if (this.listTables().isEmpty()) doesExist = false;
+        if (databaseFile.exists() && !this.listTables().isEmpty()) doesExist = true;
 
         return doesExist;
     }
