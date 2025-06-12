@@ -1,12 +1,9 @@
 package com.lucasbmmn.timetracker.model;
 
-import com.lucasbmmn.timetracker.model.exception.IllegalFixedPriceException;
-import com.lucasbmmn.timetracker.model.exception.IllegalHourlyRateException;
 import org.jetbrains.annotations.NotNull;
 
 import java.time.Duration;
 import java.util.Date;
-import java.util.StringJoiner;
 import java.util.UUID;
 
 /**
@@ -126,11 +123,11 @@ public class Project {
      * Sets the hourly rate for the project. Must be non-negative.
      *
      * @param hourlyRate the new hourly rate
-     * @throws IllegalHourlyRateException if the rate is negative
+     * @throws IllegalArgumentException if the rate is negative
      */
     public void setHourlyRate(double hourlyRate) {
         if (hourlyRate < 0)
-            throw new IllegalHourlyRateException("The hourly rate must be greater or equals to " +
+            throw new IllegalArgumentException("The hourly rate must be greater or equals to " +
                     "0: " + hourlyRate);
 
         // TODO: Update DB
@@ -150,11 +147,11 @@ public class Project {
      * Sets the fixed price for the project. Must be non-negative.
      *
      * @param fixedPrice the new fixed price
-     * @throws IllegalFixedPriceException if the price is negative
+     * @throws IllegalArgumentException if the price is negative
      */
     public void setFixedPrice(double fixedPrice) {
         if (fixedPrice < 0)
-            throw new IllegalFixedPriceException("The hourly rate must be greater or equals to " +
+            throw new IllegalArgumentException("The hourly rate must be greater or equals to " +
                     "0: " + fixedPrice);
 
         // TODO: Update DB
