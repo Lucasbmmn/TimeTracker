@@ -23,6 +23,15 @@ public class TaskTimeEntry {
 
 
     /**
+     * Returns the TaskTimeEntry's uuid
+     *
+     * @return the uuid of the TaskTimeEntry
+     */
+    public @NotNull UUID getUuid() {
+        return uuid;
+    }
+
+    /**
      * Gets the task associated with this time entry.
      *
      * @return the task for this time entry, never null

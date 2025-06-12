@@ -29,6 +29,15 @@ public class Project {
 
 
     /**
+     * Returns the project's uuid
+     *
+     * @return the uuid of the project
+     */
+    public @NotNull UUID getUuid() {
+        return uuid;
+    }
+
+    /**
      * Returns the client associated with the project.
      *
      * @return the client

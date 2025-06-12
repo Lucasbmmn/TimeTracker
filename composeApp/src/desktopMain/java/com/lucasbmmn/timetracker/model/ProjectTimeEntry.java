@@ -25,6 +25,15 @@ public class ProjectTimeEntry {
 
 
     /**
+     * Returns the ProjectTimeEntry's uuid
+     *
+     * @return the uuid of the ProjectTimeEntry
+     */
+    public @NotNull UUID getUuid() {
+        return uuid;
+    }
+
+    /**
      * Gets the project associated with this time entry.
      *
      * @return the project for this time entry, never null

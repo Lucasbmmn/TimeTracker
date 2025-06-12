@@ -24,6 +24,15 @@ public class TaskType {
 
 
     /**
+     * Returns the TaskType's uuid
+     *
+     * @return the uuid of the TaskType
+     */
+    public @NotNull UUID getUuid() {
+        return uuid;
+    }
+
+    /**
      * Gets the label of this task type.
      *
      * @return the label of this task type, never null

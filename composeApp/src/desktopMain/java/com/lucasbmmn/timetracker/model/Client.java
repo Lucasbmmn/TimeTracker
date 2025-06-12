@@ -25,6 +25,15 @@ public class Client {
 
 
     /**
+     * Returns the client's uuid
+     *
+     * @return the uuid of the client
+     */
+    public @NotNull UUID getUuid() {
+        return uuid;
+    }
+
+    /**
      * Returns the company name associated with the client.
      *
      * @return the company name, never null

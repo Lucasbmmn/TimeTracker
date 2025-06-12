@@ -23,6 +23,15 @@ public class TaskStatus {
 
 
     /**
+     * Returns the TaskStatus's uuid
+     *
+     * @return the uuid of the TaskStatus
+     */
+    public @NotNull UUID getUuid() {
+        return uuid;
+    }
+
+    /**
      * Gets the label of this task status.
      *
      * @return the label of this task status

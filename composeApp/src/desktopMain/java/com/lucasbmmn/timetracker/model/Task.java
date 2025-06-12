@@ -27,6 +27,15 @@ public class Task {
 
 
     /**
+     * Returns the task's uuid
+     *
+     * @return the uuid of the task
+     */
+    public @NotNull UUID getUuid() {
+        return uuid;
+    }
+
+    /**
      * Gets the project to which this task belongs.
      *
      * @return the project, never null
