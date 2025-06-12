@@ -1,8 +1,5 @@
 package com.lucasbmmn.timetracker.model;
 
-import com.lucasbmmn.timetracker.model.exception.IllegalEmailException;
-import com.lucasbmmn.timetracker.model.exception.IllegalPhoneNumberException;
-import com.lucasbmmn.timetracker.model.exception.IllegalTimezoneException;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.UUID;
@@ -81,11 +78,11 @@ public class Client {
      * Sets the client's email address. Validates the format.
      *
      * @param email the new email address
-     * @throws IllegalEmailException if the email format is invalid
+     * @throws IllegalArgumentException if the email format is invalid
      */
     public void setEmail(@NotNull String email) {
         if (!email.matches("^[a-zA-Z0-9_!#$%&’*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$"))
-            throw new IllegalEmailException("Illegal client email: " + email);
+            throw new IllegalArgumentException("Illegal client email: " + email);
 
         // TODO: Update DB
         this.email = email;
@@ -105,11 +102,11 @@ public class Client {
      * Sets the client's phone number. Validates the format.
      *
      * @param phoneNumber the new phone number
-     * @throws IllegalPhoneNumberException if the phone number format is invalid
+     * @throws IllegalArgumentException if the phone number format is invalid
      */
     public void setPhoneNumber(@NotNull String phoneNumber) {
         if (!phoneNumber.matches("^\\+?[(]?[0-9]{3}[)]?[-\\s.]?[0-9]{3}[-\\s.]?[0-9]{4,6}$"))
-            throw new IllegalPhoneNumberException("Illegal client phone number: " + phoneNumber);
+            throw new IllegalArgumentException("Illegal client phone number: " + phoneNumber);
 
         // TODO: Update DB
         this.phoneNumber = phoneNumber;
@@ -129,11 +126,11 @@ public class Client {
      * Sets the client's timezone. Validates the format.
      *
      * @param timezone the new timezone (e.g., +02:00, -03:30)
-     * @throws IllegalTimezoneException if the timezone format is invalid
+     * @throws IllegalArgumentException if the timezone format is invalid
      */
     public void setTimezone(@NotNull String timezone) {
         if (timezone.matches("^[-+][01][0-9]:[03]0$"))
-            throw new IllegalTimezoneException("Illegal client timezone: " + timezone);
+            throw new IllegalArgumentException("Illegal client timezone: " + timezone);
 
         // TODO: Update DB
         this.timezone = timezone;
