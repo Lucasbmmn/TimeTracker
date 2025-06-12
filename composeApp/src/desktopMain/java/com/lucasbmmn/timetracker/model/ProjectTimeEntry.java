@@ -27,7 +27,7 @@ public class ProjectTimeEntry {
     /**
      * Gets the project associated with this time entry.
      *
-     * @return the project for this time entry
+     * @return the project for this time entry, never null
      */
     @NotNull
     public Project getProject() {
@@ -37,9 +37,10 @@ public class ProjectTimeEntry {
     /**
      * Sets the project associated with this time entry.
      *
-     * @param project the project to associate with this time entry
+     * @param project the project to associate with this time entry, must not be null
      */
     public void setProject(@NotNull Project project) {
+        if (project == null) throw new IllegalArgumentException("ProjectTimeEntry's project can't be null");
         // TODO: Update DB
         this.project = project;
     }
@@ -47,7 +48,7 @@ public class ProjectTimeEntry {
     /**
      * Gets the duration of time spent on the project.
      *
-     * @return the duration of this time entry
+     * @return the duration of this time entry, never null
      */
     @NotNull
     public Duration getDuration() {
@@ -58,9 +59,10 @@ public class ProjectTimeEntry {
      * Sets the duration of time spent on the project.
      * This allows correcting or updating the time spent if necessary.
      *
-     * @param duration the duration to set for this time entry
+     * @param duration the duration to set for this time entry, must not be null
      */
     public void setDuration(@NotNull Duration duration) {
+        if (duration == null) throw new IllegalArgumentException("ProjectTimeEntry's duration can't be null");
         // TODO: Update DB
         this.duration = duration;
     }
@@ -68,7 +70,7 @@ public class ProjectTimeEntry {
     /**
      * Gets the creation timestamp of this time entry.
      *
-     * @return the date and time when this entry was created
+     * @return the date and time when this entry was created, never null
      */
     @NotNull
     public Date getCreatedAt() {
@@ -78,9 +80,10 @@ public class ProjectTimeEntry {
     /**
      * Sets the creation timestamp of this time entry.
      *
-     * @param createdAt the creation timestamp to set
+     * @param createdAt the creation timestamp to set, must not be null
      */
     public void setCreatedAt(@NotNull Date createdAt) {
+        if (createdAt == null) throw new IllegalArgumentException("ProjectTimeEntry's creation date can't be null");
         // TODO: Update DB
         this.createdAt = createdAt;
     }
@@ -109,19 +112,20 @@ public class ProjectTimeEntry {
      * Constructs a ProjectTimeEntry with an existing UUID.
      * This constructor is typically used when loading task types from a database.
      *
-     * @param uuid       the unique identifier for the time entry
-     * @param project    the associated project
-     * @param duration   the duration of the time entry
-     * @param createdAt the date/time when the entry was created
-     * @param isBillable whether the time is billable
+     * @param uuid       the unique identifier for the time entry, must not be null
+     * @param project    the associated project, must not be null
+     * @param duration   the duration of the time entry, must not be null
+     * @param createdAt the date/time when the entry was created, must not be null
+     * @param isBillable whether the time is billable {@code true} if billable, {@code false} otherwise
      */
-    public ProjectTimeEntry(@NotNull UUID uuid, @NotNull Project project, @NotNull Duration duration,
-                            @NotNull Date createdAt, boolean isBillable) {
-        // TODO: Select from DB
+    public ProjectTimeEntry(@NotNull UUID uuid, @NotNull Project project,
+                            @NotNull Duration duration, @NotNull Date createdAt,
+                            boolean isBillable) {
+        if (uuid == null) throw new IllegalArgumentException("ProjectTimeEntry uuid can't be null");
         this.uuid = uuid;
-        this.project = project;
-        this.duration = duration;
-        this.createdAt = createdAt;
+        this.setProject(project);
+        this.setDuration(duration);
+        this.setCreatedAt(createdAt);
         this.isBillable = isBillable;
     }
 
@@ -129,10 +133,10 @@ public class ProjectTimeEntry {
      * Constructs a new ProjectTimeEntry with a generated UUID.
      * This constructor is typically used when creating new task types.
      *
-     * @param project    the associated project
-     * @param duration   the duration of the time entry
-     * @param createdAt the date/time when the entry was created
-     * @param isBillable whether the time is billable
+     * @param project    the associated project, must not be null
+     * @param duration   the duration of the time entry, must not be null
+     * @param createdAt the date/time when the entry was created, must not be null
+     * @param isBillable whether the time is billable {@code true} if billable, {@code false} otherwise
      */
     public ProjectTimeEntry(@NotNull Project project, @NotNull Duration duration,
                             @NotNull Date createdAt, boolean isBillable) {

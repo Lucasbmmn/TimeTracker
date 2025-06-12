@@ -20,13 +20,11 @@ public class Project {
     private String name;
     @NotNull
     private String description;
-    @NotNull
     private Duration estimatedTime;
     private double hourlyRate;
     private double fixedPrice;
     @NotNull
     private Date createdAt;
-    @NotNull
     private Date deadline;
 
 
@@ -35,7 +33,6 @@ public class Project {
      *
      * @return the client
      */
-    @NotNull
     public Client getClient() {
         return client;
     }
@@ -45,7 +42,7 @@ public class Project {
      *
      * @param client the client to set
      */
-    public void setClient(@NotNull Client client) {
+    public void setClient(Client client) {
         // TODO: Update DB
         this.client = client;
     }
@@ -53,7 +50,7 @@ public class Project {
     /**
      * Returns the name of the project.
      *
-     * @return the project name
+     * @return the project name, never null
      */
     @NotNull
     public String getName() {
@@ -63,9 +60,10 @@ public class Project {
     /**
      * Sets the name of the project.
      *
-     * @param name the new name
+     * @param name the new name, must not be null
      */
     public void setName(@NotNull String name) {
+        if (name == null) throw new IllegalArgumentException("Project's name can't be null");
         // TODO: Update DB
         this.name = name;
     }
@@ -73,7 +71,7 @@ public class Project {
     /**
      * Returns the description of the project.
      *
-     * @return the project description
+     * @return the project description, never null
      */
     @NotNull
     public String getDescription() {
@@ -83,9 +81,10 @@ public class Project {
     /**
      * Sets the description of the project.
      *
-     * @param description the new description
+     * @param description the new description, must not be null
      */
     public void setDescription(@NotNull String description) {
+        if (description == null) throw new IllegalArgumentException("Project's description can't be null");
         // TODO: Update DB
         this.description = description;
     }
@@ -95,7 +94,6 @@ public class Project {
      *
      * @return the estimated duration
      */
-    @NotNull
     public Duration getEstimatedTime() {
         return estimatedTime;
     }
@@ -105,7 +103,7 @@ public class Project {
      *
      * @param estimatedTime the estimated duration
      */
-    public void setEstimatedTime(@NotNull Duration estimatedTime) {
+    public void setEstimatedTime(Duration estimatedTime) {
         // TODO: Update DB
         this.estimatedTime = estimatedTime;
     }
@@ -137,7 +135,7 @@ public class Project {
     /**
      * Returns the fixed price for the project.
      *
-     * @return the fixed price
+     * @return the fixed price, never null
      */
     public double getFixedPrice() {
         return fixedPrice;
@@ -162,7 +160,7 @@ public class Project {
     /**
      * Returns the date the project was created.
      *
-     * @return the creation date
+     * @return the creation date, never null
      */
     @NotNull
     public Date getCreatedAt() {
@@ -172,9 +170,10 @@ public class Project {
     /**
      * Sets the creation date of the project.
      *
-     * @param createdAt the new creation date
+     * @param createdAt the new creation date, must not be null
      */
     public void setCreatedAt(@NotNull Date createdAt) {
+        if (createdAt == null) throw new IllegalArgumentException("Project's creating date can't be null");
         // TODO: Update DB
         this.createdAt = createdAt;
     }
@@ -184,7 +183,6 @@ public class Project {
      *
      * @return the deadline
      */
-    @NotNull
     public Date getDeadline() {
         return deadline;
     }
@@ -194,7 +192,7 @@ public class Project {
      *
      * @param deadline the new deadline
      */
-    public void setDeadline(@NotNull Date deadline) {
+    public void setDeadline(Date deadline) {
         // TODO: Update DB
         this.deadline = deadline;
     }
@@ -204,28 +202,29 @@ public class Project {
      * Constructs a Project using an existing UUID.
      * This constructor is typically used when loading task types from a database.
      *
-     * @param uuid          the unique identifier of the project
+     * @param uuid          the unique identifier of the project, must not be null
      * @param client        the associated client
-     * @param name          the project's name
-     * @param description   a brief description of the project
+     * @param name          the project's name, must not be null
+     * @param description   a brief description of the project, must not be null
      * @param estimatedTime the estimated time to complete the project
      * @param hourlyRate    the hourly billing rate
      * @param fixedPrice    the fixed price for the project
-     * @param createdAt     the date the project was created
+     * @param createdAt     the date the project was created, must not be null
      * @param deadline      the project deadline
      */
-    public Project(@NotNull UUID uuid, @NotNull Client client, @NotNull String name,
-                   @NotNull String description, @NotNull Duration estimatedTime,
+    public Project(@NotNull UUID uuid, Client client, @NotNull String name,
+                   @NotNull String description, Duration estimatedTime,
                    double hourlyRate, double fixedPrice, @NotNull Date createdAt,
-                   @NotNull Date deadline) {
+                   Date deadline) {
+        if (uuid == null) throw new IllegalArgumentException("Project's uuid can't be null");
         this.uuid = uuid;
         this.client = client;
-        this.name = name;
-        this.description = description;
+        this.setName(name);
+        this.setDescription(description);
         this.estimatedTime = estimatedTime;
         this.hourlyRate = hourlyRate;
         this.fixedPrice = fixedPrice;
-        this.createdAt = createdAt;
+        this.setCreatedAt(createdAt);
         this.deadline = deadline;
     }
 
@@ -234,26 +233,26 @@ public class Project {
      * This constructor is typically used when creating new task types.
      *
      * @param client        the associated client
-     * @param name          the project's name
-     * @param description   a brief description of the project
+     * @param name          the project's name, must not be null
+     * @param description   a brief description of the project, must not be null
      * @param estimatedTime the estimated time to complete the project
      * @param hourlyRate    the hourly billing rate
      * @param fixedPrice    the fixed price for the project
-     * @param createdAt     the date the project was created
+     * @param createdAt     the date the project was created, must not be null
      * @param deadline      the project deadline
      */
-    public Project(@NotNull Client client, @NotNull String name, @NotNull String description,
-                   @NotNull Duration estimatedTime, double hourlyRate, double fixedPrice,
-                   @NotNull Date createdAt, @NotNull Date deadline) {
+    public Project(Client client, @NotNull String name, @NotNull String description,
+                   Duration estimatedTime, double hourlyRate, double fixedPrice,
+                   @NotNull Date createdAt, Date deadline) {
         // TODO: Insert into DB
         this.uuid = UUID.randomUUID();
         this.client = client;
-        this.name = name;
-        this.description = description;
+        this.setName(name);
+        this.setDescription(description);
         this.estimatedTime = estimatedTime;
         this.hourlyRate = hourlyRate;
         this.fixedPrice = fixedPrice;
-        this.createdAt = createdAt;
+        this.setCreatedAt(createdAt);
         this.deadline = deadline;
     }
 

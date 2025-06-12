@@ -25,7 +25,7 @@ public class TaskTimeEntry {
     /**
      * Gets the task associated with this time entry.
      *
-     * @return the task for this time entry
+     * @return the task for this time entry, never null
      */
     @NotNull
     public Task getTask() {
@@ -35,9 +35,10 @@ public class TaskTimeEntry {
     /**
      * Sets the task associated with this time entry.
      *
-     * @param task the task to associate with this time entry
+     * @param task the task to associate with this time entry, must not be null
      */
     public void setTask(@NotNull Task task) {
+        if (task == null) throw new IllegalArgumentException("TaskTimeEntry's task can't be null");
         // TODO: Update DB
         this.task = task;
     }
@@ -45,7 +46,7 @@ public class TaskTimeEntry {
     /**
      * Gets the duration of time spent on the task.
      *
-     * @return the duration of this time entry
+     * @return the duration of this time entry, never null
      */
     @NotNull
     public Duration getDuration() {
@@ -56,9 +57,10 @@ public class TaskTimeEntry {
      * Sets the duration of time spent on the task.
      * This allows correcting or updating the time spent if necessary.
      *
-     * @param duration the duration to set for this time entry
+     * @param duration the duration to set for this time entry, must not be null
      */
     public void setDuration(@NotNull Duration duration) {
+        if (duration == null) throw new IllegalArgumentException("TaskTimeEntry's duration can't be null");
         // TODO: Update DB
         this.duration = duration;
     }
@@ -66,7 +68,7 @@ public class TaskTimeEntry {
     /**
      * Gets the creation timestamp of this time entry.
      *
-     * @return the date and time when this entry was created
+     * @return the date and time when this entry was created, never null
      */
     @NotNull
     public Date getCreatedAt() {
@@ -77,9 +79,10 @@ public class TaskTimeEntry {
      * Sets the creation timestamp of this time entry.
      * This allows correcting the timestamp if necessary.
      *
-     * @param createdAt the creation timestamp to set
+     * @param createdAt the creation timestamp to set, must not be null
      */
     public void setCreatedAt(@NotNull Date createdAt) {
+        if (createdAt == null) throw new IllegalArgumentException("TaskTimeEntry's creation date can't be null");
         // TODO: Update DB
         this.createdAt = createdAt;
     }
@@ -88,25 +91,26 @@ public class TaskTimeEntry {
      * Constructs a TaskTimeEntry with an existing UUID.
      * This constructor is typically used when loading time entries from a database.
      *
-     * @param uuid the unique identifier for this time entry
-     * @param task the task this time entry is associated with
-     * @param duration the duration of time spent on the task
-     * @param createdAt the timestamp when this entry was created
+     * @param uuid the unique identifier for this time entry, must not be null
+     * @param task the task this time entry is associated with, must not be null
+     * @param duration the duration of time spent on the task, must not be null
+     * @param createdAt the timestamp when this entry was created, must not be null
      */
     public TaskTimeEntry(@NotNull UUID uuid, @NotNull Task task, @NotNull Duration duration, @NotNull Date createdAt) {
+        if (uuid == null) throw new IllegalArgumentException("TaskTimeEntry's uuid can't be null");
         this.uuid = uuid;
-        this.task = task;
-        this.duration = duration;
-        this.createdAt = createdAt;
+        this.setTask(task);
+        this.setDuration(duration);
+        this.setCreatedAt(createdAt);
     }
 
     /**
      * Constructs a new TaskTimeEntry with a generated UUID.
      * This constructor is typically used when creating new time entries.
      *
-     * @param task the task this time entry is associated with
-     * @param duration the duration of time spent on the task
-     * @param createdAt the timestamp when this entry was created
+     * @param task the task this time entry is associated with, must not be null
+     * @param duration the duration of time spent on the task, must not be null
+     * @param createdAt the timestamp when this entry was created, must not be null
      */
     public TaskTimeEntry(@NotNull Task task, @NotNull Duration duration, @NotNull Date createdAt) {
         // TODO: Insert into DB

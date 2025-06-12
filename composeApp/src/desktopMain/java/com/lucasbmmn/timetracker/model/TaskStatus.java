@@ -38,6 +38,7 @@ public class TaskStatus {
      * @param label the new label for this task status
      */
     public void setLabel(@NotNull String label) {
+        if (label == null) throw new IllegalArgumentException("TaskStatus' label can't be null");
         // TODO: Update DB
         this.label = label;
     }
@@ -51,8 +52,9 @@ public class TaskStatus {
      * @param label the label for this task status
      */
     public TaskStatus(@NotNull UUID uuid, @NotNull String label) {
+        if (uuid == null) throw new IllegalArgumentException("TaskStatus' uuid can't be null");
         this.uuid = uuid;
-        this.label = label;
+        this.setLabel(label);
         this.tasks = new ArrayList<>();
     }
 
@@ -65,7 +67,7 @@ public class TaskStatus {
     public TaskStatus(@NotNull String label) {
         // TODO: Insert into DB
         this.uuid = UUID.randomUUID();
-        this.label = label;
+        this.setLabel(label);
         this.tasks = new ArrayList<>();
     }
 
@@ -77,7 +79,8 @@ public class TaskStatus {
      *
      * @param task the task to add to this status
      */
-    public void addTask(Task task) {
+    public void addTask(@NotNull Task task) {
+        if (task == null) throw new IllegalArgumentException("Can't add null task to TaskStatus");
         this.tasks.add(task);
     }
 
@@ -88,7 +91,8 @@ public class TaskStatus {
      *
      * @param task the task to remove from this status
      */
-    public void removeTask(Task task) {
+    public void removeTask(@NotNull Task task) {
+        if (task == null) throw new IllegalArgumentException("Can't remove null task from TaskStatus");
         this.tasks.remove(task);
     }
 

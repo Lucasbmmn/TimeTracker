@@ -26,7 +26,7 @@ public class TaskType {
     /**
      * Gets the label of this task type.
      *
-     * @return the label of this task type
+     * @return the label of this task type, never null
      */
     @NotNull
     public String getLabel() {
@@ -37,9 +37,10 @@ public class TaskType {
      * Sets the label of this task type.
      * This allows renaming the task type while preserving its identity and associations.
      *
-     * @param label the new label for this task type,
+     * @param label the new label for this task type, must not be null
      */
     public void setLabel(@NotNull String label) {
+        if (label == null) throw new IllegalArgumentException("TaskType's label can't be null");
         // TODO: Update DB
         this.label = label;
     }
@@ -49,12 +50,13 @@ public class TaskType {
      * Constructs a TaskType with an existing UUID and label.
      * This constructor is typically used when loading task types from a database.
      *
-     * @param uuid the unique identifier for this task type
-     * @param label the label for this task type
+     * @param uuid the unique identifier for this task type, must not be null
+     * @param label the label for this task type, must not be null
      */
     public TaskType(@NotNull UUID uuid,@NotNull String label) {
+        if (label == null) throw new IllegalArgumentException("TaskType's uuid can't be null");
         this.uuid = uuid;
-        this.label = label;
+        this.setLabel(label);
         this.tasks = new ArrayList<>();
     }
 
@@ -62,12 +64,12 @@ public class TaskType {
      * Constructs a new TaskType with a generated UUID and the specified label.
      * This constructor is typically used when creating new task types.
      *
-     * @param label the label for this task type
+     * @param label the label for this task type, must not be null
      */
     public TaskType(@NotNull String label) {
         // TODO: Insert into DB
         this.uuid = UUID.randomUUID();
-        this.label = label;
+        this.setLabel(label);
         this.tasks = new ArrayList<>();
     }
 
@@ -77,9 +79,10 @@ public class TaskType {
      * The task will be classified under this type and included in the
      * internal collection of tasks.
      *
-     * @param task the task to add to this type
+     * @param task the task to add to this type, must not be null
      */
     public void addTask(Task task) {
+        if (task == null) throw new IllegalArgumentException("Can't add null task to TaskType");
         this.tasks.add(task);
     }
 
@@ -88,9 +91,10 @@ public class TaskType {
      * If the task is not currently classified under this type,
      * this method has no effect.
      *
-     * @param task the task to remove from this type
+     * @param task the task to remove from this type, must not be null
      */
     public void removeTask(Task task) {
+        if (task == null) throw new IllegalArgumentException("Can't remove null task from TaskType");
         this.tasks.remove(task);
     }
 

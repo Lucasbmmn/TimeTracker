@@ -19,7 +19,6 @@ public class Task {
     private String name;
     @NotNull
     private String description;
-    @NotNull
     private Duration estimatedTime;
     private TaskStatus status;
     private TaskType type;
@@ -30,7 +29,7 @@ public class Task {
     /**
      * Gets the project to which this task belongs.
      *
-     * @return the project
+     * @return the project, never null
      */
     @NotNull
     public Project getProject() {
@@ -40,9 +39,10 @@ public class Task {
     /**
      * Sets the project for this task.
      *
-     * @param project the project to assign
+     * @param project the project to assign, must not be null
      */
     public void setProject(@NotNull Project project) {
+        if (project == null) throw new IllegalArgumentException("Task's project can't be null");
         // TODO: Update DB
         this.project = project;
     }
@@ -50,7 +50,7 @@ public class Task {
     /**
      * Gets the name of this task.
      *
-     * @return the task name
+     * @return the task name, never null
      */
     @NotNull
     public String getName() {
@@ -60,9 +60,10 @@ public class Task {
     /**
      * Sets the name of this task.
      *
-     * @param name the new task name
+     * @param name the new task name, must not be null
      */
     public void setName(@NotNull String name) {
+        if (name == null) throw new IllegalArgumentException("Task's name can't be null");
         // TODO: Update DB
         this.name = name;
     }
@@ -70,7 +71,7 @@ public class Task {
     /**
      * Gets the task description.
      *
-     * @return the description
+     * @return the description, never null
      */
     @NotNull
     public String getDescription() {
@@ -80,9 +81,10 @@ public class Task {
     /**
      * Sets the task description.
      *
-     * @param description the new description
+     * @param description the new description, must not be null
      */
     public void setDescription(@NotNull String description) {
+        if (description == null) throw new IllegalArgumentException("Task's description can't be null");
         // TODO: Update DB
         this.description = description;
     }
@@ -92,7 +94,6 @@ public class Task {
      *
      * @return the estimated duration
      */
-    @NotNull
     public Duration getEstimatedTime() {
         return estimatedTime;
     }
@@ -102,7 +103,7 @@ public class Task {
      *
      * @param estimatedTime the new estimated duration
      */
-    public void setEstimatedTime(@NotNull Duration estimatedTime) {
+    public void setEstimatedTime(Duration estimatedTime) {
         // TODO: Update DB
         this.estimatedTime = estimatedTime;
     }
@@ -152,7 +153,7 @@ public class Task {
     /**
      * Gets the creation date of this task.
      *
-     * @return the creation timestamp
+     * @return the creation timestamp, never null
      */
     @NotNull
     public Date getCreatedAt() {
@@ -162,9 +163,10 @@ public class Task {
     /**
      * Sets the creation date of this task.
      *
-     * @param createdAt the new creation date
+     * @param createdAt the new creation date, must not be null
      */
     public void setCreatedAt(@NotNull Date createdAt) {
+        if (createdAt == null) throw new IllegalArgumentException("Task's creation date can't be null");
         this.createdAt = createdAt;
     }
 
@@ -172,40 +174,40 @@ public class Task {
      * Constructs a Task with an existing UUID.
      * This constructor is typically used when loading task types from a database.
      *
-     * @param uuid          the unique identifier
-     * @param project       the project the task belongs to
-     * @param name          the task name
-     * @param description   the task description
+     * @param uuid          the unique identifier, must not be null
+     * @param project       the project the task belongs to, must not be null
+     * @param name          the task name, must not be null
+     * @param description   the task description, must not be null
      * @param estimatedTime the estimated duration
      * @param status        the task status
      * @param type          the task type
-     * @param createdAt     the creation timestamp
+     * @param createdAt     the creation timestamp, must not be null
      */
     public Task(@NotNull UUID uuid, @NotNull Project project, @NotNull String name,
                 @NotNull String description, @NotNull Duration estimatedTime, TaskStatus status,
                 TaskType type, @NotNull Date createdAt) {
-        // TODO: Select from DB
+        if (uuid == null) throw new IllegalArgumentException("Task's uuid can't be null");
         this.uuid = uuid;
-        this.project = project;
-        this.name = name;
-        this.description = description;
+        this.setProject(project);
+        this.setName(name);
+        this.setDescription(description);
         this.estimatedTime = estimatedTime;
         this.setStatus(status);
         this.setType(type);
-        this.createdAt = createdAt;
+        this.setCreatedAt(createdAt);
     }
 
     /**
      * Constructs a new Task with a generated UUID.
      * This constructor is typically used when creating new task types.
      *
-     * @param project       the project the task belongs to
-     * @param name          the task name
-     * @param description   the task description
+     * @param project       the project the task belongs to, must not be null
+     * @param name          the task name, must not be null
+     * @param description   the task description, must not be null
      * @param estimatedTime the estimated duration
      * @param status        the task status
      * @param type          the task type
-     * @param createdAt     the creation timestamp
+     * @param createdAt     the creation timestamp, must not be null
      */
     public Task(@NotNull Project project, @NotNull String name, @NotNull String description,
                 @NotNull Duration estimatedTime, TaskStatus status, TaskType type,
