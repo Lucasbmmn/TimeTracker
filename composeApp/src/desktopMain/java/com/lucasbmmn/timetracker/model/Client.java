@@ -139,7 +139,7 @@ public class Client {
      */
     public void setTimezone(@NotNull String timezone) {
         if (timezone == null) throw new IllegalArgumentException("Client's timezone can't be null");
-        if (timezone.matches("^[-+][01][0-9]:[03]0$"))
+        if (!timezone.matches("^[-+][01][0-9]:[034][05]$"))
             throw new IllegalArgumentException("Illegal client's timezone: " + timezone);
         this.timezone = timezone;
     }
