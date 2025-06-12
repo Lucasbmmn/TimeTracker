@@ -52,7 +52,6 @@ public class Task {
      */
     public void setProject(@NotNull Project project) {
         if (project == null) throw new IllegalArgumentException("Task's project can't be null");
-        // TODO: Update DB
         this.project = project;
     }
 
@@ -73,7 +72,6 @@ public class Task {
      */
     public void setName(@NotNull String name) {
         if (name == null) throw new IllegalArgumentException("Task's name can't be null");
-        // TODO: Update DB
         this.name = name;
     }
 
@@ -94,7 +92,6 @@ public class Task {
      */
     public void setDescription(@NotNull String description) {
         if (description == null) throw new IllegalArgumentException("Task's description can't be null");
-        // TODO: Update DB
         this.description = description;
     }
 
@@ -113,7 +110,6 @@ public class Task {
      * @param estimatedTime the new estimated duration
      */
     public void setEstimatedTime(Duration estimatedTime) {
-        // TODO: Update DB
         this.estimatedTime = estimatedTime;
     }
 
@@ -132,7 +128,6 @@ public class Task {
      * @param status the new status
      */
     public void setStatus(TaskStatus status) {
-        // TODO: Update DB
         if (this.status != null) this.status.removeTask(this);
         if (status != null) status.addTask(this);
         this.status = status;
@@ -153,7 +148,6 @@ public class Task {
      * @param type the new task type
      */
     public void setType(TaskType type) {
-        // TODO: Update DB
         if (this.type != null) this.type.removeTask(this);
         if (type != null) type.addTask(this);
         this.type = type;
@@ -221,7 +215,6 @@ public class Task {
     public Task(@NotNull Project project, @NotNull String name, @NotNull String description,
                 @NotNull Duration estimatedTime, TaskStatus status, TaskType type,
                 @NotNull Date createdAt) {
-        // TODO: Insert into DB
         this(UUID.randomUUID(), project, name, description, estimatedTime, status, type, createdAt);
     }
 

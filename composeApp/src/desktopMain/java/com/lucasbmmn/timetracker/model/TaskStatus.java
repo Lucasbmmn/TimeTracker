@@ -48,7 +48,6 @@ public class TaskStatus {
      */
     public void setLabel(@NotNull String label) {
         if (label == null) throw new IllegalArgumentException("TaskStatus' label can't be null");
-        // TODO: Update DB
         this.label = label;
     }
 
@@ -74,7 +73,6 @@ public class TaskStatus {
      * @param label the label for this task status
      */
     public TaskStatus(@NotNull String label) {
-        // TODO: Insert into DB
         this(UUID.randomUUID(), label);
     }
 

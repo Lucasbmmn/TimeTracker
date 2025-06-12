@@ -48,7 +48,6 @@ public class TaskTimeEntry {
      */
     public void setTask(@NotNull Task task) {
         if (task == null) throw new IllegalArgumentException("TaskTimeEntry's task can't be null");
-        // TODO: Update DB
         this.task = task;
     }
 
@@ -70,7 +69,6 @@ public class TaskTimeEntry {
      */
     public void setDuration(@NotNull Duration duration) {
         if (duration == null) throw new IllegalArgumentException("TaskTimeEntry's duration can't be null");
-        // TODO: Update DB
         this.duration = duration;
     }
 
@@ -92,7 +90,6 @@ public class TaskTimeEntry {
      */
     public void setCreatedAt(@NotNull Date createdAt) {
         if (createdAt == null) throw new IllegalArgumentException("TaskTimeEntry's creation date can't be null");
-        // TODO: Update DB
         this.createdAt = createdAt;
     }
 
@@ -122,7 +119,6 @@ public class TaskTimeEntry {
      * @param createdAt the timestamp when this entry was created, must not be null
      */
     public TaskTimeEntry(@NotNull Task task, @NotNull Duration duration, @NotNull Date createdAt) {
-        // TODO: Insert into DB
         this(UUID.randomUUID(), task, duration, createdAt);
     }
 

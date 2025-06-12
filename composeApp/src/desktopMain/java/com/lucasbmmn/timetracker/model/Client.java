@@ -51,7 +51,6 @@ public class Client {
      */
     public void setCompany(@NotNull String company) {
         if (company == null) throw new IllegalArgumentException("Client's company name can't be null");
-        // TODO: Update DB
         this.company = company;
     }
 
@@ -73,7 +72,6 @@ public class Client {
      */
     public void setName(@NotNull String name) {
         if (name == null) throw new IllegalArgumentException("Client name can't be null");
-        // TODO: Update DB
         this.name = name;
     }
 
@@ -97,8 +95,6 @@ public class Client {
         if (email == null) throw new IllegalArgumentException("Client's email can't be null");
         if (!email.matches("^[a-zA-Z0-9_!#$%&’*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$"))
             throw new IllegalArgumentException("Illegal client's email: " + email);
-
-        // TODO: Update DB
         this.email = email;
     }
 
@@ -122,8 +118,6 @@ public class Client {
         if (phoneNumber == null) throw new IllegalArgumentException("Client's phone number can't be null");
         if (!phoneNumber.matches("^\\+?[(]?[0-9]{3}[)]?[-\\s.]?[0-9]{3}[-\\s.]?[0-9]{4,6}$"))
             throw new IllegalArgumentException("Illegal client's phone number: " + phoneNumber);
-
-        // TODO: Update DB
         this.phoneNumber = phoneNumber;
     }
 
@@ -147,8 +141,6 @@ public class Client {
         if (timezone == null) throw new IllegalArgumentException("Client's timezone can't be null");
         if (timezone.matches("^[-+][01][0-9]:[03]0$"))
             throw new IllegalArgumentException("Illegal client's timezone: " + timezone);
-
-        // TODO: Update DB
         this.timezone = timezone;
     }
 
@@ -187,7 +179,6 @@ public class Client {
      */
     public Client(@NotNull String company, @NotNull String name, @NotNull String email,
                   @NotNull String phoneNumber, @NotNull String timezone) {
-        // TODO: Insert into DB
         this(UUID.randomUUID(), company, name, email, phoneNumber, timezone);
     }
 

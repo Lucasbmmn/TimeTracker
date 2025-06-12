@@ -50,7 +50,6 @@ public class ProjectTimeEntry {
      */
     public void setProject(@NotNull Project project) {
         if (project == null) throw new IllegalArgumentException("ProjectTimeEntry's project can't be null");
-        // TODO: Update DB
         this.project = project;
     }
 
@@ -72,7 +71,6 @@ public class ProjectTimeEntry {
      */
     public void setDuration(@NotNull Duration duration) {
         if (duration == null) throw new IllegalArgumentException("ProjectTimeEntry's duration can't be null");
-        // TODO: Update DB
         this.duration = duration;
     }
 
@@ -93,7 +91,6 @@ public class ProjectTimeEntry {
      */
     public void setCreatedAt(@NotNull Date createdAt) {
         if (createdAt == null) throw new IllegalArgumentException("ProjectTimeEntry's creation date can't be null");
-        // TODO: Update DB
         this.createdAt = createdAt;
     }
 
@@ -112,7 +109,6 @@ public class ProjectTimeEntry {
      * @param billable {@code true} if billable, {@code false} otherwise
      */
     public void setBillable(boolean billable) {
-        // TODO: Update DB
         isBillable = billable;
     }
 
@@ -149,7 +145,6 @@ public class ProjectTimeEntry {
      */
     public ProjectTimeEntry(@NotNull Project project, @NotNull Duration duration,
                             @NotNull Date createdAt, boolean isBillable) {
-        // TODO: Insert into DB
         this(UUID.randomUUID(), project, duration, createdAt, isBillable);
     }
 

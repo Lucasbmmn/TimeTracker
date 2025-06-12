@@ -52,7 +52,6 @@ public class Project {
      * @param client the client to set
      */
     public void setClient(Client client) {
-        // TODO: Update DB
         this.client = client;
     }
 
@@ -73,7 +72,6 @@ public class Project {
      */
     public void setName(@NotNull String name) {
         if (name == null) throw new IllegalArgumentException("Project's name can't be null");
-        // TODO: Update DB
         this.name = name;
     }
 
@@ -94,7 +92,6 @@ public class Project {
      */
     public void setDescription(@NotNull String description) {
         if (description == null) throw new IllegalArgumentException("Project's description can't be null");
-        // TODO: Update DB
         this.description = description;
     }
 
@@ -113,7 +110,6 @@ public class Project {
      * @param estimatedTime the estimated duration
      */
     public void setEstimatedTime(Duration estimatedTime) {
-        // TODO: Update DB
         this.estimatedTime = estimatedTime;
     }
 
@@ -136,8 +132,6 @@ public class Project {
         if (hourlyRate < 0)
             throw new IllegalArgumentException("The hourly rate must be greater or equals to " +
                     "0: " + hourlyRate);
-
-        // TODO: Update DB
         this.hourlyRate = hourlyRate;
     }
 
@@ -160,8 +154,6 @@ public class Project {
         if (fixedPrice < 0)
             throw new IllegalArgumentException("The hourly rate must be greater or equals to " +
                     "0: " + fixedPrice);
-
-        // TODO: Update DB
         this.fixedPrice = fixedPrice;
     }
 
@@ -183,7 +175,6 @@ public class Project {
      */
     public void setCreatedAt(@NotNull Date createdAt) {
         if (createdAt == null) throw new IllegalArgumentException("Project's creating date can't be null");
-        // TODO: Update DB
         this.createdAt = createdAt;
     }
 
@@ -202,7 +193,6 @@ public class Project {
      * @param deadline the new deadline
      */
     public void setDeadline(Date deadline) {
-        // TODO: Update DB
         this.deadline = deadline;
     }
 
@@ -253,7 +243,6 @@ public class Project {
     public Project(Client client, @NotNull String name, @NotNull String description,
                    Duration estimatedTime, double hourlyRate, double fixedPrice,
                    @NotNull Date createdAt, Date deadline) {
-        // TODO: Insert into DB
         this(UUID.randomUUID(), client, name, description, estimatedTime, hourlyRate, fixedPrice,
                 createdAt, deadline);
     }

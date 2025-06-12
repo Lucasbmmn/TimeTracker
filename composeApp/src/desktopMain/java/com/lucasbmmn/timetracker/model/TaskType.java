@@ -50,7 +50,6 @@ public class TaskType {
      */
     public void setLabel(@NotNull String label) {
         if (label == null) throw new IllegalArgumentException("TaskType's label can't be null");
-        // TODO: Update DB
         this.label = label;
     }
 
@@ -76,7 +75,6 @@ public class TaskType {
      * @param label the label for this task type, must not be null
      */
     public TaskType(@NotNull String label) {
-        // TODO: Insert into DB
         this(UUID.randomUUID(), label);
     }
 
