@@ -39,8 +39,12 @@ public class ProjectCommands {
     private static void delete(String[] args) {
         if (args != null && args.length == 1) {
             ProjectDao dao = new ProjectDao();
-            dao.deleteProject(dao.getProjectByID(args[0]));
-            System.out.println("Project successfully deleted.");
+            Project project = dao.getProjectByID(args[0]);
+            if (project != null) {
+                dao.deleteProject(project);
+                System.out.println("Project successfully deleted.");
+            }
+            else System.out.println("project delete error: project does not exit");
         }
         else {
             System.out.println("project delete error: wrong number of parameters");
