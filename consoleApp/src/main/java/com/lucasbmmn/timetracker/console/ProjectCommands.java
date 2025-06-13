@@ -31,7 +31,7 @@ public class ProjectCommands {
             System.out.println("Project successfully created.");
         }
         else {
-            System.out.println("project list error: wrong number of parameters");
+            System.out.println("project add error: wrong number of parameters");
         }
         System.out.println();
     }
@@ -43,7 +43,7 @@ public class ProjectCommands {
             System.out.println("Project successfully deleted.");
         }
         else {
-            System.out.println("project list error: wrong number of parameters");
+            System.out.println("project delete error: wrong number of parameters");
         }
         System.out.println();
     }
