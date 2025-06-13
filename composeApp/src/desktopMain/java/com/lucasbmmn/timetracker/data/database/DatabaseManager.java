@@ -2,7 +2,6 @@ package com.lucasbmmn.timetracker.data.database;
 
 import com.lucasbmmn.timetracker.util.AppDataManager;
 
-import javax.swing.tree.RowMapper;
 import java.io.File;
 import java.sql.*;
 import java.util.ArrayList;
@@ -10,8 +9,9 @@ import java.util.Collections;
 import java.util.List;
 
 public class DatabaseManager {
-    public final String URL = "jdbc:sqlite:" + AppDataManager.getAppDataPath() + File.separator +
+    public static final String PATH = AppDataManager.getAppDataPath() + File.separator +
             "TimeTracker.db";
+    public static final String URL = "jdbc:sqlite:" + PATH;
 
     public boolean databaseExists() {
         boolean doesExist = false;
@@ -50,14 +50,15 @@ public class DatabaseManager {
         dbSetup.InitializeDatabase();
     }
 
-    public <T> List<T> executeQuery(String sql, RowMapper<T> mapper) {
+    public <T> List<T> executeQuery(String sql, RowMapper<T> mapper, Object... params) {
         List<T> results = new ArrayList<>();
 
         try (
                 Connection connection = DriverManager.getConnection(URL);
-                Statement statement = connection.createStatement()
+                PreparedStatement statement = connection.prepareStatement(sql)
                 ) {
-            ResultSet rs = statement.executeQuery(sql);
+            for (int i = 0; i < params.length; i++) statement.setObject(i + 1, params[i]);
+            ResultSet rs = statement.executeQuery();
 
             while (rs.next()) results.add(mapper.mapRow(rs));
         } catch (SQLException e) {
@@ -67,12 +68,13 @@ public class DatabaseManager {
         return results;
     }
 
-    public int executeUpdate(String sql) {
+    public int executeUpdate(String sql, Object... params) {
         try (
                 Connection connection = DriverManager.getConnection(URL);
-                Statement statement = connection.createStatement()
+                PreparedStatement statement = connection.prepareStatement(sql)
                 ) {
-            return statement.executeUpdate(sql);
+            for (int i = 0; i < params.length; i++) statement.setObject(i + 1, params[i]);
+            return statement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
