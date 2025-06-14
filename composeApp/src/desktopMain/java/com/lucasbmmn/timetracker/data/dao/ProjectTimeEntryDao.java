@@ -3,6 +3,7 @@ package com.lucasbmmn.timetracker.data.dao;
 import com.lucasbmmn.timetracker.data.database.DatabaseManager;
 import com.lucasbmmn.timetracker.model.Client;
 import com.lucasbmmn.timetracker.model.ProjectTimeEntry;
+import org.intellij.lang.annotations.Language;
 import org.jetbrains.annotations.NotNull;
 
 import java.sql.ResultSet;
@@ -24,13 +25,15 @@ public class ProjectTimeEntryDao implements Dao<ProjectTimeEntry> {
 
     @Override
     public @NotNull List<ProjectTimeEntry> getAll() {
-        return List.of();
+        @Language("SQL")
+        String sql = "SELECT * FROM Project_Time_Entries";
+        return dbManager.executeQuery(sql, this::mapRow);
     }
 
     @Override
     public ProjectTimeEntry getById(@NotNull String uuid) {
         String sql = "SELECT * FROM Project_Time_Entries WHERE id='" + uuid + "'";
-        List<ProjectTimeEntry> projectTimeEntries = dbManager.executeQuery(sql, this::mapRowToProjectTimeEntry);
+        List<ProjectTimeEntry> projectTimeEntries = dbManager.executeQuery(sql, this::mapRow);
 
         ProjectTimeEntry res = null;
         if (!projectTimeEntries.isEmpty()) res = projectTimeEntries.getFirst();
@@ -44,20 +47,55 @@ public class ProjectTimeEntryDao implements Dao<ProjectTimeEntry> {
 
     @Override
     public void insert(@NotNull ProjectTimeEntry entity) {
-        // TODO: 14/06/2025 Implement method
-        throw new UnsupportedOperationException("Not implemented yet");
-    }
+        if (entity == null) throw new IllegalArgumentException("Can't insert null ProjectTimeEntry into the database");
 
-    @Override
-    public void update(@NotNull ProjectTimeEntry entity) {
-        // TODO: 14/06/2025 Implement method
-        throw new UnsupportedOperationException("Not implemented yet");
+        // TODO: 14/06/2025 Insert project into the db if it's not already
+
+        @Language("SQL")
+        String sql = "INSERT INTO Project_Time_Entries (id, project_id, duration, created_at, isBillable) " +
+                "VALUES (?, ?, ?, ?, ?)";
+        dbManager.executeUpdate(
+                sql,
+                entity.getUuid(),
+                entity.getProject().getUuid(),
+                entity.getDuration().getSeconds(),
+                entity.getCreatedAt().getTime(),
+                entity.isBillable() ? 1 : 0
+        );
     }
 
     @Override
     public void delete(@NotNull ProjectTimeEntry entity) {
-        // TODO: 14/06/2025 Implement method
-        throw new UnsupportedOperationException("Not implemented yet");
+        if (entity == null) throw new IllegalArgumentException("Can't delete null ProjectTimeEntry from the database");
+
+        @Language("SQL")
+        String sql = "DELETE FROM Project_Time_Entries WHERE id=?";
+        dbManager.executeUpdate(sql, entity.getUuid());
+    }
+
+    @Override
+    public void update(@NotNull ProjectTimeEntry entity) {
+        if (entity == null) throw new IllegalArgumentException("Can't update null ProjectTimeEntry");
+
+        // TODO: 14/06/2025 Insert project into the db if it's not already
+
+        @Language("SQL")
+        String sql = """
+            UPDATE Project_Time_Entries
+            SET project_id = ?,
+                duration = ?,
+                created_at = ?,
+                isBillable = ?
+            WHERE id = ?
+            """;
+        dbManager.executeUpdate(
+                sql,
+                entity.getProject(),
+                entity.getDuration().getSeconds(),
+                entity.getCreatedAt().getTime(),
+                entity.isBillable() ? 1 : 0,
+                entity.getUuid()
+        );
     }
 
     /**
@@ -70,7 +108,7 @@ public class ProjectTimeEntryDao implements Dao<ProjectTimeEntry> {
      * @return a {@code ProjectTimeEntry} object populated with data from the current row of the result set
      * @throws RuntimeException if a {@link SQLException} occurs while accessing the result set
      */
-    private ProjectTimeEntry mapRowToProjectTimeEntry(ResultSet rs) {
+    private ProjectTimeEntry mapRow(ResultSet rs) {
         try {
             ProjectDao projectDao = new ProjectDao();
             return new ProjectTimeEntry(

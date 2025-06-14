@@ -2,6 +2,7 @@ package com.lucasbmmn.timetracker.data.dao;
 
 import com.lucasbmmn.timetracker.data.database.DatabaseManager;
 import com.lucasbmmn.timetracker.model.TaskTimeEntry;
+import org.intellij.lang.annotations.Language;
 import org.jetbrains.annotations.NotNull;
 
 import java.sql.ResultSet;
@@ -23,7 +24,9 @@ public class TaskTimeEntryDao implements Dao<TaskTimeEntry> {
 
     @Override
     public @NotNull List<TaskTimeEntry> getAll() {
-        return List.of();
+        @Language("SQL")
+        String sql = "SELECT * FROM Task_Time_Entries";
+        return dbManager.executeQuery(sql, this::mapRow);
     }
 
     @Override
@@ -43,20 +46,51 @@ public class TaskTimeEntryDao implements Dao<TaskTimeEntry> {
 
     @Override
     public void insert(@NotNull TaskTimeEntry entity) {
-        // TODO: 14/06/2025 Implement method
-        throw new UnsupportedOperationException("Not implemented yet");
-    }
+        if (entity == null) throw new IllegalArgumentException("Can't insert null TaskTimeEntry into the database");
 
-    @Override
-    public void update(@NotNull TaskTimeEntry entity) {
-        // TODO: 14/06/2025 Implement method
-        throw new UnsupportedOperationException("Not implemented yet");
+        // TODO: 14/06/2025 Insert task into the db if it's not already
+
+        @Language("SQL")
+        String sql = "INSERT INTO Task_Time_Entries (id, task_id, duration, created_at) " +
+                "VALUES (?, ?, ?, ?)";
+        dbManager.executeUpdate(
+                sql,
+                entity.getUuid(),
+                entity.getDuration().getSeconds(),
+                entity.getCreatedAt().getTime()
+        );
     }
 
     @Override
     public void delete(@NotNull TaskTimeEntry entity) {
-        // TODO: 14/06/2025 Implement method
-        throw new UnsupportedOperationException("Not implemented yet");
+        if (entity == null) throw new IllegalArgumentException("Can't delete null TaskTimeEntry from the database");
+
+        @Language("SQL")
+        String sql = "DELETE FROM Task_Time_Entries WHERE id=?";
+        dbManager.executeUpdate(sql, entity.getUuid());
+    }
+
+    @Override
+    public void update(@NotNull TaskTimeEntry entity) {
+        if (entity == null) throw new IllegalArgumentException("Can't update null TaskTimeEntry");
+
+        // TODO: 14/06/2025 Insert task into the db if it's not already
+
+        @Language("SQL")
+        String sql = """
+            UPDATE Task_Time_Entries
+            SET task_id = ?,
+                duration = ?,
+                created_at = ?
+            WHERE id = ?
+            """;
+        dbManager.executeUpdate(
+                sql,
+                entity.getTask().getUuid(),
+                entity.getDuration().getSeconds(),
+                entity.getCreatedAt().getTime(),
+                entity.getUuid()
+        );
     }
 
     /**

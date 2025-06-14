@@ -2,6 +2,7 @@ package com.lucasbmmn.timetracker.data.dao;
 
 import com.lucasbmmn.timetracker.data.database.DatabaseManager;
 import com.lucasbmmn.timetracker.model.Task;
+import org.intellij.lang.annotations.Language;
 import org.jetbrains.annotations.NotNull;
 
 import java.sql.ResultSet;
@@ -23,7 +24,9 @@ public class TaskDao implements Dao<Task> {
 
     @Override
     public @NotNull List<Task> getAll() {
-        return List.of();
+        @Language("SQL")
+        String sql = "SELECT * FROM Tasks";
+        return dbManager.executeQuery(sql, this::mapRow);
     }
 
     @Override
@@ -43,20 +46,60 @@ public class TaskDao implements Dao<Task> {
 
     @Override
     public void insert(@NotNull Task entity) {
-        // TODO: 14/06/2025 Implement method
-        throw new UnsupportedOperationException("Not implemented yet");
-    }
+        if (entity == null) throw new IllegalArgumentException("Can't insert task project into the database");
 
-    @Override
-    public void update(@NotNull Task entity) {
-        // TODO: 14/06/2025 Implement method
-        throw new UnsupportedOperationException("Not implemented yet");
+        @Language("SQL")
+        String sql = "INSERT INTO Tasks (id, project_id, task_status_id, task_type_id, name, description, estimated_time, create_at) " +
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        dbManager.executeUpdate(
+                sql,
+                entity.getUuid(),
+                entity.getProject().getUuid(),
+                entity.getName(),
+                entity.getDescription(),
+                entity.getEstimatedTime() == null ? null : entity.getEstimatedTime().toSeconds(),
+                entity.getStatus() == null ? null : entity.getStatus().getUuid(),
+                entity.getType() == null ? null : entity.getType().getUuid(),
+                entity.getCreatedAt().getTime()
+        );
     }
 
     @Override
     public void delete(@NotNull Task entity) {
-        // TODO: 14/06/2025 Implement method
-        throw new UnsupportedOperationException("Not implemented yet");
+        if (entity == null) throw new IllegalArgumentException("Can't delete task project from the database");
+
+        @Language("SQL")
+        String sql = "DELETE FROM Tasks WHERE id=?";
+        dbManager.executeUpdate(sql, entity.getUuid());
+    }
+
+    @Override
+    public void update(@NotNull Task entity) {
+        if (entity == null) throw new IllegalArgumentException("Can't update task project");
+
+        @Language("SQL")
+        String sql = """
+            UPDATE Tasks
+            SET id = ?,
+                project_id = ?,
+                task_status_id = ?,
+                task_type_id = ?,
+                name = ?,
+                description = ?,
+                estimated_time = ?,
+                create_at = ?
+            WHERE id = ?
+            """;
+        dbManager.executeUpdate(
+                sql,
+                entity.getName(),
+                entity.getDescription(),
+                entity.getEstimatedTime() == null ? null : entity.getEstimatedTime().toSeconds(),
+                entity.getStatus() == null ? null : entity.getStatus().getUuid(),
+                entity.getType() == null ? null : entity.getType().getUuid(),
+                entity.getCreatedAt().getTime(),
+                entity.getUuid()
+        );
     }
 
     /**

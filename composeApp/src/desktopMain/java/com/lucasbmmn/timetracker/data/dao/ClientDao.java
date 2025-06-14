@@ -2,6 +2,7 @@ package com.lucasbmmn.timetracker.data.dao;
 
 import com.lucasbmmn.timetracker.data.database.DatabaseManager;
 import com.lucasbmmn.timetracker.model.Client;
+import org.intellij.lang.annotations.Language;
 import org.jetbrains.annotations.NotNull;
 
 import java.sql.ResultSet;
@@ -21,7 +22,9 @@ public class ClientDao implements Dao<Client> {
 
     @Override
     public @NotNull List<Client> getAll() {
-        return List.of();
+        @Language("SQL")
+        String sql = "SELECT * FROM Clients";
+        return dbManager.executeQuery(sql, this::mapRow);
     }
 
     @Override
@@ -41,20 +44,54 @@ public class ClientDao implements Dao<Client> {
 
     @Override
     public void insert(@NotNull Client entity) {
-        // TODO: 14/06/2025 Implement method
-        throw new UnsupportedOperationException("Not implemented yet");
-    }
+        if (entity == null) throw new IllegalArgumentException("Can't insert null client into the database");
 
-    @Override
-    public void update(@NotNull Client entity) {
-        // TODO: 14/06/2025 Implement method
-        throw new UnsupportedOperationException("Not implemented yet");
+        @Language("SQL")
+        String sql = "INSERT INTO Clients (id, company, name, email, phone_number, timezone) " +
+                "VALUES (?, ?, ?, ?, ?, ?)";
+        dbManager.executeUpdate(
+                sql,
+                entity.getUuid(),
+                entity.getCompany(),
+                entity.getName(),
+                entity.getEmail(),
+                entity.getPhoneNumber(),
+                entity.getTimezone()
+        );
     }
 
     @Override
     public void delete(@NotNull Client entity) {
-        // TODO: 14/06/2025 Implement method
-        throw new UnsupportedOperationException("Not implemented yet");
+        if (entity == null) throw new IllegalArgumentException("Can't delete null client from the database");
+
+        @Language("SQL")
+        String sql = "DELETE FROM Clients WHERE id=?";
+        dbManager.executeUpdate(sql, entity.getUuid());
+    }
+
+    @Override
+    public void update(@NotNull Client entity) {
+        if (entity == null) throw new IllegalArgumentException("Can't update null client");
+
+        @Language("SQL")
+        String sql = """
+            UPDATE Clients
+            SET company = ?,
+                name = ?,
+                email = ?,
+                phone_number = ?,
+                timezone = ?
+            WHERE id = ?
+            """;
+        dbManager.executeUpdate(
+                sql,
+                entity.getCompany(),
+                entity.getName(),
+                entity.getEmail(),
+                entity.getPhoneNumber(),
+                entity.getTimezone(),
+                entity.getUuid()
+        );
     }
 
     /**

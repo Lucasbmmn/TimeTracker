@@ -2,6 +2,7 @@ package com.lucasbmmn.timetracker.data.dao;
 
 import com.lucasbmmn.timetracker.data.database.DatabaseManager;
 import com.lucasbmmn.timetracker.model.TaskStatus;
+import org.intellij.lang.annotations.Language;
 import org.jetbrains.annotations.NotNull;
 
 import java.sql.ResultSet;
@@ -21,7 +22,9 @@ public class TaskStatusDao implements Dao<TaskStatus> {
 
     @Override
     public @NotNull List<TaskStatus> getAll() {
-        return List.of();
+        @Language("SQL")
+        String sql = "SELECT * FROM Task_Statuses";
+        return dbManager.executeQuery(sql, this::mapRow);
     }
 
     @Override
@@ -41,20 +44,42 @@ public class TaskStatusDao implements Dao<TaskStatus> {
 
     @Override
     public void insert(@NotNull TaskStatus entity) {
-        // TODO: 14/06/2025 Implement method
-        throw new UnsupportedOperationException("Not implemented yet");
-    }
+        if (entity == null) throw new IllegalArgumentException("Can't insert null TaskStatus into the database");
 
-    @Override
-    public void update(@NotNull TaskStatus entity) {
-        // TODO: 14/06/2025 Implement method
-        throw new UnsupportedOperationException("Not implemented yet");
+        @Language("SQL")
+        String sql = "INSERT INTO Task_Statuses (id, label) " +
+                "VALUES (?, ?)";
+        dbManager.executeUpdate(
+                sql,
+                entity.getUuid(),
+                entity.getLabel()
+        );
     }
 
     @Override
     public void delete(@NotNull TaskStatus entity) {
-        // TODO: 14/06/2025 Implement method
-        throw new UnsupportedOperationException("Not implemented yet");
+        if (entity == null) throw new IllegalArgumentException("Can't delete null TaskStatus from the database");
+
+        @Language("SQL")
+        String sql = "DELETE FROM Task_Statuses WHERE id=?";
+        dbManager.executeUpdate(sql, entity.getUuid());
+    }
+
+    @Override
+    public void update(@NotNull TaskStatus entity) {
+        if (entity == null) throw new IllegalArgumentException("Can't update null TaskStatus");
+
+        @Language("SQL")
+        String sql = """
+            UPDATE Task_Statuses
+            SET label = ?
+            WHERE id = ?
+            """;
+        dbManager.executeUpdate(
+                sql,
+                entity.getLabel(),
+                entity.getUuid()
+        );
     }
 
     /**

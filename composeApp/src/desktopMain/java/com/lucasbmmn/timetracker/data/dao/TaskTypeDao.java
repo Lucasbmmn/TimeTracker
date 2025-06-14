@@ -2,6 +2,7 @@ package com.lucasbmmn.timetracker.data.dao;
 
 import com.lucasbmmn.timetracker.data.database.DatabaseManager;
 import com.lucasbmmn.timetracker.model.TaskType;
+import org.intellij.lang.annotations.Language;
 import org.jetbrains.annotations.NotNull;
 
 import java.sql.ResultSet;
@@ -41,20 +42,42 @@ public class TaskTypeDao implements Dao<TaskType> {
 
     @Override
     public void insert(@NotNull TaskType entity) {
-        // TODO: 14/06/2025 Implement method
-        throw new UnsupportedOperationException("Not implemented yet");
-    }
+        if (entity == null) throw new IllegalArgumentException("Can't insert null TaskType into the database");
 
-    @Override
-    public void update(@NotNull TaskType entity) {
-        // TODO: 14/06/2025 Implement method
-        throw new UnsupportedOperationException("Not implemented yet");
+        @Language("SQL")
+        String sql = "INSERT INTO Task_Types (id, label) " +
+                "VALUES (?, ?)";
+        dbManager.executeUpdate(
+                sql,
+                entity.getUuid(),
+                entity.getLabel()
+        );
     }
 
     @Override
     public void delete(@NotNull TaskType entity) {
-        // TODO: 14/06/2025 Implement method
-        throw new UnsupportedOperationException("Not implemented yet");
+        if (entity == null) throw new IllegalArgumentException("Can't delete null TaskType from the database");
+
+        @Language("SQL")
+        String sql = "DELETE FROM Task_Types WHERE id=?";
+        dbManager.executeUpdate(sql, entity.getUuid());
+    }
+
+    @Override
+    public void update(@NotNull TaskType entity) {
+        if (entity == null) throw new IllegalArgumentException("Can't update null TaskType");
+
+        @Language("SQL")
+        String sql = """
+            UPDATE Task_Types
+            SET label = ?
+            WHERE id = ?
+            """;
+        dbManager.executeUpdate(
+                sql,
+                entity.getLabel(),
+                entity.getUuid()
+        );
     }
 
     /**
