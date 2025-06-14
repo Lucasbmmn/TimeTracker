@@ -47,18 +47,19 @@ public interface Dao<T> {
     void insert(@NotNull T entity);
 
     /**
-     * Updates an existing entity in the data source.
-     *
-     * @param entity the entity to update; must not be {@code null}
-     * @throws IllegalArgumentException if {@code entity} is {@code null}
-     */
-    void update(@NotNull T entity);
-
-    /**
      * Deletes an existing entity from the data source.
      *
      * @param entity the entity to delete; must not be {@code null}
      * @throws IllegalArgumentException if {@code entity} is {@code null}
      */
     void delete(@NotNull T entity);
+
+
+    /**
+     * Updates an existing entity in the data source.
+     *
+     * @param entity the entity to update; must not be {@code null}
+     * @throws IllegalArgumentException if {@code entity} is {@code null}
+     */
+    void update(@NotNull T entity);
 }
