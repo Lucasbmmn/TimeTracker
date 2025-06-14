@@ -30,7 +30,7 @@ public class ProjectCommands {
             Project project = new Project(null, args[0], "", Duration.ofSeconds(0), 0, 0,
                     new Date(), null);
             ProjectDao dao = new ProjectDao();
-            dao.insertProject(project);
+            dao.insert(project);
             System.out.println("Project successfully created.");
         }
         else {
@@ -42,9 +42,9 @@ public class ProjectCommands {
     private static void delete(String[] args) {
         if (args != null && args.length == 1) {
             ProjectDao dao = new ProjectDao();
-            Project project = dao.getProjectByID(args[0]);
+            Project project = dao.getById(args[0]);
             if (project != null) {
-                dao.deleteProject(project);
+                dao.delete(project);
                 System.out.println("Project successfully deleted.");
             }
             else System.out.println("project delete error: project does not exit");
@@ -58,9 +58,9 @@ public class ProjectCommands {
     private static void list(String[] args) {
         ProjectDao dao = new ProjectDao();
         if (args == null) {
-            for (Project project : dao.getAllProjects()) System.out.println(project);
+            for (Project project : dao.getAll()) System.out.println(project);
         } else if (args.length == 1) {
-            Project project = dao.getProjectByID(args[0]);
+            Project project = dao.getById(args[0]);
             if (project != null) System.out.println(project);
             else System.out.println("project list error: no project with the id \"" + args[0] + '"');
         } else {
@@ -73,7 +73,7 @@ public class ProjectCommands {
         // Update command always takes 3 parameters
         if (args != null && args.length == 3) {
             ProjectDao dao = new ProjectDao();
-            Project project = dao.getProjectByID(args[0]);
+            Project project = dao.getById(args[0]);
 
             // Updates project only if it already exists
             if (project != null) {
@@ -82,7 +82,7 @@ public class ProjectCommands {
                 // TODO: 13/06/2025 Test everything
                 switch (args[1]) {
                     case "client", "-c" -> {
-                        Client client = (new ClientDao()).getClientByID(args[2]);
+                        Client client = (new ClientDao()).getById(args[2]);
                         if (client != null) project.setClient(client);
                         else {
                             isProjectModified = false;
@@ -105,7 +105,7 @@ public class ProjectCommands {
                 }
 
                 if (isProjectModified) {
-                    dao.updateProject(project);
+                    dao.update(project);
                     System.out.println("Project successfully updated");
                 } else System.out.printf("project update error: attribute '%s' does not exist%n" +
                         "'project update -h for more informations'%n", args[1]);
