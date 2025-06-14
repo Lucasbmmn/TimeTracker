@@ -12,32 +12,39 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
-public class ProjectDao {
+public class ProjectDao implements Dao<Project> {
     private final DatabaseManager dbManager;
 
+    /**
+     * Constructs a new {@code ProjectDao} object
+     */
     public ProjectDao() {
         this.dbManager = new DatabaseManager();
     }
 
-    public List<Project> getAllProjects() {
+    @Override
+    public @NotNull List<Project> getAll() {
         String sql = "SELECT * FROM Projects";
-        return dbManager.executeQuery(sql, this::mapRowToProject);
+        return dbManager.executeQuery(sql, this::mapRow);
     }
 
-    public Project getProjectByID(String uuid) {
+    @Override
+    public Project getById(@NotNull String uuid) {
         String sql = "SELECT * FROM Projects WHERE id='" + uuid + "'";
-        List<Project> projects = dbManager.executeQuery(sql, this::mapRowToProject);
+        List<Project> projects = dbManager.executeQuery(sql, this::mapRow);
 
         Project res = null;
         if (!projects.isEmpty()) res = projects.getFirst();
         return res;
     }
 
-    public Project getProjectByID(UUID uuid) {
-        return this.getProjectByID(uuid.toString());
+    @Override
+    public Project getById(@NotNull UUID uuid) {
+        return this.getById(uuid.toString());
     }
 
-    public void insertProject(@NotNull Project project) {
+    @Override
+    public void insert(@NotNull Project project) {
         if (project == null) throw new IllegalArgumentException("Can't insert null project into the database");
 
         // TODO: 12/06/2025 Insert project's client to the db if it's not already
@@ -60,7 +67,8 @@ public class ProjectDao {
         );
     }
 
-    public void deleteProject(@NotNull Project project) {
+    @Override
+    public void delete(@NotNull Project project) {
         if (project == null) throw new IllegalArgumentException("Can't delete null project from the database");
 
         @Language("SQL")
@@ -68,7 +76,8 @@ public class ProjectDao {
         dbManager.executeUpdate(sql, project.getUuid());
     }
 
-    public void updateProject(@NotNull Project project) {
+    @Override
+    public void update(@NotNull Project project) {
         if (project == null) throw new IllegalArgumentException("Can't update null project");
 
         // TODO: 13/06/2025 Insert project's client into the db if it's not already
@@ -100,12 +109,22 @@ public class ProjectDao {
         );
     }
 
-    private Project mapRowToProject(ResultSet rs) {
+    /**
+     * Maps the current row of the given {@link ResultSet} to a {@link Project} object.
+     *
+     * <p>This method reads the relevant columns from the {@code ResultSet} and constructs
+     * a new {@code Project} instance with the retrieved data.</p>
+     *
+     * @param rs the {@code ResultSet} positioned at the current row; must not be {@code null}
+     * @return a {@code Project} object populated with data from the current row of the result set
+     * @throws RuntimeException if a {@link SQLException} occurs while accessing the result set
+     */
+    private Project mapRow(ResultSet rs) {
         try {
             ClientDao clientDao = new ClientDao();
             return new Project(
                     UUID.fromString(rs.getString("id")),
-                    clientDao.getClientByID(rs.getString("client_id")),
+                    clientDao.getById(rs.getString("client_id")),
                     rs.getString("name"),
                     rs.getString("description"),
                     Duration.ofSeconds(rs.getLong("estimated_time")),
