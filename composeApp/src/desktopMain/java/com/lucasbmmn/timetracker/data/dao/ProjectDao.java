@@ -44,8 +44,8 @@ public class ProjectDao implements Dao<Project> {
     }
 
     @Override
-    public void insert(@NotNull Project project) {
-        if (project == null) throw new IllegalArgumentException("Can't insert null project into the database");
+    public void insert(@NotNull Project entity) {
+        if (entity == null) throw new IllegalArgumentException("Can't insert null project into the database");
 
         // TODO: 12/06/2025 Insert project's client to the db if it's not already
 
@@ -55,30 +55,30 @@ public class ProjectDao implements Dao<Project> {
                 "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
         dbManager.executeUpdate(
                 sql,
-                project.getUuid(),
-                project.getClient() == null ? null : project.getClient().getUuid(),
-                project.getName(),
-                project.getDescription(),
-                project.getEstimatedTime() == null ? null : project.getEstimatedTime().toSeconds(),
-                project.getHourlyRate(),
-                project.getFixedPrice(),
-                project.getCreatedAt().getTime(),
-                project.getDeadline() == null ? null : project.getDeadline().getTime()
+                entity.getUuid(),
+                entity.getClient() == null ? null : entity.getClient().getUuid(),
+                entity.getName(),
+                entity.getDescription(),
+                entity.getEstimatedTime() == null ? null : entity.getEstimatedTime().toSeconds(),
+                entity.getHourlyRate(),
+                entity.getFixedPrice(),
+                entity.getCreatedAt().getTime(),
+                entity.getDeadline() == null ? null : entity.getDeadline().getTime()
         );
     }
 
     @Override
-    public void delete(@NotNull Project project) {
-        if (project == null) throw new IllegalArgumentException("Can't delete null project from the database");
+    public void delete(@NotNull Project entity) {
+        if (entity == null) throw new IllegalArgumentException("Can't delete null project from the database");
 
         @Language("SQL")
         String sql = "DELETE FROM Projects WHERE id=?";
-        dbManager.executeUpdate(sql, project.getUuid());
+        dbManager.executeUpdate(sql, entity.getUuid());
     }
 
     @Override
-    public void update(@NotNull Project project) {
-        if (project == null) throw new IllegalArgumentException("Can't update null project");
+    public void update(@NotNull Project entity) {
+        if (entity == null) throw new IllegalArgumentException("Can't update null project");
 
         // TODO: 13/06/2025 Insert project's client into the db if it's not already
 
@@ -97,15 +97,15 @@ public class ProjectDao implements Dao<Project> {
             """;
         dbManager.executeUpdate(
                 sql,
-                project.getClient() == null ? null : project.getClient().getUuid(),
-                project.getName(),
-                project.getDescription(),
-                project.getEstimatedTime() == null ? null : project.getEstimatedTime().toSeconds(),
-                project.getHourlyRate(),
-                project.getFixedPrice(),
-                project.getCreatedAt().getTime(),
-                project.getDeadline() == null ? null : project.getDeadline().getTime(),
-                project.getUuid()
+                entity.getClient() == null ? null : entity.getClient().getUuid(),
+                entity.getName(),
+                entity.getDescription(),
+                entity.getEstimatedTime() == null ? null : entity.getEstimatedTime().toSeconds(),
+                entity.getHourlyRate(),
+                entity.getFixedPrice(),
+                entity.getCreatedAt().getTime(),
+                entity.getDeadline() == null ? null : entity.getDeadline().getTime(),
+                entity.getUuid()
         );
     }
 
