@@ -68,6 +68,38 @@ public class ProjectDao {
         dbManager.executeUpdate(sql, project.getUuid());
     }
 
+    public void updateProject(@NotNull Project project) {
+        if (project == null) throw new IllegalArgumentException("Can't update null project");
+
+        // TODO: 13/06/2025 Insert project's client into the db if it's not already
+
+        @Language("SQL")
+        String sql = """
+            UPDATE Projects
+            SET client_id = ?,
+                name = ?,
+                description = ?,
+                estimated_time = ?,
+                hourly_rate  = ?,
+                fixed_price = ?,
+                create_at = ?,
+                deadline = ?
+            WHERE id = ?
+            """;
+        dbManager.executeUpdate(
+                sql,
+                project.getClient() == null ? null : project.getClient().getUuid(),
+                project.getName(),
+                project.getDescription(),
+                project.getEstimatedTime() == null ? null : project.getEstimatedTime().toSeconds(),
+                project.getHourlyRate(),
+                project.getFixedPrice(),
+                project.getCreatedAt().getTime(),
+                project.getDeadline() == null ? null : project.getDeadline().getTime(),
+                project.getUuid()
+        );
+    }
+
     private Project mapRowToProject(ResultSet rs) {
         try {
             ClientDao clientDao = new ClientDao();
