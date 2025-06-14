@@ -14,6 +14,13 @@ kotlin {
         val desktopMain by getting {
             resources.srcDirs("composeResources")
         }
+
+        val desktopTest by getting {
+            dependencies {
+                implementation(kotlin("test-junit5"))
+                implementation("org.junit.jupiter:junit-jupiter:5.10.0")
+            }
+        }
         
         commonMain.dependencies {
             implementation(compose.runtime)
@@ -49,3 +56,8 @@ compose.desktop {
         }
     }
 }
+
+tasks.withType<Test>().configureEach {
+    useJUnitPlatform()
+}
+
