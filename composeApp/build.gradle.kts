@@ -9,19 +9,20 @@ plugins {
 
 kotlin {
     jvm("desktop")
-    
+
     sourceSets {
         val desktopMain by getting {
-            resources.srcDirs("composeResources")
+            resources.srcDirs("src/desktopMain/composeResources")
         }
 
         val desktopTest by getting {
+            resources.srcDirs("src/desktopMain/composeResources")
             dependencies {
                 implementation(kotlin("test-junit5"))
                 implementation("org.junit.jupiter:junit-jupiter:5.10.0")
             }
         }
-        
+
         commonMain.dependencies {
             implementation(compose.runtime)
             implementation(compose.foundation)
@@ -44,7 +45,6 @@ kotlin {
     }
 }
 
-
 compose.desktop {
     application {
         mainClass = "com.lucasbmmn.timetracker.MainKt"
@@ -60,4 +60,3 @@ compose.desktop {
 tasks.withType<Test>().configureEach {
     useJUnitPlatform()
 }
-
