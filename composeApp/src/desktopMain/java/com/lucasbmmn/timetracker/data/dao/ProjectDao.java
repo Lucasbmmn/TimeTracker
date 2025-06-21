@@ -51,7 +51,7 @@ public class ProjectDao implements Dao<Project> {
 
         @Language("SQL")
         String sql = "INSERT INTO Projects (id, client_id, name, description, estimated_time, " +
-                "hourly_rate, fixed_price, create_at, deadline) " +
+                "hourly_rate, fixed_price, created_at, deadline) " +
                 "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
         dbManager.executeUpdate(
                 sql,
@@ -91,7 +91,7 @@ public class ProjectDao implements Dao<Project> {
                 estimated_time = ?,
                 hourly_rate  = ?,
                 fixed_price = ?,
-                create_at = ?,
+                created_at = ?,
                 deadline = ?
             WHERE id = ?
             """;
@@ -130,7 +130,7 @@ public class ProjectDao implements Dao<Project> {
                     Duration.ofSeconds(rs.getLong("estimated_time")),
                     rs.getLong("hourly_rate"),
                     rs.getLong("fixed_price"),
-                    new Date(rs.getLong("create_at")),
+                    new Date(rs.getLong("created_at")),
                     new Date(rs.getLong("deadline"))
             );
         } catch (SQLException e) {
