@@ -79,7 +79,6 @@ public class ProjectCommands {
             if (project != null) {
 
                 boolean isProjectModified = true;
-                // TODO: 13/06/2025 Test everything
                 switch (args[1]) {
                     case "client", "-c" -> {
                         Client client = (new ClientDao()).getById(args[2]);
