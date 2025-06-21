@@ -13,7 +13,7 @@ CREATE TABLE Projects (
     name TEXT NOT NULL,
     description TEXT NOT NULL,
     estimated_time INTEGER,
-    hourly_price REAL,
+    hourly_rate REAL,
     fixed_price REAL,
     created_at INTEGER NOT NULL,
     deadline INTEGER,
