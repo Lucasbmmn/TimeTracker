@@ -15,12 +15,7 @@ kotlin {
             resources.srcDirs("src/desktopMain/composeResources")
         }
 
-        val desktopTest by getting {
-            dependencies {
-                implementation(kotlin("test-junit5"))
-                implementation("org.junit.jupiter:junit-jupiter:5.10.0")
-            }
-        }
+        val desktopTest by getting
 
         commonMain.dependencies {
             implementation(compose.runtime)
@@ -40,6 +35,10 @@ kotlin {
             implementation(libs.kotlinx.coroutinesSwing)
             implementation("org.slf4j:slf4j-simple:2.0.9")
             implementation("org.xerial:sqlite-jdbc:3.50.1.0")
+        }
+        desktopTest.dependencies {
+            implementation(kotlin("test-junit5"))
+            implementation("org.junit.jupiter:junit-jupiter:5.10.0")
         }
     }
 }
