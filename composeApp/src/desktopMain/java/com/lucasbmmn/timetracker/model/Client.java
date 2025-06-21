@@ -2,6 +2,7 @@ package com.lucasbmmn.timetracker.model;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Objects;
 import java.util.UUID;
 
 
@@ -198,5 +199,29 @@ public class Client {
                 ", phoneNumber='" + phoneNumber + '\'' +
                 ", timezone='" + timezone + '\'' +
                 '}';
+    }
+
+    /**
+     * Indicates whether some other object is "equal to" the client.
+     *
+     * @param o the reference object with which to compare
+     * @return {@code true} if the client is the same as the {@code o} argument; {@code false}
+     * otherwise
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Client client = (Client) o;
+        return Objects.equals(getUuid(), client.getUuid()) && Objects.equals(getCompany(), client.getCompany()) && Objects.equals(getName(), client.getName()) && Objects.equals(getEmail(), client.getEmail()) && Objects.equals(getPhoneNumber(), client.getPhoneNumber()) && Objects.equals(getTimezone(), client.getTimezone());
+    }
+
+    /**
+     * Returns a hash code value for the client.
+     *
+     * @return a hash code value for the client
+     */
+    @Override
+    public int hashCode() {
+        return Objects.hash(getUuid(), getCompany(), getName(), getEmail(), getPhoneNumber(), getTimezone());
     }
 }

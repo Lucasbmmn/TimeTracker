@@ -4,6 +4,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.time.Duration;
 import java.util.Date;
+import java.util.Objects;
 import java.util.UUID;
 
 /**
@@ -135,5 +136,30 @@ public class TaskTimeEntry {
                 ", duration=" + duration +
                 ", created_at=" + createdAt +
                 '}';
+    }
+
+    /**
+     * Indicates whether some other object is "equal to" the TaskTimeEntry.
+     *
+     * @param o the reference object with which to compare
+     * @return {@code true} if the TaskTimeEntry is the same as the {@code o} argument; {@code
+     * false}
+     * otherwise
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        TaskTimeEntry that = (TaskTimeEntry) o;
+        return Objects.equals(getUuid(), that.getUuid()) && Objects.equals(getTask(), that.getTask()) && Objects.equals(getDuration(), that.getDuration()) && Objects.equals(getCreatedAt(), that.getCreatedAt());
+    }
+
+    /**
+     * Returns a hash code value for the TaskTimeEntry.
+     *
+     * @return a hash code value for the TaskTimeEntry
+     */
+    @Override
+    public int hashCode() {
+        return Objects.hash(getUuid(), getTask(), getDuration(), getCreatedAt());
     }
 }

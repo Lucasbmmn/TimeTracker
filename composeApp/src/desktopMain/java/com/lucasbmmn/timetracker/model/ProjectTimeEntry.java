@@ -4,6 +4,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.time.Duration;
 import java.util.Date;
+import java.util.Objects;
 import java.util.UUID;
 
 /**
@@ -163,5 +164,30 @@ public class ProjectTimeEntry {
                 ", created_at=" + createdAt +
                 ", isBillable=" + isBillable +
                 '}';
+    }
+
+    /**
+     * Indicates whether some other object is "equal to" the ProjectTimeEntry.
+     *
+     * @param o the reference object with which to compare
+     * @return {@code true} if the ProjectTimeEntry is the same as the {@code o} argument; {@code
+     * false}
+     * otherwise
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        ProjectTimeEntry that = (ProjectTimeEntry) o;
+        return isBillable() == that.isBillable() && Objects.equals(getUuid(), that.getUuid()) && Objects.equals(getProject(), that.getProject()) && Objects.equals(getDuration(), that.getDuration()) && Objects.equals(getCreatedAt(), that.getCreatedAt());
+    }
+
+    /**
+     * Returns a hash code value for the ProjectTimeEntry.
+     *
+     * @return a hash code value for the ProjectTimeEntry
+     */
+    @Override
+    public int hashCode() {
+        return Objects.hash(getUuid(), getProject(), getDuration(), getCreatedAt(), isBillable());
     }
 }

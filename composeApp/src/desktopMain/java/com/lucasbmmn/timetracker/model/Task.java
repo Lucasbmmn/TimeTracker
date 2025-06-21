@@ -4,6 +4,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.time.Duration;
 import java.util.Date;
+import java.util.Objects;
 import java.util.UUID;
 
 /**
@@ -235,5 +236,29 @@ public class Task {
                 ", type=" + type +
                 ", createdAt=" + createdAt +
                 '}';
+    }
+
+    /**
+     * Indicates whether some other object is "equal to" the task.
+     *
+     * @param o the reference object with which to compare
+     * @return {@code true} if the task is the same as the {@code o} argument; {@code false}
+     * otherwise
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Task task = (Task) o;
+        return Objects.equals(getUuid(), task.getUuid()) && Objects.equals(getProject(), task.getProject()) && Objects.equals(getName(), task.getName()) && Objects.equals(getDescription(), task.getDescription()) && Objects.equals(getEstimatedTime(), task.getEstimatedTime()) && Objects.equals(getStatus(), task.getStatus()) && Objects.equals(getType(), task.getType()) && Objects.equals(getCreatedAt(), task.getCreatedAt());
+    }
+
+    /**
+     * Returns a hash code value for the task.
+     *
+     * @return a hash code value for the task
+     */
+    @Override
+    public int hashCode() {
+        return Objects.hash(getUuid(), getProject(), getName(), getDescription(), getEstimatedTime(), getStatus(), getType(), getCreatedAt());
     }
 }

@@ -4,6 +4,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.time.Duration;
 import java.util.Date;
+import java.util.Objects;
 import java.util.UUID;
 
 /**
@@ -266,5 +267,29 @@ public class Project {
                 ", createdAt=" + createdAt +
                 ", deadline=" + deadline +
                 '}';
+    }
+
+    /**
+     * Indicates whether some other object is "equal to" the project.
+     *
+     * @param o the reference object with which to compare
+     * @return {@code true} if the project is the same as the {@code o} argument; {@code false}
+     * otherwise
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Project project = (Project) o;
+        return Double.compare(getHourlyRate(), project.getHourlyRate()) == 0 && Double.compare(getFixedPrice(), project.getFixedPrice()) == 0 && Objects.equals(getUuid(), project.getUuid()) && Objects.equals(getClient(), project.getClient()) && Objects.equals(getName(), project.getName()) && Objects.equals(getDescription(), project.getDescription()) && Objects.equals(getEstimatedTime(), project.getEstimatedTime()) && Objects.equals(getCreatedAt(), project.getCreatedAt()) && Objects.equals(getDeadline(), project.getDeadline());
+    }
+
+    /**
+     * Returns a hash code value for the project.
+     *
+     * @return a hash code value for the project
+     */
+    @Override
+    public int hashCode() {
+        return Objects.hash(getUuid(), getClient(), getName(), getDescription(), getEstimatedTime(), getHourlyRate(), getFixedPrice(), getCreatedAt(), getDeadline());
     }
 }

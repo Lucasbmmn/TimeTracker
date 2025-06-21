@@ -3,6 +3,7 @@ package com.lucasbmmn.timetracker.model;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.UUID;
 
 /**
@@ -114,5 +115,29 @@ public class TaskStatus {
                 ", label='" + label + '\'' +
                 ", tasks=" + tasks +
                 '}';
+    }
+
+    /**
+     * Indicates whether some other object is "equal to" the TaskStatus.
+     *
+     * @param o the reference object with which to compare
+     * @return {@code true} if the TaskStatus is the same as the {@code o} argument; {@code false}
+     * otherwise
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        TaskStatus that = (TaskStatus) o;
+        return Objects.equals(getUuid(), that.getUuid()) && Objects.equals(getLabel(), that.getLabel()) && Objects.equals(tasks, that.tasks);
+    }
+
+    /**
+     * Returns a hash code value for the TaskStatus.
+     *
+     * @return a hash code value for the TaskStatus
+     */
+    @Override
+    public int hashCode() {
+        return Objects.hash(getUuid(), getLabel(), tasks);
     }
 }
