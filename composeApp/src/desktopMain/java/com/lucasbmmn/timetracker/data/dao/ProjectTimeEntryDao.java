@@ -173,9 +173,10 @@ public class ProjectTimeEntryDao implements Dao<ProjectTimeEntry> {
      *
      * @param projectTimeEntry ProjectTimeEntry whose project we want to insert into the database,
      *                         must not be null
+     * @throws NullPointerException if the ProjectTimeEntry is null
      */
     private void insertProject(@NotNull ProjectTimeEntry projectTimeEntry) {
-        if (projectTimeEntry == null) throw new IllegalArgumentException("Can't insert null projectTimeEntry's project into the database");
+        Objects.requireNonNull(projectTimeEntry, "projectTimeEntry must not be null");
 
         ProjectDao projectDao = new ProjectDao();
         // ProjectDao.getById returns null if the project is not in the database
