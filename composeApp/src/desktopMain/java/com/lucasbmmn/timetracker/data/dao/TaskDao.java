@@ -12,16 +12,25 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
+/**
+ * Data Access Object that provides CRUD (Create, Read, Update, Delete) operations for
+ * {@link TaskDao}.
+ */
 public class TaskDao implements Dao<Task> {
     private final DatabaseManager dbManager;
 
     /**
-     * Constructs a new {@code TaskDao} object
+     * Constructs a new {@code TaskDao} object.
      */
     public TaskDao() {
         this.dbManager = new DatabaseManager();
     }
 
+    /**
+     * Retrieves all {@code Task} from the data source.
+     *
+     * @return a list of all {@code Task}; never {@code null}, may be empty
+     */
     @Override
     public @NotNull List<Task> getAll() {
         @Language("SQL")
@@ -29,6 +38,12 @@ public class TaskDao implements Dao<Task> {
         return dbManager.executeQuery(sql, this::mapRow);
     }
 
+    /**
+     * Retrieves an {@code Task} by its unique identifier represented as a String.
+     *
+     * @param uuid the unique identifier of the {@code Task}; must not be {@code null}
+     * @return the {@code Task} matching the given UUID, or {@code null} if none found
+     */
     @Override
     public Task getById(@NotNull String uuid) {
         String sql = "SELECT * FROM Tasks WHERE id='" + uuid + "'";
@@ -39,11 +54,23 @@ public class TaskDao implements Dao<Task> {
         return res;
     }
 
+    /**
+     * Retrieves an {@code Task} by its unique identifier represented as a {@link UUID}.
+     *
+     * @param uuid the unique identifier of the {@code Task}; must not be {@code null}
+     * @return the {@code Task} matching the given UUID, or {@code null} if none found
+     */
     @Override
     public Task getById(@NotNull UUID uuid) {
         return this.getById(uuid.toString());
     }
 
+    /**
+     * Inserts a new {@code Task} into the data source.
+     *
+     * @param entity the {@code Task} to insert; must not be {@code null}
+     * @throws IllegalArgumentException if {@code entity} is {@code null}
+     */
     @Override
     public void insert(@NotNull Task entity) {
         if (entity == null) throw new IllegalArgumentException("Can't insert task project into the database");
@@ -65,6 +92,12 @@ public class TaskDao implements Dao<Task> {
         );
     }
 
+    /**
+     * Deletes an existing entity from the data source.
+     *
+     * @param entity the entity to delete; must not be {@code null}
+     * @throws IllegalArgumentException if {@code entity} is {@code null}
+     */
     @Override
     public void delete(@NotNull Task entity) {
         if (entity == null) throw new IllegalArgumentException("Can't delete task project from the database");
@@ -74,6 +107,12 @@ public class TaskDao implements Dao<Task> {
         dbManager.executeUpdate(sql, entity.getUuid());
     }
 
+    /**
+     * Updates an existing entity in the data source.
+     *
+     * @param entity the entity to update; must not be {@code null}
+     * @throws IllegalArgumentException if {@code entity} is {@code null}
+     */
     @Override
     public void update(@NotNull Task entity) {
         if (entity == null) throw new IllegalArgumentException("Can't update task project");

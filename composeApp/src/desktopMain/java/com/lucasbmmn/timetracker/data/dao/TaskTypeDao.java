@@ -10,21 +10,36 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.UUID;
 
+/**
+ * Data Access Object that provides CRUD (Create, Read, Update, Delete) operations for
+ * {@link TaskTypeDao}.
+ */
 public class TaskTypeDao implements Dao<TaskType> {
     private final DatabaseManager dbManager;
 
     /**
-     * Constructs a new {@code TaskTypeDao} object
+     * Constructs a new {@code TaskTypeDao} object.
      */
     public TaskTypeDao() {
         this.dbManager = new DatabaseManager();
     }
 
+    /**
+     * Retrieves all {@code TaskType} from the data source.
+     *
+     * @return a list of all {@code TaskType}; never {@code null}, may be empty
+     */
     @Override
     public @NotNull List<TaskType> getAll() {
         return List.of();
     }
 
+    /**
+     * Retrieves an {@code TaskType} by its unique identifier represented as a String.
+     *
+     * @param uuid the unique identifier of the {@code TaskType}; must not be {@code null}
+     * @return the {@code TaskType} matching the given UUID, or {@code null} if none found
+     */
     @Override
     public TaskType getById(@NotNull String uuid) {
         String sql = "SELECT * FROM Task_Types WHERE id='" + uuid + "'";
@@ -35,11 +50,23 @@ public class TaskTypeDao implements Dao<TaskType> {
         return res;
     }
 
+    /**
+     * Retrieves an {@code TaskType} by its unique identifier represented as a {@link UUID}.
+     *
+     * @param uuid the unique identifier of the {@code TaskType}; must not be {@code null}
+     * @return the {@code TaskType} matching the given UUID, or {@code null} if none found
+     */
     @Override
     public TaskType getById(@NotNull UUID uuid) {
         return this.getById(uuid.toString());
     }
 
+    /**
+     * Inserts a new TaskType into the data source.
+     *
+     * @param entity the TaskType to insert; must not be {@code null}
+     * @throws IllegalArgumentException if {@code entity} is {@code null}
+     */
     @Override
     public void insert(@NotNull TaskType entity) {
         if (entity == null) throw new IllegalArgumentException("Can't insert null TaskType into the database");
@@ -54,6 +81,12 @@ public class TaskTypeDao implements Dao<TaskType> {
         );
     }
 
+    /**
+     * Deletes an existing {@code TaskType} from the data source.
+     *
+     * @param entity the {@code TaskType} to delete; must not be {@code null}
+     * @throws IllegalArgumentException if {@code entity} is {@code null}
+     */
     @Override
     public void delete(@NotNull TaskType entity) {
         if (entity == null) throw new IllegalArgumentException("Can't delete null TaskType from the database");
@@ -63,6 +96,12 @@ public class TaskTypeDao implements Dao<TaskType> {
         dbManager.executeUpdate(sql, entity.getUuid());
     }
 
+    /**
+     * Updates an existing {@code TaskType} in the data source.
+     *
+     * @param entity the {@code TaskType} to update; must not be {@code null}
+     * @throws IllegalArgumentException if {@code entity} is {@code null}
+     */
     @Override
     public void update(@NotNull TaskType entity) {
         if (entity == null) throw new IllegalArgumentException("Can't update null TaskType");

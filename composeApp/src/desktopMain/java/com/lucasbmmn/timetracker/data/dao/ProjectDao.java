@@ -12,22 +12,37 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
+/**
+ * Data Access Object that provides CRUD (Create, Read, Update, Delete) operations for
+ * {@link ProjectDao}.
+ */
 public class ProjectDao implements Dao<Project> {
     private final DatabaseManager dbManager;
 
     /**
-     * Constructs a new {@code ProjectDao} object
+     * Constructs a new {@code ProjectDao} object.
      */
     public ProjectDao() {
         this.dbManager = new DatabaseManager();
     }
 
+    /**
+     * Retrieves all {@code Project} from the data source.
+     *
+     * @return a list of all {@code Project}; never {@code null}, may be empty
+     */
     @Override
     public @NotNull List<Project> getAll() {
         String sql = "SELECT * FROM Projects";
         return dbManager.executeQuery(sql, this::mapRow);
     }
 
+    /**
+     * Retrieves an {@code Project} by its unique identifier represented as a String.
+     *
+     * @param uuid the unique identifier of the {@code Project}; must not be {@code null}
+     * @return the {@code Project} matching the given UUID, or {@code null} if none found
+     */
     @Override
     public Project getById(@NotNull String uuid) {
         String sql = "SELECT * FROM Projects WHERE id='" + uuid + "'";
@@ -38,11 +53,23 @@ public class ProjectDao implements Dao<Project> {
         return res;
     }
 
+    /**
+     * Retrieves an {@code Project} by its unique identifier represented as a {@link UUID}.
+     *
+     * @param uuid the unique identifier of the {@code Project}; must not be {@code null}
+     * @return the {@code Project} matching the given UUID, or {@code null} if none found
+     */
     @Override
     public Project getById(@NotNull UUID uuid) {
         return this.getById(uuid.toString());
     }
 
+    /**
+     * Inserts a new {@code Project} into the data source.
+     *
+     * @param entity the {@code Project} to insert; must not be {@code null}
+     * @throws IllegalArgumentException if {@code entity} is {@code null}
+     */
     @Override
     public void insert(@NotNull Project entity) {
         if (entity == null) throw new IllegalArgumentException("Can't insert null project into the database");
@@ -67,6 +94,12 @@ public class ProjectDao implements Dao<Project> {
         );
     }
 
+    /**
+     * Deletes an existing {@code Project} from the data source.
+     *
+     * @param entity the {@code Project} to delete; must not be {@code null}
+     * @throws IllegalArgumentException if {@code entity} is {@code null}
+     */
     @Override
     public void delete(@NotNull Project entity) {
         if (entity == null) throw new IllegalArgumentException("Can't delete null project from the database");
@@ -76,6 +109,12 @@ public class ProjectDao implements Dao<Project> {
         dbManager.executeUpdate(sql, entity.getUuid());
     }
 
+    /**
+     * Updates an existing {@code Project} in the data source.
+     *
+     * @param entity the {@code Project} to update; must not be {@code null}
+     * @throws IllegalArgumentException if {@code entity} is {@code null}
+     */
     @Override
     public void update(@NotNull Project entity) {
         if (entity == null) throw new IllegalArgumentException("Can't update null project");

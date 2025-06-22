@@ -10,16 +10,25 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.UUID;
 
+/**
+ * Data Access Object that provides CRUD (Create, Read, Update, Delete) operations for
+ * {@link TaskStatusDao}.
+ */
 public class TaskStatusDao implements Dao<TaskStatus> {
     private final DatabaseManager dbManager;
 
     /**
-     * Constructs a new {@code TaskStatusDao} object
+     * Constructs a new {@code TaskStatusDao} object.
      */
     public TaskStatusDao() {
         this.dbManager = new DatabaseManager();
     }
 
+    /**
+     * Retrieves all {@code TaskStatus} from the data source.
+     *
+     * @return a list of all {@code TaskStatus}; never {@code null}, may be empty
+     */
     @Override
     public @NotNull List<TaskStatus> getAll() {
         @Language("SQL")
@@ -27,6 +36,12 @@ public class TaskStatusDao implements Dao<TaskStatus> {
         return dbManager.executeQuery(sql, this::mapRow);
     }
 
+    /**
+     * Retrieves an {@code TaskStatus} by its unique identifier represented as a String.
+     *
+     * @param uuid the unique identifier of the {@code TaskStatus}; must not be {@code null}
+     * @return the {@code TaskStatus} matching the given UUID, or {@code null} if none found
+     */
     @Override
     public TaskStatus getById(@NotNull String uuid) {
         String sql = "SELECT * FROM Task_Statuses WHERE id='" + uuid + "'";
@@ -37,11 +52,23 @@ public class TaskStatusDao implements Dao<TaskStatus> {
         return res;
     }
 
+    /**
+     * Retrieves an {@code TaskStatus} by its unique identifier represented as a {@link UUID}.
+     *
+     * @param uuid the unique identifier of the {@code TaskStatus}; must not be {@code null}
+     * @return the {@code TaskStatus} matching the given UUID, or {@code null} if none found
+     */
     @Override
     public TaskStatus getById(@NotNull UUID uuid) {
         return this.getById(uuid.toString());
     }
 
+    /**
+     * Inserts a new {@code TaskStatus} into the data source.
+     *
+     * @param entity the {@code TaskStatus} to insert; must not be {@code null}
+     * @throws IllegalArgumentException if {@code entity} is {@code null}
+     */
     @Override
     public void insert(@NotNull TaskStatus entity) {
         if (entity == null) throw new IllegalArgumentException("Can't insert null TaskStatus into the database");
@@ -56,6 +83,12 @@ public class TaskStatusDao implements Dao<TaskStatus> {
         );
     }
 
+    /**
+     * Deletes an existing {@code TaskStatus} from the data source.
+     *
+     * @param entity the {@code TaskStatus} to delete; must not be {@code null}
+     * @throws IllegalArgumentException if {@code entity} is {@code null}
+     */
     @Override
     public void delete(@NotNull TaskStatus entity) {
         if (entity == null) throw new IllegalArgumentException("Can't delete null TaskStatus from the database");
@@ -65,6 +98,12 @@ public class TaskStatusDao implements Dao<TaskStatus> {
         dbManager.executeUpdate(sql, entity.getUuid());
     }
 
+    /**
+     * Updates an existing {@code TaskStatus} in the data source.
+     *
+     * @param entity the {@code TaskStatus} to update; must not be {@code null}
+     * @throws IllegalArgumentException if {@code entity} is {@code null}
+     */
     @Override
     public void update(@NotNull TaskStatus entity) {
         if (entity == null) throw new IllegalArgumentException("Can't update null TaskStatus");

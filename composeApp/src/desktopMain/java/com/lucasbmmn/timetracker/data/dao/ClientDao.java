@@ -10,16 +10,25 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.UUID;
 
+/**
+ * Data Access Object that provides CRUD (Create, Read, Update, Delete) operations for
+ * {@link Client}.
+ */
 public class ClientDao implements Dao<Client> {
     private final DatabaseManager dbManager;
 
     /**
-     * Constructs a new {@code ClientDao} object
+     * Constructs a new {@code ClientDao} object.
      */
     public ClientDao() {
         this.dbManager = new DatabaseManager();
     }
 
+    /**
+     * Retrieves all {@code Client} from the data source.
+     *
+     * @return a list of all {@code Client}; never {@code null}, may be empty
+     */
     @Override
     public @NotNull List<Client> getAll() {
         @Language("SQL")
@@ -27,6 +36,12 @@ public class ClientDao implements Dao<Client> {
         return dbManager.executeQuery(sql, this::mapRow);
     }
 
+    /**
+     * Retrieves an {@code Client} by its unique identifier represented as a String.
+     *
+     * @param uuid the unique identifier of the {@code Client}; must not be {@code null}
+     * @return the {@code Client} matching the given UUID, or {@code null} if none found
+     */
     @Override
     public Client getById(@NotNull String uuid) {
         String sql = "SELECT * FROM Clients WHERE id='" + uuid + "'";
@@ -37,11 +52,23 @@ public class ClientDao implements Dao<Client> {
         return res;
     }
 
+    /**
+     * Retrieves an {@code Client} by its unique identifier represented as a {@link UUID}.
+     *
+     * @param uuid the unique identifier of the {@code Client}; must not be {@code null}
+     * @return the {@code Client} matching the given UUID, or {@code null} if none found
+     */
     @Override
     public Client getById(@NotNull UUID uuid) {
         return this.getById(uuid.toString());
     }
 
+    /**
+     * Inserts a new {@code Client} into the data source.
+     *
+     * @param entity the {@code Client} to insert; must not be {@code null}
+     * @throws IllegalArgumentException if {@code entity} is {@code null}
+     */
     @Override
     public void insert(@NotNull Client entity) {
         if (entity == null) throw new IllegalArgumentException("Can't insert null client into the database");
@@ -60,6 +87,12 @@ public class ClientDao implements Dao<Client> {
         );
     }
 
+    /**
+     * Deletes an existing {@code Client} from the data source.
+     *
+     * @param entity the {@code Client} to delete; must not be {@code null}
+     * @throws IllegalArgumentException if {@code entity} is {@code null}
+     */
     @Override
     public void delete(@NotNull Client entity) {
         if (entity == null) throw new IllegalArgumentException("Can't delete null client from the database");
@@ -69,6 +102,12 @@ public class ClientDao implements Dao<Client> {
         dbManager.executeUpdate(sql, entity.getUuid());
     }
 
+    /**
+     * Updates an existing {@code Client} in the data source.
+     *
+     * @param entity the {@code Client} to update; must not be {@code null}
+     * @throws IllegalArgumentException if {@code entity} is {@code null}
+     */
     @Override
     public void update(@NotNull Client entity) {
         if (entity == null) throw new IllegalArgumentException("Can't update null client");

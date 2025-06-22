@@ -1,7 +1,6 @@
 package com.lucasbmmn.timetracker.data.dao;
 
 import com.lucasbmmn.timetracker.data.database.DatabaseManager;
-import com.lucasbmmn.timetracker.model.Client;
 import com.lucasbmmn.timetracker.model.ProjectTimeEntry;
 import org.intellij.lang.annotations.Language;
 import org.jetbrains.annotations.NotNull;
@@ -13,16 +12,25 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
+/**
+ * Data Access Object that provides CRUD (Create, Read, Update, Delete) operations for
+ * {@link ProjectTimeEntry}.
+ */
 public class ProjectTimeEntryDao implements Dao<ProjectTimeEntry> {
     private final DatabaseManager dbManager;
 
     /**
-     * Constructs a new {@code ProjectTimeEntryDao} object
+     * Constructs a new {@code ProjectTimeEntryDao} object.
      */
     public ProjectTimeEntryDao() {
         this.dbManager = new DatabaseManager();
     }
 
+    /**
+     * Retrieves all {@code ProjectTimeEntry} from the data source.
+     *
+     * @return a list of all {@code ProjectTimeEntry}; never {@code null}, may be empty
+     */
     @Override
     public @NotNull List<ProjectTimeEntry> getAll() {
         @Language("SQL")
@@ -30,6 +38,12 @@ public class ProjectTimeEntryDao implements Dao<ProjectTimeEntry> {
         return dbManager.executeQuery(sql, this::mapRow);
     }
 
+    /**
+     * Retrieves an {@code ProjectTimeEntry} by its unique identifier represented as a String.
+     *
+     * @param uuid the unique identifier of the {@code ProjectTimeEntry}; must not be {@code null}
+     * @return the {@code ProjectTimeEntry} matching the given UUID, or {@code null} if none found
+     */
     @Override
     public ProjectTimeEntry getById(@NotNull String uuid) {
         String sql = "SELECT * FROM Project_Time_Entries WHERE id='" + uuid + "'";
@@ -40,11 +54,23 @@ public class ProjectTimeEntryDao implements Dao<ProjectTimeEntry> {
         return res;
     }
 
+    /**
+     * Retrieves an {@code ProjectTimeEntry} by its unique identifier represented as a {@link UUID}.
+     *
+     * @param uuid the unique identifier of the {@code ProjectTimeEntry}; must not be {@code null}
+     * @return the {@code ProjectTimeEntry} matching the given UUID, or {@code null} if none found
+     */
     @Override
     public ProjectTimeEntry getById(@NotNull UUID uuid) {
         return this.getById(uuid.toString());
     }
 
+    /**
+     * Inserts a new {@code ProjectTimeEntry} into the data source.
+     *
+     * @param entity the {@code ProjectTimeEntry} to insert; must not be {@code null}
+     * @throws IllegalArgumentException if {@code entity} is {@code null}
+     */
     @Override
     public void insert(@NotNull ProjectTimeEntry entity) {
         if (entity == null) throw new IllegalArgumentException("Can't insert null ProjectTimeEntry into the database");
@@ -64,6 +90,12 @@ public class ProjectTimeEntryDao implements Dao<ProjectTimeEntry> {
         );
     }
 
+    /**
+     * Deletes an existing {@code ProjectTimeEntry} from the data source.
+     *
+     * @param entity the {@code ProjectTimeEntry} to delete; must not be {@code null}
+     * @throws IllegalArgumentException if {@code entity} is {@code null}
+     */
     @Override
     public void delete(@NotNull ProjectTimeEntry entity) {
         if (entity == null) throw new IllegalArgumentException("Can't delete null ProjectTimeEntry from the database");
@@ -73,6 +105,12 @@ public class ProjectTimeEntryDao implements Dao<ProjectTimeEntry> {
         dbManager.executeUpdate(sql, entity.getUuid());
     }
 
+    /**
+     * Updates an existing {@code ProjectTimeEntry} in the data source.
+     *
+     * @param entity the {@code ProjectTimeEntry} to update; must not be {@code null}
+     * @throws IllegalArgumentException if {@code entity} is {@code null}
+     */
     @Override
     public void update(@NotNull ProjectTimeEntry entity) {
         if (entity == null) throw new IllegalArgumentException("Can't update null ProjectTimeEntry");

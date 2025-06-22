@@ -1,7 +1,6 @@
 package com.lucasbmmn.timetracker.data.dao;
 
 import com.lucasbmmn.timetracker.data.database.DatabaseManager;
-import com.lucasbmmn.timetracker.model.ProjectTimeEntry;
 import com.lucasbmmn.timetracker.model.TaskTimeEntry;
 import org.intellij.lang.annotations.Language;
 import org.jetbrains.annotations.NotNull;
@@ -13,16 +12,25 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
+/**
+ * Data Access Object that provides CRUD (Create, Read, Update, Delete) operations for
+ * {@link TaskTimeEntryDao}.
+ */
 public class TaskTimeEntryDao implements Dao<TaskTimeEntry> {
     private final DatabaseManager dbManager;
 
     /**
-     * Constructs a new {@code TaskTimeEntryDao} object
+     * Constructs a new {@code TaskTimeEntryDao} object.
      */
     public TaskTimeEntryDao() {
         this.dbManager = new DatabaseManager();
     }
 
+    /**
+     * Retrieves all {@code TaskTimeEntry} from the data source.
+     *
+     * @return a list of all {@code TaskTimeEntry}; never {@code null}, may be empty
+     */
     @Override
     public @NotNull List<TaskTimeEntry> getAll() {
         @Language("SQL")
@@ -30,6 +38,12 @@ public class TaskTimeEntryDao implements Dao<TaskTimeEntry> {
         return dbManager.executeQuery(sql, this::mapRow);
     }
 
+    /**
+     * Retrieves an {@code TaskTimeEntry} by its unique identifier represented as a String.
+     *
+     * @param uuid the unique identifier of the {@code TaskTimeEntry}; must not be {@code null}
+     * @return the {@code TaskTimeEntry} matching the given UUID, or {@code null} if none found
+     */
     @Override
     public TaskTimeEntry getById(@NotNull String uuid) {
         String sql = "SELECT * FROM Task_Time_Entries WHERE id='" + uuid + "'";
@@ -40,11 +54,23 @@ public class TaskTimeEntryDao implements Dao<TaskTimeEntry> {
         return res;
     }
 
+    /**
+     * Retrieves an {@code TaskTimeEntry} by its unique identifier represented as a {@link UUID}.
+     *
+     * @param uuid the unique identifier of the {@code TaskTimeEntry}; must not be {@code null}
+     * @return the {@code TaskTimeEntry} matching the given UUID, or {@code null} if none found
+     */
     @Override
     public TaskTimeEntry getById(@NotNull UUID uuid) {
         return this.getById(uuid.toString());
     }
 
+    /**
+     * Inserts a new {@code TaskTimeEntry} into the data source.
+     *
+     * @param entity the {@code TaskTimeEntry} to insert; must not be {@code null}
+     * @throws IllegalArgumentException if {@code entity} is {@code null}
+     */
     @Override
     public void insert(@NotNull TaskTimeEntry entity) {
         if (entity == null) throw new IllegalArgumentException("Can't insert null TaskTimeEntry into the database");
@@ -62,6 +88,12 @@ public class TaskTimeEntryDao implements Dao<TaskTimeEntry> {
         );
     }
 
+    /**
+     * Deletes an existing {@code TastTimeEntry} from the data source.
+     *
+     * @param entity the {@code TastTimeEntry} to delete; must not be {@code null}
+     * @throws IllegalArgumentException if {@code entity} is {@code null}
+     */
     @Override
     public void delete(@NotNull TaskTimeEntry entity) {
         if (entity == null) throw new IllegalArgumentException("Can't delete null TaskTimeEntry from the database");
@@ -71,6 +103,12 @@ public class TaskTimeEntryDao implements Dao<TaskTimeEntry> {
         dbManager.executeUpdate(sql, entity.getUuid());
     }
 
+    /**
+     * Updates an existing {@code TastTimeEntry} in the data source.
+     *
+     * @param entity the {@code TastTimeEntry} to update; must not be {@code null}
+     * @throws IllegalArgumentException if {@code entity} is {@code null}
+     */
     @Override
     public void update(@NotNull TaskTimeEntry entity) {
         if (entity == null) throw new IllegalArgumentException("Can't update null TaskTimeEntry");
