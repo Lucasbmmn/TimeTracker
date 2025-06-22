@@ -70,9 +70,10 @@ public class Project {
      * Sets the name of the project.
      *
      * @param name the new name, must not be null
+     * @throws NullPointerException if the name is null
      */
     public void setName(@NotNull String name) {
-        if (name == null) throw new IllegalArgumentException("Project's name can't be null");
+        Objects.requireNonNull(name, "name must not be null");
         this.name = name;
     }
 
@@ -90,9 +91,10 @@ public class Project {
      * Sets the description of the project.
      *
      * @param description the new description, must not be null
+     * @throws NullPointerException if the description is null
      */
     public void setDescription(@NotNull String description) {
-        if (description == null) throw new IllegalArgumentException("Project's description can't be null");
+        Objects.requireNonNull(description, "description must not be null");
         this.description = description;
     }
 
@@ -158,7 +160,6 @@ public class Project {
         this.fixedPrice = fixedPrice;
     }
 
-
     /**
      * Returns the date the project was created.
      *
@@ -175,7 +176,7 @@ public class Project {
      * @param createdAt the new creation date, must not be null
      */
     public void setCreatedAt(@NotNull Date createdAt) {
-        if (createdAt == null) throw new IllegalArgumentException("Project's creating date can't be null");
+        Objects.requireNonNull(createdAt, "createdAt must not be null");
         this.createdAt = createdAt;
     }
 
@@ -211,12 +212,14 @@ public class Project {
      * @param fixedPrice    the fixed price for the project
      * @param createdAt     the date the project was created, must not be null
      * @param deadline      the project deadline
+     * @throws NullPointerException if the uuid, name, description or creation date is null
+     * @throws IllegalArgumentException if the hourly_rate or fixed_price is null
      */
     public Project(@NotNull UUID uuid, Client client, @NotNull String name,
                    @NotNull String description, Duration estimatedTime,
                    double hourlyRate, double fixedPrice, @NotNull Date createdAt,
                    Date deadline) {
-        if (uuid == null) throw new IllegalArgumentException("Project's uuid can't be null");
+        Objects.requireNonNull(uuid, "uuid must not be null");
         this.uuid = uuid;
         this.client = client;
         this.setName(name);
@@ -240,6 +243,8 @@ public class Project {
      * @param fixedPrice    the fixed price for the project
      * @param createdAt     the date the project was created, must not be null
      * @param deadline      the project deadline
+     * @throws NullPointerException if the name, description or creation date is null
+     * @throws IllegalArgumentException if the hourly_rate or fixed_price is null
      */
     public Project(Client client, @NotNull String name, @NotNull String description,
                    Duration estimatedTime, double hourlyRate, double fixedPrice,

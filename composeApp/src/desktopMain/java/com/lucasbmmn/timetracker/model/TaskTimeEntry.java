@@ -46,9 +46,10 @@ public class TaskTimeEntry {
      * Sets the task associated with this time entry.
      *
      * @param task the task to associate with this time entry, must not be null
+     * @throws NullPointerException if the null is null
      */
     public void setTask(@NotNull Task task) {
-        if (task == null) throw new IllegalArgumentException("TaskTimeEntry's task can't be null");
+        Objects.requireNonNull(task, "task must not be null");
         this.task = task;
     }
 
@@ -67,9 +68,10 @@ public class TaskTimeEntry {
      * This allows correcting or updating the time spent if necessary.
      *
      * @param duration the duration to set for this time entry, must not be null
+     * @throws NullPointerException if the duration is null
      */
     public void setDuration(@NotNull Duration duration) {
-        if (duration == null) throw new IllegalArgumentException("TaskTimeEntry's duration can't be null");
+        Objects.requireNonNull(duration, "duration must not be null");
         this.duration = duration;
     }
 
@@ -88,9 +90,10 @@ public class TaskTimeEntry {
      * This allows correcting the timestamp if necessary.
      *
      * @param createdAt the creation timestamp to set, must not be null
+     * @throws NullPointerException if the creation timestamp is null
      */
     public void setCreatedAt(@NotNull Date createdAt) {
-        if (createdAt == null) throw new IllegalArgumentException("TaskTimeEntry's creation date can't be null");
+        Objects.requireNonNull(createdAt, "createdAt must not be null");
         this.createdAt = createdAt;
     }
 
@@ -102,9 +105,11 @@ public class TaskTimeEntry {
      * @param task the task this time entry is associated with, must not be null
      * @param duration the duration of time spent on the task, must not be null
      * @param createdAt the timestamp when this entry was created, must not be null
+     * @throws NullPointerException if the uuid, task, duration or creation timestamp is null
      */
-    public TaskTimeEntry(@NotNull UUID uuid, @NotNull Task task, @NotNull Duration duration, @NotNull Date createdAt) {
-        if (uuid == null) throw new IllegalArgumentException("TaskTimeEntry's uuid can't be null");
+    public TaskTimeEntry(@NotNull UUID uuid, @NotNull Task task, @NotNull Duration duration,
+                         @NotNull Date createdAt) {
+        Objects.requireNonNull(uuid, "uuid must not be null");
         this.uuid = uuid;
         this.setTask(task);
         this.setDuration(duration);
@@ -118,6 +123,7 @@ public class TaskTimeEntry {
      * @param task the task this time entry is associated with, must not be null
      * @param duration the duration of time spent on the task, must not be null
      * @param createdAt the timestamp when this entry was created, must not be null
+     * @throws NullPointerException if the task, duration or creation timestamp is null
      */
     public TaskTimeEntry(@NotNull Task task, @NotNull Duration duration, @NotNull Date createdAt) {
         this(UUID.randomUUID(), task, duration, createdAt);

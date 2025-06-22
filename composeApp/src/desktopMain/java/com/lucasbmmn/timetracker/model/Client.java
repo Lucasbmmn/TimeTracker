@@ -48,10 +48,10 @@ public class Client {
      * Sets the company name for the client.
      *
      * @param company the new company name, must not be null
-     * @throws IllegalArgumentException if the company name is null
+     * @throws NullPointerException if the company name is null
      */
     public void setCompany(@NotNull String company) {
-        if (company == null) throw new IllegalArgumentException("Client's company name can't be null");
+        Objects.requireNonNull(company, "company must not be null");
         this.company = company;
     }
 
@@ -69,10 +69,10 @@ public class Client {
      * Sets the name of the client.
      *
      * @param name the new client name, must not be null
-     * @throws IllegalArgumentException if the client name is null
+     * @throws NullPointerException if the client name is null
      */
     public void setName(@NotNull String name) {
-        if (name == null) throw new IllegalArgumentException("Client name can't be null");
+        Objects.requireNonNull(name, "name must not be null");
         this.name = name;
     }
 
@@ -90,10 +90,11 @@ public class Client {
      * Sets the client's email address. Validates the format.
      *
      * @param email the new email address, must not be null
-     * @throws IllegalArgumentException if the email format is invalid or null
+     * @throws NullPointerException if the email is null
+     * @throws IllegalArgumentException if the email format is invalid
      */
     public void setEmail(@NotNull String email) {
-        if (email == null) throw new IllegalArgumentException("Client's email can't be null");
+        Objects.requireNonNull(email, "email must not be null");
         if (!email.matches("^[a-zA-Z0-9_!#$%&’*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$"))
             throw new IllegalArgumentException("Illegal client's email: " + email);
         this.email = email;
@@ -113,10 +114,11 @@ public class Client {
      * Sets the client's phone number. Validates the format.
      *
      * @param phoneNumber the new phone number, must not be null
-     * @throws IllegalArgumentException if the phone number format is invalid or null
+     * @throws NullPointerException if the phone number is null
+     * @throws IllegalArgumentException if the phone number format is invalid
      */
     public void setPhoneNumber(@NotNull String phoneNumber) {
-        if (phoneNumber == null) throw new IllegalArgumentException("Client's phone number can't be null");
+        Objects.requireNonNull(phoneNumber, "phoneNumber must not be null");
         if (!phoneNumber.matches("^\\+?[(]?[0-9]{3}[)]?[-\\s.]?[0-9]{3}[-\\s.]?[0-9]{4,6}$"))
             throw new IllegalArgumentException("Illegal client's phone number: " + phoneNumber);
         this.phoneNumber = phoneNumber;
@@ -136,10 +138,11 @@ public class Client {
      * Sets the client's timezone. Validates the format.
      *
      * @param timezone the new timezone (e.g., +02:00, -03:30), must not be null
-     * @throws IllegalArgumentException if the timezone format is invalid or null
+     * @throws NullPointerException if the timezone is null
+     * @throws IllegalArgumentException if the timezone format is invalid
      */
     public void setTimezone(@NotNull String timezone) {
-        if (timezone == null) throw new IllegalArgumentException("Client's timezone can't be null");
+        Objects.requireNonNull(timezone, "timezone must not be null");
         if (!timezone.matches("^[-+][01][0-9]:[034][05]$"))
             throw new IllegalArgumentException("Illegal client's timezone: " + timezone);
         this.timezone = timezone;
@@ -156,10 +159,14 @@ public class Client {
      * @param email       the client's email address, must not be null
      * @param phoneNumber the client's phone number, must not be null
      * @param timezone    the client's timezone, must not be null
+     * @throws NullPointerException if the uuid, company, name, email address, phone number of
+     * timezone is null
+     * @throws IllegalArgumentException if the email address, phone number or timezone format is
+     * invalid
      */
     public Client(@NotNull UUID uuid, @NotNull String company, @NotNull String name,
                   @NotNull String email, @NotNull String phoneNumber, @NotNull String timezone) {
-        if (uuid == null) throw new IllegalArgumentException("Client's uuid can't be null");
+        Objects.requireNonNull(uuid, "uuid must not be null");
         this.uuid = uuid;
         this.setCompany(company);
         this.setName(name);
@@ -177,6 +184,10 @@ public class Client {
      * @param email       the client's email address, must not be null
      * @param phoneNumber the client's phone number, must not be null
      * @param timezone    the client's timezone, must not be null
+     * @throws NullPointerException if the company, name, email address, phone number of timezone
+     * is null
+     * @throws IllegalArgumentException if the email address, phone number or timezone format is
+     * invalid
      */
     public Client(@NotNull String company, @NotNull String name, @NotNull String email,
                   @NotNull String phoneNumber, @NotNull String timezone) {

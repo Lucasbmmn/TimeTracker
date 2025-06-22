@@ -46,9 +46,10 @@ public class TaskStatus {
      * Sets the label of this task status.
      *
      * @param label the new label for this task status
+     * @throws NullPointerException if the label is null
      */
     public void setLabel(@NotNull String label) {
-        if (label == null) throw new IllegalArgumentException("TaskStatus' label can't be null");
+        Objects.requireNonNull(label, "label must not be null");
         this.label = label;
     }
 
@@ -59,9 +60,10 @@ public class TaskStatus {
      *
      * @param uuid the unique identifier for this task status
      * @param label the label for this task status
+     * @throws NullPointerException if the uuid or label is null
      */
     public TaskStatus(@NotNull UUID uuid, @NotNull String label) {
-        if (uuid == null) throw new IllegalArgumentException("TaskStatus' uuid can't be null");
+        Objects.requireNonNull(uuid, "uuid must not be null");
         this.uuid = uuid;
         this.setLabel(label);
         this.tasks = new ArrayList<>();
@@ -72,6 +74,7 @@ public class TaskStatus {
      * This constructor is typically used when creating new task statuses.
      *
      * @param label the label for this task status
+     * @throws NullPointerException if the label is null
      */
     public TaskStatus(@NotNull String label) {
         this(UUID.randomUUID(), label);
@@ -84,9 +87,10 @@ public class TaskStatus {
      * internal collection of tasks.
      *
      * @param task the task to add to this status
+     * @throws NullPointerException if the task is null
      */
     public void addTask(@NotNull Task task) {
-        if (task == null) throw new IllegalArgumentException("Can't add null task to TaskStatus");
+        Objects.requireNonNull(task, "task must not be null");
         this.tasks.add(task);
     }
 
@@ -96,9 +100,9 @@ public class TaskStatus {
      * this method has no effect.
      *
      * @param task the task to remove from this status
+     * @throws NullPointerException if the task is null
      */
-    public void removeTask(@NotNull Task task) {
-        if (task == null) throw new IllegalArgumentException("Can't remove null task from TaskStatus");
+    public void removeTask(Task task) {
         this.tasks.remove(task);
     }
 

@@ -50,7 +50,7 @@ public class TaskType {
      * @param label the new label for this task type, must not be null
      */
     public void setLabel(@NotNull String label) {
-        if (label == null) throw new IllegalArgumentException("TaskType's label can't be null");
+        Objects.requireNonNull(label, "label must not be null");
         this.label = label;
     }
 
@@ -61,9 +61,10 @@ public class TaskType {
      *
      * @param uuid the unique identifier for this task type, must not be null
      * @param label the label for this task type, must not be null
+     * @throws NullPointerException if the uuid or label is null
      */
     public TaskType(@NotNull UUID uuid,@NotNull String label) {
-        if (label == null) throw new IllegalArgumentException("TaskType's uuid can't be null");
+        Objects.requireNonNull(uuid, "uuid must not be null");
         this.uuid = uuid;
         this.setLabel(label);
         this.tasks = new ArrayList<>();
@@ -74,6 +75,7 @@ public class TaskType {
      * This constructor is typically used when creating new task types.
      *
      * @param label the label for this task type, must not be null
+     * @throws NullPointerException if the label is null
      */
     public TaskType(@NotNull String label) {
         this(UUID.randomUUID(), label);
@@ -86,9 +88,10 @@ public class TaskType {
      * internal collection of tasks.
      *
      * @param task the task to add to this type, must not be null
+     * @throws NullPointerException if the task is null
      */
-    public void addTask(Task task) {
-        if (task == null) throw new IllegalArgumentException("Can't add null task to TaskType");
+    public void addTask(@NotNull Task task) {
+        Objects.requireNonNull(task, "task must not be null");
         this.tasks.add(task);
     }
 

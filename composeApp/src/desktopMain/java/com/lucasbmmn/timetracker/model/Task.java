@@ -50,9 +50,10 @@ public class Task {
      * Sets the project for this task.
      *
      * @param project the project to assign, must not be null
+     * @throws NullPointerException if the project is null
      */
     public void setProject(@NotNull Project project) {
-        if (project == null) throw new IllegalArgumentException("Task's project can't be null");
+        Objects.requireNonNull(project, "project must not be null");
         this.project = project;
     }
 
@@ -70,9 +71,10 @@ public class Task {
      * Sets the name of this task.
      *
      * @param name the new task name, must not be null
+     * @throws NullPointerException if the name is null
      */
     public void setName(@NotNull String name) {
-        if (name == null) throw new IllegalArgumentException("Task's name can't be null");
+        Objects.requireNonNull(name, "name must not be null");
         this.name = name;
     }
 
@@ -90,9 +92,10 @@ public class Task {
      * Sets the task description.
      *
      * @param description the new description, must not be null
+     * @throws NullPointerException if the description is null
      */
     public void setDescription(@NotNull String description) {
-        if (description == null) throw new IllegalArgumentException("Task's description can't be null");
+        Objects.requireNonNull(description, "description must not be null");
         this.description = description;
     }
 
@@ -168,9 +171,10 @@ public class Task {
      * Sets the creation date of this task.
      *
      * @param createdAt the new creation date, must not be null
+     * @throws NullPointerException if the creation timestamp is null
      */
     public void setCreatedAt(@NotNull Date createdAt) {
-        if (createdAt == null) throw new IllegalArgumentException("Task's creation date can't be null");
+        Objects.requireNonNull(createdAt, "createdAt must not be null");
         this.createdAt = createdAt;
     }
 
@@ -186,11 +190,13 @@ public class Task {
      * @param status        the task status
      * @param type          the task type
      * @param createdAt     the creation timestamp, must not be null
+     * @throws NullPointerException if the uuid, project, name, description, duration or creation
+     * date is null
      */
     public Task(@NotNull UUID uuid, @NotNull Project project, @NotNull String name,
                 @NotNull String description, @NotNull Duration estimatedTime, TaskStatus status,
                 TaskType type, @NotNull Date createdAt) {
-        if (uuid == null) throw new IllegalArgumentException("Task's uuid can't be null");
+        Objects.requireNonNull(uuid, "uuid must not be null");
         this.uuid = uuid;
         this.setProject(project);
         this.setName(name);
@@ -211,7 +217,8 @@ public class Task {
      * @param estimatedTime the estimated duration
      * @param status        the task status
      * @param type          the task type
-     * @param createdAt     the creation timestamp, must not be null
+     * @throws NullPointerException if the project, name, description, duration or creation date
+     * is null
      */
     public Task(@NotNull Project project, @NotNull String name, @NotNull String description,
                 @NotNull Duration estimatedTime, TaskStatus status, TaskType type,

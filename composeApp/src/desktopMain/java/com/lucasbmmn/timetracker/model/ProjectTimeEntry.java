@@ -48,9 +48,10 @@ public class ProjectTimeEntry {
      * Sets the project associated with this time entry.
      *
      * @param project the project to associate with this time entry, must not be null
+     * @throws NullPointerException if the project is null
      */
     public void setProject(@NotNull Project project) {
-        if (project == null) throw new IllegalArgumentException("ProjectTimeEntry's project can't be null");
+        Objects.requireNonNull(project, "project must not be null");
         this.project = project;
     }
 
@@ -69,9 +70,10 @@ public class ProjectTimeEntry {
      * This allows correcting or updating the time spent if necessary.
      *
      * @param duration the duration to set for this time entry, must not be null
+     * @throws NullPointerException if the duration is null
      */
     public void setDuration(@NotNull Duration duration) {
-        if (duration == null) throw new IllegalArgumentException("ProjectTimeEntry's duration can't be null");
+        Objects.requireNonNull(duration, "duration must not be null");
         this.duration = duration;
     }
 
@@ -89,9 +91,10 @@ public class ProjectTimeEntry {
      * Sets the creation timestamp of this time entry.
      *
      * @param createdAt the creation timestamp to set, must not be null
+     * @throws NullPointerException if the creation timestamp is null
      */
     public void setCreatedAt(@NotNull Date createdAt) {
-        if (createdAt == null) throw new IllegalArgumentException("ProjectTimeEntry's creation date can't be null");
+        Objects.requireNonNull(createdAt, "createdAt must not be null");
         this.createdAt = createdAt;
     }
 
@@ -121,13 +124,14 @@ public class ProjectTimeEntry {
      * @param uuid       the unique identifier for the time entry, must not be null
      * @param project    the associated project, must not be null
      * @param duration   the duration of the time entry, must not be null
-     * @param createdAt the date/time when the entry was created, must not be null
+     * @param createdAt  the date/time when the entry was created, must not be null
      * @param isBillable whether the time is billable {@code true} if billable, {@code false} otherwise
+     * @throws NullPointerException if the uuid, project, duration or creation date is null
      */
     public ProjectTimeEntry(@NotNull UUID uuid, @NotNull Project project,
                             @NotNull Duration duration, @NotNull Date createdAt,
                             boolean isBillable) {
-        if (uuid == null) throw new IllegalArgumentException("ProjectTimeEntry uuid can't be null");
+        Objects.requireNonNull(uuid, "uuid must not be null");
         this.uuid = uuid;
         this.setProject(project);
         this.setDuration(duration);
@@ -143,6 +147,7 @@ public class ProjectTimeEntry {
      * @param duration   the duration of the time entry, must not be null
      * @param createdAt the date/time when the entry was created, must not be null
      * @param isBillable whether the time is billable {@code true} if billable, {@code false} otherwise
+     * @throws NullPointerException if the project, duration or creation date is null
      */
     public ProjectTimeEntry(@NotNull Project project, @NotNull Duration duration,
                             @NotNull Date createdAt, boolean isBillable) {
