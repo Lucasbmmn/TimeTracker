@@ -82,6 +82,8 @@ public class TaskDao implements Dao<Task> {
     public void insert(@NotNull Task entity) {
         Objects.requireNonNull(entity, " must not be null");
 
+        this.insertRelatedEntities(entity);
+
         @Language("SQL")
         String sql = "INSERT INTO Tasks (id, project_id, task_status_id, task_type_id, name, " +
                 "description, estimated_time, created_at) " +
@@ -90,11 +92,11 @@ public class TaskDao implements Dao<Task> {
                 sql,
                 entity.getUuid(),
                 entity.getProject().getUuid(),
+                entity.getStatus() == null ? null : entity.getStatus().getUuid(),
+                entity.getType() == null ? null : entity.getType().getUuid(),
                 entity.getName(),
                 entity.getDescription(),
                 entity.getEstimatedTime() == null ? null : entity.getEstimatedTime().toSeconds(),
-                entity.getStatus() == null ? null : entity.getStatus().getUuid(),
-                entity.getType() == null ? null : entity.getType().getUuid(),
                 entity.getCreatedAt().getTime()
         );
     }
@@ -124,11 +126,12 @@ public class TaskDao implements Dao<Task> {
     public void update(@NotNull Task entity) {
         Objects.requireNonNull(entity, " must not be null");
 
+        this.insertRelatedEntities(entity);
+
         @Language("SQL")
         String sql = """
             UPDATE Tasks
-            SET id = ?,
-                project_id = ?,
+            SET project_id = ?,
                 task_status_id = ?,
                 task_type_id = ?,
                 name = ?,
@@ -139,11 +142,12 @@ public class TaskDao implements Dao<Task> {
             """;
         dbManager.executeUpdate(
                 sql,
+                entity.getProject().getUuid(),
+                entity.getStatus() == null ? null : entity.getStatus().getUuid(),
+                entity.getType() == null ? null : entity.getType().getUuid(),
                 entity.getName(),
                 entity.getDescription(),
                 entity.getEstimatedTime() == null ? null : entity.getEstimatedTime().toSeconds(),
-                entity.getStatus() == null ? null : entity.getStatus().getUuid(),
-                entity.getType() == null ? null : entity.getType().getUuid(),
                 entity.getCreatedAt().getTime(),
                 entity.getUuid()
         );
@@ -176,6 +180,39 @@ public class TaskDao implements Dao<Task> {
             );
         } catch (SQLException e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    /**
+     * Inserts task's project, status and type into the database.
+     *
+     * @param task Task whose project, status and type we want to insert into the database,
+     * must not be {@code null}
+     * @throws NullPointerException if the task is {@code null}
+     */
+    private void insertRelatedEntities(@NotNull Task task) {
+        Objects.requireNonNull(task, "task must not be null");
+
+        ProjectDao projectDao = new ProjectDao();
+        // ProjectDao.getById returns null if the project is not in the database
+        if (projectDao.getById(task.getProject().getUuid()) == null) {
+            projectDao.insert(task.getProject());
+        }
+
+        if (task.getStatus() != null) {
+            TaskStatusDao taskStatusDao = new TaskStatusDao();
+            // TaskStatusDao.getById returns null if the TaskStatus is not in the database
+            if (taskStatusDao.getById(task.getStatus().getUuid()) == null) {
+                taskStatusDao.insert(task.getStatus());
+            }
+        }
+
+        if (task.getType() != null) {
+            TaskTypeDao taskTypeDao = new TaskTypeDao();
+            // TaskTypeDao.getById returns null if the TaskType is not in the database
+            if (taskTypeDao.getById(task.getType().getUuid()) == null) {
+                taskTypeDao.insert(task.getType());
+            }
         }
     }
 }
