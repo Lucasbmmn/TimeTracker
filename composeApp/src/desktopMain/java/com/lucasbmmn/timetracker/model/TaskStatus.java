@@ -117,7 +117,6 @@ public class TaskStatus {
         return "TaskStatus{" +
                 "uuid=" + uuid +
                 ", label='" + label + '\'' +
-                ", tasks=" + tasks +
                 '}';
     }
 
@@ -132,7 +131,7 @@ public class TaskStatus {
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         TaskStatus that = (TaskStatus) o;
-        return Objects.equals(getUuid(), that.getUuid()) && Objects.equals(getLabel(), that.getLabel()) && Objects.equals(tasks, that.tasks);
+        return Objects.equals(getUuid(), that.getUuid()) && Objects.equals(getLabel(), that.getLabel());
     }
 
     /**
@@ -142,6 +141,6 @@ public class TaskStatus {
      */
     @Override
     public int hashCode() {
-        return Objects.hash(getUuid(), getLabel(), tasks);
+        return Objects.hash(getUuid(), getLabel());
     }
 }

@@ -118,7 +118,6 @@ public class TaskType {
         return "TaskType{" +
                 "uuid=" + uuid +
                 ", label='" + label + '\'' +
-                ", tasks=" + tasks +
                 '}';
     }
 
@@ -133,7 +132,7 @@ public class TaskType {
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         TaskType taskType = (TaskType) o;
-        return Objects.equals(getUuid(), taskType.getUuid()) && Objects.equals(getLabel(), taskType.getLabel()) && Objects.equals(tasks, taskType.tasks);
+        return Objects.equals(getUuid(), taskType.getUuid()) && Objects.equals(getLabel(), taskType.getLabel());
     }
 
     /**
@@ -143,6 +142,6 @@ public class TaskType {
      */
     @Override
     public int hashCode() {
-        return Objects.hash(getUuid(), getLabel(), tasks);
+        return Objects.hash(getUuid(), getLabel());
     }
 }
