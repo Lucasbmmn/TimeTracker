@@ -49,7 +49,8 @@ public class TaskDao implements Dao<Task> {
         if (entity == null) throw new IllegalArgumentException("Can't insert task project into the database");
 
         @Language("SQL")
-        String sql = "INSERT INTO Tasks (id, project_id, task_status_id, task_type_id, name, description, estimated_time, create_at) " +
+        String sql = "INSERT INTO Tasks (id, project_id, task_status_id, task_type_id, name, " +
+                "description, estimated_time, created_at) " +
                 "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         dbManager.executeUpdate(
                 sql,
@@ -87,7 +88,7 @@ public class TaskDao implements Dao<Task> {
                 name = ?,
                 description = ?,
                 estimated_time = ?,
-                create_at = ?
+                created_at = ?
             WHERE id = ?
             """;
         dbManager.executeUpdate(
