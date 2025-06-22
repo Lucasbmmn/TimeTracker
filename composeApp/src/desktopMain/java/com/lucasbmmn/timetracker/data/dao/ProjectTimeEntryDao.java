@@ -135,7 +135,7 @@ public class ProjectTimeEntryDao implements Dao<ProjectTimeEntry> {
             """;
         dbManager.executeUpdate(
                 sql,
-                entity.getProject(),
+                entity.getProject().getUuid(),
                 entity.getDuration().getSeconds(),
                 entity.getCreatedAt().getTime(),
                 entity.isBillable() ? 1 : 0,
@@ -158,7 +158,7 @@ public class ProjectTimeEntryDao implements Dao<ProjectTimeEntry> {
             ProjectDao projectDao = new ProjectDao();
             return new ProjectTimeEntry(
                     UUID.fromString(rs.getString("id")),
-                    projectDao.getById(rs.getString("task_id")),
+                    projectDao.getById(rs.getString("project_id")),
                     Duration.ofSeconds(rs.getLong("duration")),
                     new Date(rs.getLong("created_at")),
                     rs.getBoolean("is_billable")
