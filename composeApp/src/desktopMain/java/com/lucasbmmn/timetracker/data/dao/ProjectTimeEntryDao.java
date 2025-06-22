@@ -2,6 +2,7 @@ package com.lucasbmmn.timetracker.data.dao;
 
 import com.lucasbmmn.timetracker.data.database.DatabaseManager;
 import com.lucasbmmn.timetracker.model.ProjectTimeEntry;
+import com.lucasbmmn.timetracker.model.TaskStatus;
 import org.intellij.lang.annotations.Language;
 import org.jetbrains.annotations.NotNull;
 
@@ -42,34 +43,34 @@ public class ProjectTimeEntryDao implements Dao<ProjectTimeEntry> {
     /**
      * Retrieves an {@code ProjectTimeEntry} by its unique identifier represented as a String.
      *
-     * @param uuid the unique identifier of the {@code ProjectTimeEntry}; must not be {@code null}
+     * @param uuid the unique identifier of the {@code ProjectTimeEntry}
      * @return the {@code ProjectTimeEntry} matching the given UUID, or {@code null} if none found
-     * @throws NullPointerException if {@code uuid} is {@code null}
      */
     @Override
-    public ProjectTimeEntry getById(@NotNull String uuid) {
-        Objects.requireNonNull(uuid, "uuid must not be null");
-
-        @Language("SQL")
-        String sql = "SELECT * FROM Project_Time_Entries WHERE id=?";
-        List<ProjectTimeEntry> projectTimeEntries = dbManager.executeQuery(sql, this::mapRow, uuid);
-
+    public ProjectTimeEntry getById(String uuid) {
         ProjectTimeEntry res = null;
-        if (!projectTimeEntries.isEmpty()) res = projectTimeEntries.getFirst();
+
+        if (uuid != null) {
+            @Language("SQL")
+            String sql = "SELECT * FROM Project_Time_Entries WHERE id=?";
+            List<ProjectTimeEntry> projectTimeEntries = dbManager.executeQuery(sql, this::mapRow, uuid);
+
+            if (!projectTimeEntries.isEmpty()) res = projectTimeEntries.getFirst();
+        }
         return res;
     }
 
     /**
      * Retrieves an {@code ProjectTimeEntry} by its unique identifier represented as a {@link UUID}.
      *
-     * @param uuid the unique identifier of the {@code ProjectTimeEntry}; must not be {@code null}
+     * @param uuid the unique identifier of the {@code ProjectTimeEntry}
      * @return the {@code ProjectTimeEntry} matching the given UUID, or {@code null} if none found
-     * @throws NullPointerException if {@code uuid} is {@code null}
      */
     @Override
-    public ProjectTimeEntry getById(@NotNull UUID uuid) {
-        Objects.requireNonNull(uuid, "uuid must not be null");
-        return this.getById(uuid.toString());
+    public ProjectTimeEntry getById(UUID uuid) {
+        ProjectTimeEntry res = null;
+        if (uuid != null) res = this.getById(uuid.toString());
+        return res;
     }
 
     /**

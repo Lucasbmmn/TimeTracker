@@ -40,34 +40,34 @@ public class TaskStatusDao implements Dao<TaskStatus> {
     /**
      * Retrieves an {@code TaskStatus} by its unique identifier represented as a String.
      *
-     * @param uuid the unique identifier of the {@code TaskStatus}; must not be {@code null}
+     * @param uuid the unique identifier of the {@code TaskStatus}
      * @return the {@code TaskStatus} matching the given UUID, or {@code null} if none found
-        Objects.requireNonNull(uuid, "uuid must not be null");
      */
     @Override
-    public TaskStatus getById(@NotNull String uuid) {
-        Objects.requireNonNull(uuid, "uuid must not be null");
-
-        @Language("SQL")
-        String sql = "SELECT * FROM Task_Statuses WHERE id=?";
-        List<TaskStatus> taskStatuses = dbManager.executeQuery(sql, this::mapRow, uuid);
-
+    public TaskStatus getById(String uuid) {
         TaskStatus res = null;
-        if (!taskStatuses.isEmpty()) res = taskStatuses.getFirst();
+
+        if (uuid != null) {
+            @Language("SQL")
+            String sql = "SELECT * FROM Task_Statuses WHERE id=?";
+            List<TaskStatus> taskStatuses = dbManager.executeQuery(sql, this::mapRow, uuid);
+
+            if (!taskStatuses.isEmpty()) res = taskStatuses.getFirst();
+        }
         return res;
     }
 
     /**
      * Retrieves an {@code TaskStatus} by its unique identifier represented as a {@link UUID}.
      *
-     * @param uuid the unique identifier of the {@code TaskStatus}; must not be {@code null}
+     * @param uuid the unique identifier of the {@code TaskStatus}
      * @return the {@code TaskStatus} matching the given UUID, or {@code null} if none found
-        Objects.requireNonNull(uuid, "uuid must not be null");
      */
     @Override
-    public TaskStatus getById(@NotNull UUID uuid) {
-        Objects.requireNonNull(uuid, "uuid must not be null");
-        return this.getById(uuid.toString());
+    public TaskStatus getById(UUID uuid) {
+        TaskStatus res = null;
+        if (uuid != null) res = this.getById(uuid.toString());
+        return res;
     }
 
     /**

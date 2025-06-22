@@ -23,20 +23,18 @@ public interface Dao<T> {
     /**
      * Retrieves an entity by its unique identifier represented as a String.
      *
-     * @param uuid the unique identifier of the entity; must not be {@code null}
+     * @param uuid the unique identifier of the entity
      * @return the entity matching the given UUID, or {@code null} if none found
-     * @throws NullPointerException if {@code uuid} is {@code null}
      */
-    T getById(@NotNull String uuid);
+    T getById(String uuid);
 
     /**
      * Retrieves an entity by its unique identifier represented as a {@link UUID}.
      *
-     * @param uuid the unique identifier of the entity; must not be {@code null}
+     * @param uuid the unique identifier of the entity
      * @return the entity matching the given UUID, or {@code null} if none found
-     * @throws NullPointerException if {@code uuid} is {@code null}
      */
-    T getById(@NotNull UUID uuid);
+    T getById(UUID uuid);
 
     /**
      * Inserts a new entity into the data source.

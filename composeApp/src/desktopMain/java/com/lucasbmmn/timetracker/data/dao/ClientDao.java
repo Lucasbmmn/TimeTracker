@@ -2,6 +2,7 @@ package com.lucasbmmn.timetracker.data.dao;
 
 import com.lucasbmmn.timetracker.data.database.DatabaseManager;
 import com.lucasbmmn.timetracker.model.Client;
+import com.lucasbmmn.timetracker.model.TaskStatus;
 import org.intellij.lang.annotations.Language;
 import org.jetbrains.annotations.NotNull;
 
@@ -40,34 +41,34 @@ public class ClientDao implements Dao<Client> {
     /**
      * Retrieves an {@code Client} by its unique identifier represented as a String.
      *
-     * @param uuid the unique identifier of the {@code Client}; must not be {@code null}
+     * @param uuid the unique identifier of the {@code Client}
      * @return the {@code Client} matching the given UUID, or {@code null} if none found
-     * @throws NullPointerException if {@code uuid} is {@code null}
      */
     @Override
-    public Client getById(@NotNull String uuid) {
-        Objects.requireNonNull(uuid, "uuid must not be null");
-
-        @Language("SQL")
-        String sql = "SELECT * FROM Clients WHERE id=?";
-        List<Client> clients = dbManager.executeQuery(sql, this::mapRow, uuid);
-
+    public Client getById(String uuid) {
         Client res = null;
-        if (!clients.isEmpty()) res = clients.getFirst();
+
+        if (uuid != null) {
+            @Language("SQL")
+            String sql = "SELECT * FROM Clients WHERE id=?";
+            List<Client> clients = dbManager.executeQuery(sql, this::mapRow, uuid);
+
+            if (!clients.isEmpty()) res = clients.getFirst();
+        }
         return res;
     }
 
     /**
      * Retrieves an {@code Client} by its unique identifier represented as a {@link UUID}.
      *
-     * @param uuid the unique identifier of the {@code Client}; must not be {@code null}
+     * @param uuid the unique identifier of the {@code Client}
      * @return the {@code Client} matching the given UUID, or {@code null} if none found
-     * @throws NullPointerException if {@code uuid} is {@code null}
      */
     @Override
-    public Client getById(@NotNull UUID uuid) {
-        Objects.requireNonNull(uuid, "uuid must not be null");
-        return this.getById(uuid.toString());
+    public Client getById(UUID uuid) {
+        Client res = null;
+        if (uuid != null) res = this.getById(uuid.toString());
+        return res;
     }
 
     /**

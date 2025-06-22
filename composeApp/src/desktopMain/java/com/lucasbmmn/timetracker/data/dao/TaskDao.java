@@ -2,6 +2,7 @@ package com.lucasbmmn.timetracker.data.dao;
 
 import com.lucasbmmn.timetracker.data.database.DatabaseManager;
 import com.lucasbmmn.timetracker.model.Task;
+import com.lucasbmmn.timetracker.model.TaskStatus;
 import org.intellij.lang.annotations.Language;
 import org.jetbrains.annotations.NotNull;
 
@@ -42,34 +43,34 @@ public class TaskDao implements Dao<Task> {
     /**
      * Retrieves an {@code Task} by its unique identifier represented as a String.
      *
-     * @param uuid the unique identifier of the {@code Task}; must not be {@code null}
+     * @param uuid the unique identifier of the {@code Task}
      * @return the {@code Task} matching the given UUID, or {@code null} if none found
-        Objects.requireNonNull(uuid, "uuid must not be null");
      */
     @Override
-    public Task getById(@NotNull String uuid) {
-        Objects.requireNonNull(uuid, "uuid must not be null");
-
-        @Language("SQL")
-        String sql = "SELECT * FROM Tasks WHERE id=?";
-        List<Task> tasks = dbManager.executeQuery(sql, this::mapRow, uuid);
-
+    public Task getById(String uuid) {
         Task res = null;
-        if (!tasks.isEmpty()) res = tasks.getFirst();
+
+        if (uuid != null) {
+            @Language("SQL")
+            String sql = "SELECT * FROM Tasks WHERE id=?";
+            List<Task> tasks = dbManager.executeQuery(sql, this::mapRow, uuid);
+
+            if (!tasks.isEmpty()) res = tasks.getFirst();
+        }
         return res;
     }
 
     /**
      * Retrieves an {@code Task} by its unique identifier represented as a {@link UUID}.
      *
-     * @param uuid the unique identifier of the {@code Task}; must not be {@code null}
+     * @param uuid the unique identifier of the {@code Task}
      * @return the {@code Task} matching the given UUID, or {@code null} if none found
-        Objects.requireNonNull(uuid, "uuid must not be null");
      */
     @Override
-    public Task getById(@NotNull UUID uuid) {
-        Objects.requireNonNull(uuid, "uuid must not be null");
-        return this.getById(uuid.toString());
+    public Task getById(UUID uuid) {
+        Task res = null;
+        if (uuid != null) res = this.getById(uuid.toString());
+        return res;
     }
 
     /**

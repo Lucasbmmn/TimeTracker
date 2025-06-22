@@ -2,6 +2,7 @@ package com.lucasbmmn.timetracker.data.dao;
 
 import com.lucasbmmn.timetracker.data.database.DatabaseManager;
 import com.lucasbmmn.timetracker.model.Project;
+import com.lucasbmmn.timetracker.model.TaskStatus;
 import org.intellij.lang.annotations.Language;
 import org.jetbrains.annotations.NotNull;
 
@@ -42,34 +43,34 @@ public class ProjectDao implements Dao<Project> {
     /**
      * Retrieves an {@code Project} by its unique identifier represented as a String.
      *
-     * @param uuid the unique identifier of the {@code Project}; must not be {@code null}
+     * @param uuid the unique identifier of the {@code Project}
      * @return the {@code Project} matching the given UUID, or {@code null} if none found
-     * @throws NullPointerException if {@code uuid} is {@code null}
      */
     @Override
-    public Project getById(@NotNull String uuid) {
-        Objects.requireNonNull(uuid, "uuid must not be null");
-
-        @Language("SQL")
-        String sql = "SELECT * FROM Projects WHERE id=?";
-        List<Project> projects = dbManager.executeQuery(sql, this::mapRow, uuid);
-
+    public Project getById(String uuid) {
         Project res = null;
-        if (!projects.isEmpty()) res = projects.getFirst();
+
+        if (uuid != null) {
+            @Language("SQL")
+            String sql = "SELECT * FROM Projects WHERE id=?";
+            List<Project> projects = dbManager.executeQuery(sql, this::mapRow, uuid);
+
+            if (!projects.isEmpty()) res = projects.getFirst();
+        }
         return res;
     }
 
     /**
      * Retrieves an {@code Project} by its unique identifier represented as a {@link UUID}.
      *
-     * @param uuid the unique identifier of the {@code Project}; must not be {@code null}
+     * @param uuid the unique identifier of the {@code Project}
      * @return the {@code Project} matching the given UUID, or {@code null} if none found
-     * @throws NullPointerException if {@code uuid} is {@code null}
      */
     @Override
-    public Project getById(@NotNull UUID uuid) {
-        Objects.requireNonNull(uuid, "uuid must not be null");
-        return this.getById(uuid.toString());
+    public Project getById(UUID uuid) {
+        Project res = null;
+        if (uuid != null) res = this.getById(uuid.toString());
+        return res;
     }
 
     /**
