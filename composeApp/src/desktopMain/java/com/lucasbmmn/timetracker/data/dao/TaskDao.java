@@ -2,14 +2,12 @@ package com.lucasbmmn.timetracker.data.dao;
 
 import com.lucasbmmn.timetracker.data.database.DatabaseManager;
 import com.lucasbmmn.timetracker.model.Task;
-import com.lucasbmmn.timetracker.model.TaskStatus;
 import org.intellij.lang.annotations.Language;
 import org.jetbrains.annotations.NotNull;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.Duration;
-import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
@@ -169,15 +167,17 @@ public class TaskDao implements Dao<Task> {
         TaskStatusDao taskStatusDao = new TaskStatusDao();
         TaskTypeDao taskTypeDao = new TaskTypeDao();
         try {
+            Duration duration = rs.getObject("estimated_time") == null ?
+                    null : Duration.ofSeconds(rs.getLong("estimated_time"));
             return new Task(
                     UUID.fromString(rs.getString("id")),
                     projectDao.getById(rs.getString("project_id")),
                     rs.getString("name"),
                     rs.getString("description"),
-                    Duration.ofSeconds(rs.getLong("estimated_time")),
+                    duration,
                     taskStatusDao.getById(rs.getString("task_status_id")),
                     taskTypeDao.getById(rs.getString("task_type_id")),
-                    new Date(rs.getLong("created_at"))
+                    rs.getDate("created_at")
             );
         } catch (SQLException e) {
             throw new RuntimeException(e);

@@ -2,14 +2,12 @@ package com.lucasbmmn.timetracker.data.dao;
 
 import com.lucasbmmn.timetracker.data.database.DatabaseManager;
 import com.lucasbmmn.timetracker.model.ProjectTimeEntry;
-import com.lucasbmmn.timetracker.model.TaskStatus;
 import org.intellij.lang.annotations.Language;
 import org.jetbrains.annotations.NotNull;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.Duration;
-import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
@@ -161,7 +159,7 @@ public class ProjectTimeEntryDao implements Dao<ProjectTimeEntry> {
                     UUID.fromString(rs.getString("id")),
                     projectDao.getById(rs.getString("project_id")),
                     Duration.ofSeconds(rs.getLong("duration")),
-                    new Date(rs.getLong("created_at")),
+                    rs.getDate("created_at"),
                     rs.getBoolean("is_billable")
             );
         } catch (SQLException e) {

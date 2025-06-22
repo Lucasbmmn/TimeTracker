@@ -2,14 +2,12 @@ package com.lucasbmmn.timetracker.data.dao;
 
 import com.lucasbmmn.timetracker.data.database.DatabaseManager;
 import com.lucasbmmn.timetracker.model.Project;
-import com.lucasbmmn.timetracker.model.TaskStatus;
 import org.intellij.lang.annotations.Language;
 import org.jetbrains.annotations.NotNull;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.Duration;
-import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
@@ -170,16 +168,18 @@ public class ProjectDao implements Dao<Project> {
     private Project mapRow(ResultSet rs) {
         try {
             ClientDao clientDao = new ClientDao();
+            Duration duration = rs.getObject("estimated_time") == null ?
+                    null : Duration.ofSeconds(rs.getLong("estimated_time"));
             return new Project(
                     UUID.fromString(rs.getString("id")),
                     clientDao.getById(rs.getString("client_id")),
                     rs.getString("name"),
                     rs.getString("description"),
-                    Duration.ofSeconds(rs.getLong("estimated_time")),
+                    duration,
                     rs.getLong("hourly_rate"),
                     rs.getLong("fixed_price"),
-                    new Date(rs.getLong("created_at")),
-                    new Date(rs.getLong("deadline"))
+                    rs.getDate("created_at"),
+                    rs.getDate("deadline")
             );
         } catch (SQLException e) {
             throw new RuntimeException(e);

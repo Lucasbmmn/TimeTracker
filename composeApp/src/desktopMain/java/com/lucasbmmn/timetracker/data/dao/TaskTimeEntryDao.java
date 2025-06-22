@@ -1,7 +1,6 @@
 package com.lucasbmmn.timetracker.data.dao;
 
 import com.lucasbmmn.timetracker.data.database.DatabaseManager;
-import com.lucasbmmn.timetracker.model.TaskStatus;
 import com.lucasbmmn.timetracker.model.TaskTimeEntry;
 import org.intellij.lang.annotations.Language;
 import org.jetbrains.annotations.NotNull;
@@ -9,7 +8,6 @@ import org.jetbrains.annotations.NotNull;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.Duration;
-import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
@@ -158,7 +156,7 @@ public class TaskTimeEntryDao implements Dao<TaskTimeEntry> {
                     UUID.fromString(rs.getString("id")),
                     taskDao.getById(rs.getString("task_id")),
                     Duration.ofSeconds(rs.getLong("duration")),
-                    new Date(rs.getLong("created_at"))
+                    rs.getDate("created_at")
             );
         } catch (SQLException e) {
             throw new RuntimeException(e);
