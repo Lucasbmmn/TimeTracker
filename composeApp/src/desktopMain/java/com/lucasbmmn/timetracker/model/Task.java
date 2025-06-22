@@ -194,7 +194,7 @@ public class Task {
      * date is null
      */
     public Task(@NotNull UUID uuid, @NotNull Project project, @NotNull String name,
-                @NotNull String description, @NotNull Duration estimatedTime, TaskStatus status,
+                @NotNull String description, Duration estimatedTime, TaskStatus status,
                 TaskType type, @NotNull Date createdAt) {
         Objects.requireNonNull(uuid, "uuid must not be null");
         this.uuid = uuid;
@@ -221,8 +221,7 @@ public class Task {
      * is null
      */
     public Task(@NotNull Project project, @NotNull String name, @NotNull String description,
-                @NotNull Duration estimatedTime, TaskStatus status, TaskType type,
-                @NotNull Date createdAt) {
+                Duration estimatedTime, TaskStatus status, TaskType type, @NotNull Date createdAt) {
         this(UUID.randomUUID(), project, name, description, estimatedTime, status, type, createdAt);
     }
 
