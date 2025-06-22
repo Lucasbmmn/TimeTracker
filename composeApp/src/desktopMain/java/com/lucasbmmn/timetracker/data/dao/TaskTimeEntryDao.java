@@ -168,7 +168,7 @@ public class TaskTimeEntryDao implements Dao<TaskTimeEntry> {
      *
      * @param taskTimeEntry TaskTimeEntry whose task we want to insert into the database, must not
      *                     be null
-     * @throws NullPointerException if the ProjectTimeEntry is null
+     * @throws NullPointerException if the TaskTimeEntry is null
      */
     private void insertTask(@NotNull TaskTimeEntry taskTimeEntry) {
         Objects.requireNonNull(taskTimeEntry, "taskTimeEntry must not be null");

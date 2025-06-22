@@ -186,10 +186,11 @@ public class ProjectDao implements Dao<Project> {
     }
 
     /**
-     * Inserts project's client into the database
+     * Inserts project's client into the database.
      *
-     * @param project Project whose client we want to insert into the database, must not be null
-     * @throws NullPointerException if the ProjectTimeEntry is null
+     * @param project Project whose client we want to insert into the database, must not be
+     * {@code null}
+     * @throws NullPointerException if the Project is {@code null}
      */
     private void insertClient(@NotNull Project project) {
         Objects.requireNonNull(project, "project must not be null");
