@@ -48,7 +48,7 @@ public class TaskTimeEntryDao implements Dao<TaskTimeEntry> {
      */
     @Override
     public TaskTimeEntry getById(@NotNull String uuid) {
-        Objects.requireNonNull(uuid, " must not be null");
+        Objects.requireNonNull(uuid, "uuid must not be null");
 
         @Language("SQL")
         String sql = "SELECT * FROM Task_Time_Entries WHERE id=?";
@@ -68,7 +68,7 @@ public class TaskTimeEntryDao implements Dao<TaskTimeEntry> {
      */
     @Override
     public TaskTimeEntry getById(@NotNull UUID uuid) {
-        Objects.requireNonNull(uuid, " must not be null");
+        Objects.requireNonNull(uuid, "uuid must not be null");
         return this.getById(uuid.toString());
     }
 
@@ -80,7 +80,7 @@ public class TaskTimeEntryDao implements Dao<TaskTimeEntry> {
      */
     @Override
     public void insert(@NotNull TaskTimeEntry entity) {
-        Objects.requireNonNull(entity, " must not be null");
+        Objects.requireNonNull(entity, "entity must not be null");
 
         this.insertTask(entity);
 
@@ -90,6 +90,7 @@ public class TaskTimeEntryDao implements Dao<TaskTimeEntry> {
         dbManager.executeUpdate(
                 sql,
                 entity.getUuid(),
+                entity.getTask().getUuid(),
                 entity.getDuration().getSeconds(),
                 entity.getCreatedAt().getTime()
         );
@@ -103,7 +104,7 @@ public class TaskTimeEntryDao implements Dao<TaskTimeEntry> {
      */
     @Override
     public void delete(@NotNull TaskTimeEntry entity) {
-        Objects.requireNonNull(entity, " must not be null");
+        Objects.requireNonNull(entity, "entity must not be null");
 
         @Language("SQL")
         String sql = "DELETE FROM Task_Time_Entries WHERE id=?";
@@ -118,7 +119,7 @@ public class TaskTimeEntryDao implements Dao<TaskTimeEntry> {
      */
     @Override
     public void update(@NotNull TaskTimeEntry entity) {
-        Objects.requireNonNull(entity, " must not be null");
+        Objects.requireNonNull(entity, "entity must not be null");
 
         this.insertTask(entity);
 

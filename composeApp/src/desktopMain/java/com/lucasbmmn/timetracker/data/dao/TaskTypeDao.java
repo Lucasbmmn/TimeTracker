@@ -46,7 +46,7 @@ public class TaskTypeDao implements Dao<TaskType> {
      */
     @Override
     public TaskType getById(@NotNull String uuid) {
-        Objects.requireNonNull(uuid, " must not be null");
+        Objects.requireNonNull(uuid, "uuid must not be null");
 
         @Language("SQL")
         String sql = "SELECT * FROM Task_Types WHERE id=?";
@@ -66,7 +66,7 @@ public class TaskTypeDao implements Dao<TaskType> {
      */
     @Override
     public TaskType getById(@NotNull UUID uuid) {
-        Objects.requireNonNull(uuid, " must not be null");
+        Objects.requireNonNull(uuid, "uuid must not be null");
         return this.getById(uuid.toString());
     }
 
@@ -78,7 +78,7 @@ public class TaskTypeDao implements Dao<TaskType> {
      */
     @Override
     public void insert(@NotNull TaskType entity) {
-        Objects.requireNonNull(entity, " must not be null");
+        Objects.requireNonNull(entity, "entity must not be null");
 
         @Language("SQL")
         String sql = "INSERT INTO Task_Types (id, label) " +
@@ -98,7 +98,7 @@ public class TaskTypeDao implements Dao<TaskType> {
      */
     @Override
     public void delete(@NotNull TaskType entity) {
-        Objects.requireNonNull(entity, " must not be null");
+        Objects.requireNonNull(entity, "entity must not be null");
 
         @Language("SQL")
         String sql = "DELETE FROM Task_Types WHERE id=?";
@@ -113,7 +113,7 @@ public class TaskTypeDao implements Dao<TaskType> {
      */
     @Override
     public void update(@NotNull TaskType entity) {
-        Objects.requireNonNull(entity, " must not be null");
+        Objects.requireNonNull(entity, "entity must not be null");
 
         @Language("SQL")
         String sql = """

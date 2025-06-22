@@ -80,7 +80,7 @@ public class ProjectTimeEntryDao implements Dao<ProjectTimeEntry> {
      */
     @Override
     public void insert(@NotNull ProjectTimeEntry entity) {
-        Objects.requireNonNull(entity, " must not be null");
+        Objects.requireNonNull(entity, "entity must not be null");
 
         this.insertProject(entity);
 
@@ -105,7 +105,7 @@ public class ProjectTimeEntryDao implements Dao<ProjectTimeEntry> {
      */
     @Override
     public void delete(@NotNull ProjectTimeEntry entity) {
-        Objects.requireNonNull(entity, " must not be null");
+        Objects.requireNonNull(entity, "entity must not be null");
 
         @Language("SQL")
         String sql = "DELETE FROM Project_Time_Entries WHERE id=?";
@@ -120,7 +120,7 @@ public class ProjectTimeEntryDao implements Dao<ProjectTimeEntry> {
      */
     @Override
     public void update(@NotNull ProjectTimeEntry entity) {
-        Objects.requireNonNull(entity, " must not be null");
+        Objects.requireNonNull(entity, "entity must not be null");
 
         this.insertProject(entity);
 

@@ -66,7 +66,7 @@ public class ClientDao implements Dao<Client> {
      */
     @Override
     public Client getById(@NotNull UUID uuid) {
-        Objects.requireNonNull(uuid, " must not be null");
+        Objects.requireNonNull(uuid, "uuid must not be null");
         return this.getById(uuid.toString());
     }
 
@@ -78,7 +78,7 @@ public class ClientDao implements Dao<Client> {
      */
     @Override
     public void insert(@NotNull Client entity) {
-        Objects.requireNonNull(entity, " must not be null");
+        Objects.requireNonNull(entity, "entity must not be null");
 
         @Language("SQL")
         String sql = "INSERT INTO Clients (id, company, name, email, phone_number, timezone) " +
@@ -102,7 +102,7 @@ public class ClientDao implements Dao<Client> {
      */
     @Override
     public void delete(@NotNull Client entity) {
-        Objects.requireNonNull(entity, " must not be null");
+        Objects.requireNonNull(entity, "entity must not be null");
 
         @Language("SQL")
         String sql = "DELETE FROM Clients WHERE id=?";
@@ -117,7 +117,7 @@ public class ClientDao implements Dao<Client> {
      */
     @Override
     public void update(@NotNull Client entity) {
-        Objects.requireNonNull(entity, " must not be null");
+        Objects.requireNonNull(entity, "entity must not be null");
 
         @Language("SQL")
         String sql = """

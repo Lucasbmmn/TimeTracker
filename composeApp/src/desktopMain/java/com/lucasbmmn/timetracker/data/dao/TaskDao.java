@@ -48,7 +48,7 @@ public class TaskDao implements Dao<Task> {
      */
     @Override
     public Task getById(@NotNull String uuid) {
-        Objects.requireNonNull(uuid, " must not be null");
+        Objects.requireNonNull(uuid, "uuid must not be null");
 
         @Language("SQL")
         String sql = "SELECT * FROM Tasks WHERE id=?";
@@ -68,7 +68,7 @@ public class TaskDao implements Dao<Task> {
      */
     @Override
     public Task getById(@NotNull UUID uuid) {
-        Objects.requireNonNull(uuid, " must not be null");
+        Objects.requireNonNull(uuid, "uuid must not be null");
         return this.getById(uuid.toString());
     }
 
@@ -80,7 +80,7 @@ public class TaskDao implements Dao<Task> {
      */
     @Override
     public void insert(@NotNull Task entity) {
-        Objects.requireNonNull(entity, " must not be null");
+        Objects.requireNonNull(entity, "entity must not be null");
 
         this.insertRelatedEntities(entity);
 
@@ -109,7 +109,7 @@ public class TaskDao implements Dao<Task> {
      */
     @Override
     public void delete(@NotNull Task entity) {
-        Objects.requireNonNull(entity, " must not be null");
+        Objects.requireNonNull(entity, "entity must not be null");
 
         @Language("SQL")
         String sql = "DELETE FROM Tasks WHERE id=?";
@@ -124,7 +124,7 @@ public class TaskDao implements Dao<Task> {
      */
     @Override
     public void update(@NotNull Task entity) {
-        Objects.requireNonNull(entity, " must not be null");
+        Objects.requireNonNull(entity, "entity must not be null");
 
         this.insertRelatedEntities(entity);
 
