@@ -85,7 +85,7 @@ public class ProjectTimeEntryDao implements Dao<ProjectTimeEntry> {
         this.insertProject(entity);
 
         @Language("SQL")
-        String sql = "INSERT INTO Project_Time_Entries (id, project_id, duration, created_at, isBillable) " +
+        String sql = "INSERT INTO Project_Time_Entries (id, project_id, duration, created_at, is_billable) " +
                 "VALUES (?, ?, ?, ?, ?)";
         dbManager.executeUpdate(
                 sql,
@@ -130,7 +130,7 @@ public class ProjectTimeEntryDao implements Dao<ProjectTimeEntry> {
             SET project_id = ?,
                 duration = ?,
                 created_at = ?,
-                isBillable = ?
+                is_billable = ?
             WHERE id = ?
             """;
         dbManager.executeUpdate(

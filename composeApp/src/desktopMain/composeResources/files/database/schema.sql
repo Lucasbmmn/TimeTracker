@@ -49,7 +49,7 @@ CREATE TABLE Project_Time_Entries (
     project_id TEXT NOT NULL,
     duration INTEGER NOT NULL,
     created_at INTEGER NOT NULL,
-    isBillable INTEGER NOT NULL,
+    is_billable INTEGER NOT NULL,
     FOREIGN KEY (project_id) REFERENCES Projects(id)
 );
 
