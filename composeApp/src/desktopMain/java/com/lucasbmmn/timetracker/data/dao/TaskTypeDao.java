@@ -32,7 +32,9 @@ public class TaskTypeDao implements Dao<TaskType> {
      */
     @Override
     public @NotNull List<TaskType> getAll() {
-        return List.of();
+        @Language("SQL")
+        String sql = "SELECT * FROM Task_Types";
+        return dbManager.executeQuery(sql, this::mapRow);
     }
 
     /**
