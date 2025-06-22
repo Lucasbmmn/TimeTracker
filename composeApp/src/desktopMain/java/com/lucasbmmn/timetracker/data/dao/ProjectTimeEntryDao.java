@@ -49,7 +49,7 @@ public class ProjectTimeEntryDao implements Dao<ProjectTimeEntry> {
     public void insert(@NotNull ProjectTimeEntry entity) {
         if (entity == null) throw new IllegalArgumentException("Can't insert null ProjectTimeEntry into the database");
 
-        // TODO: 14/06/2025 Insert project into the db if it's not already
+        this.insertProject(entity);
 
         @Language("SQL")
         String sql = "INSERT INTO Project_Time_Entries (id, project_id, duration, created_at, isBillable) " +
@@ -77,7 +77,7 @@ public class ProjectTimeEntryDao implements Dao<ProjectTimeEntry> {
     public void update(@NotNull ProjectTimeEntry entity) {
         if (entity == null) throw new IllegalArgumentException("Can't update null ProjectTimeEntry");
 
-        // TODO: 14/06/2025 Insert project into the db if it's not already
+        this.insertProject(entity);
 
         @Language("SQL")
         String sql = """
@@ -120,6 +120,22 @@ public class ProjectTimeEntryDao implements Dao<ProjectTimeEntry> {
             );
         } catch (SQLException e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    /**
+     * Inserts ProjectTimeEntry's project into the database
+     *
+     * @param projectTimeEntry ProjectTimeEntry whose project we want to insert into the database,
+     *                         must not be null
+     */
+    private void insertProject(@NotNull ProjectTimeEntry projectTimeEntry) {
+        if (projectTimeEntry == null) throw new IllegalArgumentException("Can't insert null projectTimeEntry's project into the database");
+
+        ProjectDao projectDao = new ProjectDao();
+        // ProjectDao.getById returns null if the project is not in the database
+        if (projectDao.getById(projectTimeEntry.getProject().getUuid()) == null) {
+            projectDao.insert(projectTimeEntry.getProject());
         }
     }
 }

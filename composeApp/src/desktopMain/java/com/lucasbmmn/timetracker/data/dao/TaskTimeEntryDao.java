@@ -1,6 +1,7 @@
 package com.lucasbmmn.timetracker.data.dao;
 
 import com.lucasbmmn.timetracker.data.database.DatabaseManager;
+import com.lucasbmmn.timetracker.model.ProjectTimeEntry;
 import com.lucasbmmn.timetracker.model.TaskTimeEntry;
 import org.intellij.lang.annotations.Language;
 import org.jetbrains.annotations.NotNull;
@@ -48,7 +49,7 @@ public class TaskTimeEntryDao implements Dao<TaskTimeEntry> {
     public void insert(@NotNull TaskTimeEntry entity) {
         if (entity == null) throw new IllegalArgumentException("Can't insert null TaskTimeEntry into the database");
 
-        // TODO: 14/06/2025 Insert task into the db if it's not already
+        this.insertTask(entity);
 
         @Language("SQL")
         String sql = "INSERT INTO Task_Time_Entries (id, task_id, duration, created_at) " +
@@ -74,7 +75,7 @@ public class TaskTimeEntryDao implements Dao<TaskTimeEntry> {
     public void update(@NotNull TaskTimeEntry entity) {
         if (entity == null) throw new IllegalArgumentException("Can't update null TaskTimeEntry");
 
-        // TODO: 14/06/2025 Insert task into the db if it's not already
+        this.insertTask(entity);
 
         @Language("SQL")
         String sql = """
@@ -114,6 +115,22 @@ public class TaskTimeEntryDao implements Dao<TaskTimeEntry> {
             );
         } catch (SQLException e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    /**
+     * Inserts TaskTimeEntry's task into the database
+     *
+     * @param taskTimeEntry TaskTimeEntry whose task we want to insert into the database, must not
+     *                     be null
+     */
+    private void insertTask(@NotNull TaskTimeEntry taskTimeEntry) {
+        if (taskTimeEntry == null) throw new IllegalArgumentException("Can't insert null taskTimeEntry's task into the database");
+
+        TaskDao taskDao = new TaskDao();
+        // TaskDao.getById returns null if the task is not in the database
+        if (taskDao.getById(taskTimeEntry.getTask().getUuid()) == null) {
+            taskDao.insert(taskTimeEntry.getTask());
         }
     }
 }

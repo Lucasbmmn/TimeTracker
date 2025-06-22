@@ -47,7 +47,7 @@ public class ProjectDao implements Dao<Project> {
     public void insert(@NotNull Project entity) {
         if (entity == null) throw new IllegalArgumentException("Can't insert null project into the database");
 
-        // TODO: 12/06/2025 Insert project's client to the db if it's not already
+        this.insertClient(entity);
 
         @Language("SQL")
         String sql = "INSERT INTO Projects (id, client_id, name, description, estimated_time, " +
@@ -80,7 +80,7 @@ public class ProjectDao implements Dao<Project> {
     public void update(@NotNull Project entity) {
         if (entity == null) throw new IllegalArgumentException("Can't update null project");
 
-        // TODO: 13/06/2025 Insert project's client into the db if it's not already
+        this.insertClient(entity);
 
         @Language("SQL")
         String sql = """
@@ -135,6 +135,23 @@ public class ProjectDao implements Dao<Project> {
             );
         } catch (SQLException e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    /**
+     * Inserts project's client into the database
+     *
+     * @param project Project whose client we want to insert into the database, must not be null
+     */
+    private void insertClient(@NotNull Project project) {
+        if (project == null) throw new IllegalArgumentException("Can't insert null project's client into the database");
+
+        if (project.getClient() != null) {
+            ClientDao clientDao = new ClientDao();
+            // ClientDao.getById returns null if the client is not in the database
+            if (clientDao.getById(project.getClient().getUuid()) == null) {
+                clientDao.insert(project.getClient());
+            }
         }
     }
 }
