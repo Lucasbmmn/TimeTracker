@@ -50,8 +50,9 @@ public class TaskDao implements Dao<Task> {
     public Task getById(@NotNull String uuid) {
         Objects.requireNonNull(uuid, " must not be null");
 
-        String sql = "SELECT * FROM Tasks WHERE id='" + uuid + "'";
-        List<Task> tasks = dbManager.executeQuery(sql, this::mapRow);
+        @Language("SQL")
+        String sql = "SELECT * FROM Tasks WHERE id=?";
+        List<Task> tasks = dbManager.executeQuery(sql, this::mapRow, uuid);
 
         Task res = null;
         if (!tasks.isEmpty()) res = tasks.getFirst();

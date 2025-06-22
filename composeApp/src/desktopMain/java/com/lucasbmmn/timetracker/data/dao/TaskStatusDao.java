@@ -48,8 +48,9 @@ public class TaskStatusDao implements Dao<TaskStatus> {
     public TaskStatus getById(@NotNull String uuid) {
         Objects.requireNonNull(uuid, " must not be null");
 
-        String sql = "SELECT * FROM Task_Statuses WHERE id='" + uuid + "'";
-        List<TaskStatus> taskStatuses = dbManager.executeQuery(sql, this::mapRow);
+        @Language("SQL")
+        String sql = "SELECT * FROM Task_Statuses WHERE id=?";
+        List<TaskStatus> taskStatuses = dbManager.executeQuery(sql, this::mapRow, uuid);
 
         TaskStatus res = null;
         if (!taskStatuses.isEmpty()) res = taskStatuses.getFirst();

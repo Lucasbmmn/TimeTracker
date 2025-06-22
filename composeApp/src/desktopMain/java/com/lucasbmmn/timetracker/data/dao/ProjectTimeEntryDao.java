@@ -50,8 +50,9 @@ public class ProjectTimeEntryDao implements Dao<ProjectTimeEntry> {
     public ProjectTimeEntry getById(@NotNull String uuid) {
         Objects.requireNonNull(uuid, "uuid must not be null");
 
-        String sql = "SELECT * FROM Project_Time_Entries WHERE id='" + uuid + "'";
-        List<ProjectTimeEntry> projectTimeEntries = dbManager.executeQuery(sql, this::mapRow);
+        @Language("SQL")
+        String sql = "SELECT * FROM Project_Time_Entries WHERE id=?";
+        List<ProjectTimeEntry> projectTimeEntries = dbManager.executeQuery(sql, this::mapRow, uuid);
 
         ProjectTimeEntry res = null;
         if (!projectTimeEntries.isEmpty()) res = projectTimeEntries.getFirst();

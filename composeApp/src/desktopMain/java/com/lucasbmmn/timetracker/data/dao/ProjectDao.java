@@ -34,6 +34,7 @@ public class ProjectDao implements Dao<Project> {
      */
     @Override
     public @NotNull List<Project> getAll() {
+        @Language("SQL")
         String sql = "SELECT * FROM Projects";
         return dbManager.executeQuery(sql, this::mapRow);
     }
@@ -49,8 +50,9 @@ public class ProjectDao implements Dao<Project> {
     public Project getById(@NotNull String uuid) {
         Objects.requireNonNull(uuid, "uuid must not be null");
 
-        String sql = "SELECT * FROM Projects WHERE id='" + uuid + "'";
-        List<Project> projects = dbManager.executeQuery(sql, this::mapRow);
+        @Language("SQL")
+        String sql = "SELECT * FROM Projects WHERE id=?";
+        List<Project> projects = dbManager.executeQuery(sql, this::mapRow, uuid);
 
         Project res = null;
         if (!projects.isEmpty()) res = projects.getFirst();

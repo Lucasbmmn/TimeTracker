@@ -48,8 +48,9 @@ public class ClientDao implements Dao<Client> {
     public Client getById(@NotNull String uuid) {
         Objects.requireNonNull(uuid, "uuid must not be null");
 
-        String sql = "SELECT * FROM Clients WHERE id='" + uuid + "'";
-        List<Client> clients = dbManager.executeQuery(sql, this::mapRow);
+        @Language("SQL")
+        String sql = "SELECT * FROM Clients WHERE id=?";
+        List<Client> clients = dbManager.executeQuery(sql, this::mapRow, uuid);
 
         Client res = null;
         if (!clients.isEmpty()) res = clients.getFirst();

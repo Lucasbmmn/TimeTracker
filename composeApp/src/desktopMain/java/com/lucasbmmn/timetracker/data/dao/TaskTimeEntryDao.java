@@ -50,8 +50,9 @@ public class TaskTimeEntryDao implements Dao<TaskTimeEntry> {
     public TaskTimeEntry getById(@NotNull String uuid) {
         Objects.requireNonNull(uuid, " must not be null");
 
-        String sql = "SELECT * FROM Task_Time_Entries WHERE id='" + uuid + "'";
-        List<TaskTimeEntry> taskTimeEntries = dbManager.executeQuery(sql, this::mapRow);
+        @Language("SQL")
+        String sql = "SELECT * FROM Task_Time_Entries WHERE id=?";
+        List<TaskTimeEntry> taskTimeEntries = dbManager.executeQuery(sql, this::mapRow, uuid);
 
         TaskTimeEntry res = null;
         if (!taskTimeEntries.isEmpty()) res = taskTimeEntries.getFirst();
