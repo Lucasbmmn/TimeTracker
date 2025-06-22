@@ -8,6 +8,7 @@ import org.jetbrains.annotations.NotNull;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 /**
@@ -41,9 +42,12 @@ public class ClientDao implements Dao<Client> {
      *
      * @param uuid the unique identifier of the {@code Client}; must not be {@code null}
      * @return the {@code Client} matching the given UUID, or {@code null} if none found
+     * @throws NullPointerException if {@code uuid} is {@code null}
      */
     @Override
     public Client getById(@NotNull String uuid) {
+        Objects.requireNonNull(uuid, "uuid must not be null");
+
         String sql = "SELECT * FROM Clients WHERE id='" + uuid + "'";
         List<Client> clients = dbManager.executeQuery(sql, this::mapRow);
 
@@ -57,9 +61,11 @@ public class ClientDao implements Dao<Client> {
      *
      * @param uuid the unique identifier of the {@code Client}; must not be {@code null}
      * @return the {@code Client} matching the given UUID, or {@code null} if none found
+     * @throws NullPointerException if {@code uuid} is {@code null}
      */
     @Override
     public Client getById(@NotNull UUID uuid) {
+        Objects.requireNonNull(uuid, " must not be null");
         return this.getById(uuid.toString());
     }
 
@@ -67,11 +73,11 @@ public class ClientDao implements Dao<Client> {
      * Inserts a new {@code Client} into the data source.
      *
      * @param entity the {@code Client} to insert; must not be {@code null}
-     * @throws IllegalArgumentException if {@code entity} is {@code null}
+     * @throws NullPointerException if {@code entity} is {@code null}
      */
     @Override
     public void insert(@NotNull Client entity) {
-        if (entity == null) throw new IllegalArgumentException("Can't insert null client into the database");
+        Objects.requireNonNull(entity, " must not be null");
 
         @Language("SQL")
         String sql = "INSERT INTO Clients (id, company, name, email, phone_number, timezone) " +
@@ -91,11 +97,11 @@ public class ClientDao implements Dao<Client> {
      * Deletes an existing {@code Client} from the data source.
      *
      * @param entity the {@code Client} to delete; must not be {@code null}
-     * @throws IllegalArgumentException if {@code entity} is {@code null}
+     * @throws NullPointerException if {@code entity} is {@code null}
      */
     @Override
     public void delete(@NotNull Client entity) {
-        if (entity == null) throw new IllegalArgumentException("Can't delete null client from the database");
+        Objects.requireNonNull(entity, " must not be null");
 
         @Language("SQL")
         String sql = "DELETE FROM Clients WHERE id=?";
@@ -106,11 +112,11 @@ public class ClientDao implements Dao<Client> {
      * Updates an existing {@code Client} in the data source.
      *
      * @param entity the {@code Client} to update; must not be {@code null}
-     * @throws IllegalArgumentException if {@code entity} is {@code null}
+     * @throws NullPointerException if {@code entity} is {@code null}
      */
     @Override
     public void update(@NotNull Client entity) {
-        if (entity == null) throw new IllegalArgumentException("Can't update null client");
+        Objects.requireNonNull(entity, " must not be null");
 
         @Language("SQL")
         String sql = """

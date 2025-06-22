@@ -10,6 +10,7 @@ import java.sql.SQLException;
 import java.time.Duration;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 /**
@@ -43,9 +44,12 @@ public class TaskDao implements Dao<Task> {
      *
      * @param uuid the unique identifier of the {@code Task}; must not be {@code null}
      * @return the {@code Task} matching the given UUID, or {@code null} if none found
+        Objects.requireNonNull(uuid, "uuid must not be null");
      */
     @Override
     public Task getById(@NotNull String uuid) {
+        Objects.requireNonNull(uuid, " must not be null");
+
         String sql = "SELECT * FROM Tasks WHERE id='" + uuid + "'";
         List<Task> tasks = dbManager.executeQuery(sql, this::mapRow);
 
@@ -59,9 +63,11 @@ public class TaskDao implements Dao<Task> {
      *
      * @param uuid the unique identifier of the {@code Task}; must not be {@code null}
      * @return the {@code Task} matching the given UUID, or {@code null} if none found
+        Objects.requireNonNull(uuid, "uuid must not be null");
      */
     @Override
     public Task getById(@NotNull UUID uuid) {
+        Objects.requireNonNull(uuid, " must not be null");
         return this.getById(uuid.toString());
     }
 
@@ -69,11 +75,11 @@ public class TaskDao implements Dao<Task> {
      * Inserts a new {@code Task} into the data source.
      *
      * @param entity the {@code Task} to insert; must not be {@code null}
-     * @throws IllegalArgumentException if {@code entity} is {@code null}
+     * @throws NullPointerException if {@code entity} is {@code null}
      */
     @Override
     public void insert(@NotNull Task entity) {
-        if (entity == null) throw new IllegalArgumentException("Can't insert task project into the database");
+        Objects.requireNonNull(entity, " must not be null");
 
         @Language("SQL")
         String sql = "INSERT INTO Tasks (id, project_id, task_status_id, task_type_id, name, " +
@@ -96,11 +102,11 @@ public class TaskDao implements Dao<Task> {
      * Deletes an existing entity from the data source.
      *
      * @param entity the entity to delete; must not be {@code null}
-     * @throws IllegalArgumentException if {@code entity} is {@code null}
+     * @throws NullPointerException if {@code entity} is {@code null}
      */
     @Override
     public void delete(@NotNull Task entity) {
-        if (entity == null) throw new IllegalArgumentException("Can't delete task project from the database");
+        Objects.requireNonNull(entity, " must not be null");
 
         @Language("SQL")
         String sql = "DELETE FROM Tasks WHERE id=?";
@@ -111,11 +117,11 @@ public class TaskDao implements Dao<Task> {
      * Updates an existing entity in the data source.
      *
      * @param entity the entity to update; must not be {@code null}
-     * @throws IllegalArgumentException if {@code entity} is {@code null}
+     * @throws NullPointerException if {@code entity} is {@code null}
      */
     @Override
     public void update(@NotNull Task entity) {
-        if (entity == null) throw new IllegalArgumentException("Can't update task project");
+        Objects.requireNonNull(entity, " must not be null");
 
         @Language("SQL")
         String sql = """

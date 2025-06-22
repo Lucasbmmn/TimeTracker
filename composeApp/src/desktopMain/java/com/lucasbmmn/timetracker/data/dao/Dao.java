@@ -25,7 +25,7 @@ public interface Dao<T> {
      *
      * @param uuid the unique identifier of the entity; must not be {@code null}
      * @return the entity matching the given UUID, or {@code null} if none found
-     * @throws IllegalArgumentException if {@code uuid} is {@code null}
+     * @throws NullPointerException if {@code uuid} is {@code null}
      */
     T getById(@NotNull String uuid);
 
@@ -34,7 +34,7 @@ public interface Dao<T> {
      *
      * @param uuid the unique identifier of the entity; must not be {@code null}
      * @return the entity matching the given UUID, or {@code null} if none found
-     * @throws IllegalArgumentException if {@code uuid} is {@code null}
+     * @throws NullPointerException if {@code uuid} is {@code null}
      */
     T getById(@NotNull UUID uuid);
 
@@ -42,7 +42,7 @@ public interface Dao<T> {
      * Inserts a new entity into the data source.
      *
      * @param entity the entity to insert; must not be {@code null}
-     * @throws IllegalArgumentException if {@code entity} is {@code null}
+     * @throws NullPointerException if {@code entity} is {@code null}
      */
     void insert(@NotNull T entity);
 
@@ -50,7 +50,7 @@ public interface Dao<T> {
      * Deletes an existing entity from the data source.
      *
      * @param entity the entity to delete; must not be {@code null}
-     * @throws IllegalArgumentException if {@code entity} is {@code null}
+     * @throws NullPointerException if {@code entity} is {@code null}
      */
     void delete(@NotNull T entity);
 
@@ -59,7 +59,7 @@ public interface Dao<T> {
      * Updates an existing entity in the data source.
      *
      * @param entity the entity to update; must not be {@code null}
-     * @throws IllegalArgumentException if {@code entity} is {@code null}
+     * @throws NullPointerException if {@code entity} is {@code null}
      */
     void update(@NotNull T entity);
 }

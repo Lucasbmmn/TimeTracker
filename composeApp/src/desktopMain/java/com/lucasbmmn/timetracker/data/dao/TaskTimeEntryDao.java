@@ -10,6 +10,7 @@ import java.sql.SQLException;
 import java.time.Duration;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 /**
@@ -43,9 +44,12 @@ public class TaskTimeEntryDao implements Dao<TaskTimeEntry> {
      *
      * @param uuid the unique identifier of the {@code TaskTimeEntry}; must not be {@code null}
      * @return the {@code TaskTimeEntry} matching the given UUID, or {@code null} if none found
+        Objects.requireNonNull(uuid, "uuid must not be null");
      */
     @Override
     public TaskTimeEntry getById(@NotNull String uuid) {
+        Objects.requireNonNull(uuid, " must not be null");
+
         String sql = "SELECT * FROM Task_Time_Entries WHERE id='" + uuid + "'";
         List<TaskTimeEntry> taskTimeEntries = dbManager.executeQuery(sql, this::mapRow);
 
@@ -59,9 +63,11 @@ public class TaskTimeEntryDao implements Dao<TaskTimeEntry> {
      *
      * @param uuid the unique identifier of the {@code TaskTimeEntry}; must not be {@code null}
      * @return the {@code TaskTimeEntry} matching the given UUID, or {@code null} if none found
+        Objects.requireNonNull(uuid, "uuid must not be null");
      */
     @Override
     public TaskTimeEntry getById(@NotNull UUID uuid) {
+        Objects.requireNonNull(uuid, " must not be null");
         return this.getById(uuid.toString());
     }
 
@@ -69,11 +75,11 @@ public class TaskTimeEntryDao implements Dao<TaskTimeEntry> {
      * Inserts a new {@code TaskTimeEntry} into the data source.
      *
      * @param entity the {@code TaskTimeEntry} to insert; must not be {@code null}
-     * @throws IllegalArgumentException if {@code entity} is {@code null}
+     * @throws NullPointerException if {@code entity} is {@code null}
      */
     @Override
     public void insert(@NotNull TaskTimeEntry entity) {
-        if (entity == null) throw new IllegalArgumentException("Can't insert null TaskTimeEntry into the database");
+        Objects.requireNonNull(entity, " must not be null");
 
         this.insertTask(entity);
 
@@ -89,14 +95,14 @@ public class TaskTimeEntryDao implements Dao<TaskTimeEntry> {
     }
 
     /**
-     * Deletes an existing {@code TastTimeEntry} from the data source.
+     * Deletes an existing {@code TaskTimeEntry} from the data source.
      *
-     * @param entity the {@code TastTimeEntry} to delete; must not be {@code null}
-     * @throws IllegalArgumentException if {@code entity} is {@code null}
+     * @param entity the {@code TaskTimeEntry} to delete; must not be {@code null}
+     * @throws NullPointerException if {@code entity} is {@code null}
      */
     @Override
     public void delete(@NotNull TaskTimeEntry entity) {
-        if (entity == null) throw new IllegalArgumentException("Can't delete null TaskTimeEntry from the database");
+        Objects.requireNonNull(entity, " must not be null");
 
         @Language("SQL")
         String sql = "DELETE FROM Task_Time_Entries WHERE id=?";
@@ -104,14 +110,14 @@ public class TaskTimeEntryDao implements Dao<TaskTimeEntry> {
     }
 
     /**
-     * Updates an existing {@code TastTimeEntry} in the data source.
+     * Updates an existing {@code TaskTimeEntry} in the data source.
      *
-     * @param entity the {@code TastTimeEntry} to update; must not be {@code null}
-     * @throws IllegalArgumentException if {@code entity} is {@code null}
+     * @param entity the {@code TaskTimeEntry} to update; must not be {@code null}
+     * @throws NullPointerException if {@code entity} is {@code null}
      */
     @Override
     public void update(@NotNull TaskTimeEntry entity) {
-        if (entity == null) throw new IllegalArgumentException("Can't update null TaskTimeEntry");
+        Objects.requireNonNull(entity, " must not be null");
 
         this.insertTask(entity);
 

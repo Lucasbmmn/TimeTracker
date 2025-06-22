@@ -10,6 +10,7 @@ import java.sql.SQLException;
 import java.time.Duration;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 /**
@@ -43,9 +44,12 @@ public class ProjectTimeEntryDao implements Dao<ProjectTimeEntry> {
      *
      * @param uuid the unique identifier of the {@code ProjectTimeEntry}; must not be {@code null}
      * @return the {@code ProjectTimeEntry} matching the given UUID, or {@code null} if none found
+     * @throws NullPointerException if {@code uuid} is {@code null}
      */
     @Override
     public ProjectTimeEntry getById(@NotNull String uuid) {
+        Objects.requireNonNull(uuid, "uuid must not be null");
+
         String sql = "SELECT * FROM Project_Time_Entries WHERE id='" + uuid + "'";
         List<ProjectTimeEntry> projectTimeEntries = dbManager.executeQuery(sql, this::mapRow);
 
@@ -59,9 +63,11 @@ public class ProjectTimeEntryDao implements Dao<ProjectTimeEntry> {
      *
      * @param uuid the unique identifier of the {@code ProjectTimeEntry}; must not be {@code null}
      * @return the {@code ProjectTimeEntry} matching the given UUID, or {@code null} if none found
+     * @throws NullPointerException if {@code uuid} is {@code null}
      */
     @Override
     public ProjectTimeEntry getById(@NotNull UUID uuid) {
+        Objects.requireNonNull(uuid, "uuid must not be null");
         return this.getById(uuid.toString());
     }
 
@@ -69,11 +75,11 @@ public class ProjectTimeEntryDao implements Dao<ProjectTimeEntry> {
      * Inserts a new {@code ProjectTimeEntry} into the data source.
      *
      * @param entity the {@code ProjectTimeEntry} to insert; must not be {@code null}
-     * @throws IllegalArgumentException if {@code entity} is {@code null}
+     * @throws NullPointerException if {@code entity} is {@code null}
      */
     @Override
     public void insert(@NotNull ProjectTimeEntry entity) {
-        if (entity == null) throw new IllegalArgumentException("Can't insert null ProjectTimeEntry into the database");
+        Objects.requireNonNull(entity, " must not be null");
 
         this.insertProject(entity);
 
@@ -94,11 +100,11 @@ public class ProjectTimeEntryDao implements Dao<ProjectTimeEntry> {
      * Deletes an existing {@code ProjectTimeEntry} from the data source.
      *
      * @param entity the {@code ProjectTimeEntry} to delete; must not be {@code null}
-     * @throws IllegalArgumentException if {@code entity} is {@code null}
+     * @throws NullPointerException if {@code entity} is {@code null}
      */
     @Override
     public void delete(@NotNull ProjectTimeEntry entity) {
-        if (entity == null) throw new IllegalArgumentException("Can't delete null ProjectTimeEntry from the database");
+        Objects.requireNonNull(entity, " must not be null");
 
         @Language("SQL")
         String sql = "DELETE FROM Project_Time_Entries WHERE id=?";
@@ -109,11 +115,11 @@ public class ProjectTimeEntryDao implements Dao<ProjectTimeEntry> {
      * Updates an existing {@code ProjectTimeEntry} in the data source.
      *
      * @param entity the {@code ProjectTimeEntry} to update; must not be {@code null}
-     * @throws IllegalArgumentException if {@code entity} is {@code null}
+     * @throws NullPointerException if {@code entity} is {@code null}
      */
     @Override
     public void update(@NotNull ProjectTimeEntry entity) {
-        if (entity == null) throw new IllegalArgumentException("Can't update null ProjectTimeEntry");
+        Objects.requireNonNull(entity, " must not be null");
 
         this.insertProject(entity);
 

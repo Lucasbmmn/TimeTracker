@@ -8,6 +8,7 @@ import org.jetbrains.annotations.NotNull;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 /**
@@ -39,9 +40,12 @@ public class TaskTypeDao implements Dao<TaskType> {
      *
      * @param uuid the unique identifier of the {@code TaskType}; must not be {@code null}
      * @return the {@code TaskType} matching the given UUID, or {@code null} if none found
+        Objects.requireNonNull(uuid, "uuid must not be null");
      */
     @Override
     public TaskType getById(@NotNull String uuid) {
+        Objects.requireNonNull(uuid, " must not be null");
+
         String sql = "SELECT * FROM Task_Types WHERE id='" + uuid + "'";
         List<TaskType> taskTypes = this.dbManager.executeQuery(sql, this::mapRow);
 
@@ -55,9 +59,11 @@ public class TaskTypeDao implements Dao<TaskType> {
      *
      * @param uuid the unique identifier of the {@code TaskType}; must not be {@code null}
      * @return the {@code TaskType} matching the given UUID, or {@code null} if none found
+        Objects.requireNonNull(uuid, "uuid must not be null");
      */
     @Override
     public TaskType getById(@NotNull UUID uuid) {
+        Objects.requireNonNull(uuid, " must not be null");
         return this.getById(uuid.toString());
     }
 
@@ -65,11 +71,11 @@ public class TaskTypeDao implements Dao<TaskType> {
      * Inserts a new TaskType into the data source.
      *
      * @param entity the TaskType to insert; must not be {@code null}
-     * @throws IllegalArgumentException if {@code entity} is {@code null}
+     * @throws NullPointerException if {@code entity} is {@code null}
      */
     @Override
     public void insert(@NotNull TaskType entity) {
-        if (entity == null) throw new IllegalArgumentException("Can't insert null TaskType into the database");
+        Objects.requireNonNull(entity, " must not be null");
 
         @Language("SQL")
         String sql = "INSERT INTO Task_Types (id, label) " +
@@ -85,11 +91,11 @@ public class TaskTypeDao implements Dao<TaskType> {
      * Deletes an existing {@code TaskType} from the data source.
      *
      * @param entity the {@code TaskType} to delete; must not be {@code null}
-     * @throws IllegalArgumentException if {@code entity} is {@code null}
+     * @throws NullPointerException if {@code entity} is {@code null}
      */
     @Override
     public void delete(@NotNull TaskType entity) {
-        if (entity == null) throw new IllegalArgumentException("Can't delete null TaskType from the database");
+        Objects.requireNonNull(entity, " must not be null");
 
         @Language("SQL")
         String sql = "DELETE FROM Task_Types WHERE id=?";
@@ -100,11 +106,11 @@ public class TaskTypeDao implements Dao<TaskType> {
      * Updates an existing {@code TaskType} in the data source.
      *
      * @param entity the {@code TaskType} to update; must not be {@code null}
-     * @throws IllegalArgumentException if {@code entity} is {@code null}
+     * @throws NullPointerException if {@code entity} is {@code null}
      */
     @Override
     public void update(@NotNull TaskType entity) {
-        if (entity == null) throw new IllegalArgumentException("Can't update null TaskType");
+        Objects.requireNonNull(entity, " must not be null");
 
         @Language("SQL")
         String sql = """

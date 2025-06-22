@@ -8,6 +8,7 @@ import org.jetbrains.annotations.NotNull;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 /**
@@ -41,9 +42,12 @@ public class TaskStatusDao implements Dao<TaskStatus> {
      *
      * @param uuid the unique identifier of the {@code TaskStatus}; must not be {@code null}
      * @return the {@code TaskStatus} matching the given UUID, or {@code null} if none found
+        Objects.requireNonNull(uuid, "uuid must not be null");
      */
     @Override
     public TaskStatus getById(@NotNull String uuid) {
+        Objects.requireNonNull(uuid, " must not be null");
+
         String sql = "SELECT * FROM Task_Statuses WHERE id='" + uuid + "'";
         List<TaskStatus> taskStatuses = dbManager.executeQuery(sql, this::mapRow);
 
@@ -57,9 +61,11 @@ public class TaskStatusDao implements Dao<TaskStatus> {
      *
      * @param uuid the unique identifier of the {@code TaskStatus}; must not be {@code null}
      * @return the {@code TaskStatus} matching the given UUID, or {@code null} if none found
+        Objects.requireNonNull(uuid, "uuid must not be null");
      */
     @Override
     public TaskStatus getById(@NotNull UUID uuid) {
+        Objects.requireNonNull(uuid, " must not be null");
         return this.getById(uuid.toString());
     }
 
@@ -67,11 +73,11 @@ public class TaskStatusDao implements Dao<TaskStatus> {
      * Inserts a new {@code TaskStatus} into the data source.
      *
      * @param entity the {@code TaskStatus} to insert; must not be {@code null}
-     * @throws IllegalArgumentException if {@code entity} is {@code null}
+     * @throws NullPointerException if {@code entity} is {@code null}
      */
     @Override
     public void insert(@NotNull TaskStatus entity) {
-        if (entity == null) throw new IllegalArgumentException("Can't insert null TaskStatus into the database");
+        Objects.requireNonNull(entity, " must not be null");
 
         @Language("SQL")
         String sql = "INSERT INTO Task_Statuses (id, label) " +
@@ -87,11 +93,11 @@ public class TaskStatusDao implements Dao<TaskStatus> {
      * Deletes an existing {@code TaskStatus} from the data source.
      *
      * @param entity the {@code TaskStatus} to delete; must not be {@code null}
-     * @throws IllegalArgumentException if {@code entity} is {@code null}
+     * @throws NullPointerException if {@code entity} is {@code null}
      */
     @Override
     public void delete(@NotNull TaskStatus entity) {
-        if (entity == null) throw new IllegalArgumentException("Can't delete null TaskStatus from the database");
+        Objects.requireNonNull(entity, " must not be null");
 
         @Language("SQL")
         String sql = "DELETE FROM Task_Statuses WHERE id=?";
@@ -102,11 +108,11 @@ public class TaskStatusDao implements Dao<TaskStatus> {
      * Updates an existing {@code TaskStatus} in the data source.
      *
      * @param entity the {@code TaskStatus} to update; must not be {@code null}
-     * @throws IllegalArgumentException if {@code entity} is {@code null}
+     * @throws NullPointerException if {@code entity} is {@code null}
      */
     @Override
     public void update(@NotNull TaskStatus entity) {
-        if (entity == null) throw new IllegalArgumentException("Can't update null TaskStatus");
+        Objects.requireNonNull(entity, " must not be null");
 
         @Language("SQL")
         String sql = """
