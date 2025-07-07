@@ -1,44 +1,89 @@
 package com.lucasbmmn.timetracker
 
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.safeContentPadding
-import androidx.compose.material3.Button
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material.Divider
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import org.jetbrains.compose.resources.painterResource
+import androidx.compose.ui.unit.dp
+import com.lucasbmmn.timetracker.iu.components.Item
+import com.lucasbmmn.timetracker.iu.components.Menu
+import com.lucasbmmn.timetracker.iu.components.ToolBar
+import com.lucasbmmn.timetracker.iu.screens.MainScreen
+import com.lucasbmmn.timetracker.iu.themes.LocalTheme
+import com.lucasbmmn.timetracker.util.Strings
 import org.jetbrains.compose.ui.tooling.preview.Preview
-
-import timetracker.composeapp.generated.resources.Res
-import timetracker.composeapp.generated.resources.compose_multiplatform
 
 @Composable
 @Preview
 fun App() {
-    MaterialTheme {
-        var showContent by remember { mutableStateOf(false) }
-        Column(
-            modifier = Modifier
-                .safeContentPadding()
-                .fillMaxSize(),
-            horizontalAlignment = Alignment.CenterHorizontally,
-        ) {
-            Button(onClick = { showContent = !showContent }) {
-                Text("Click me!")
-            }
-            AnimatedVisibility(showContent) {
-                val greeting = remember { Greeting().greet() }
-                Column(Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
-                    Image(painterResource(Res.drawable.compose_multiplatform), null)
-                    Text("Compose: $greeting")
-                }
-            }
+    val theme = LocalTheme.current
+
+    Column(
+        modifier = Modifier
+            .background(color = theme.background)
+    ) {
+        ToolBar {
+            Menu(
+                Strings.get("menu.file"),
+                Strings.get("menu.file.mnemonic")[0],
+                content = {
+                Item(
+                    Strings.get("menu.file.new"),
+                    Strings.get("menu.file.new.mnemonic")[0],
+                ) { println("menu.file.new") }
+                Item(
+                    Strings.get("menu.file.open"),
+                    Strings.get("menu.file.open.mnemonic")[0],
+                ) { println("menu.file.open") }
+                Item(
+                    Strings.get("menu.file.save"),
+                    Strings.get("menu.file.save.mnemonic")[0],
+                ) { println("menu.file.save") }
+                Item(
+                    Strings.get("menu.file.saveAs"),
+                    Strings.get("menu.file.saveAs.mnemonic")[0],
+                ) { println("menu.file.saveAs") }
+                Divider(
+                    modifier = Modifier
+                        .padding(0.dp, 2.5.dp, 0.dp, 2.5.dp),
+                    color = theme.outline,
+                    thickness = 1.dp,
+                )
+                Item(
+                    Strings.get("menu.file.quit"),
+                    Strings.get("menu.file.quit.mnemonic")[0],
+                ) { println("menu.file.quit") }
+            })
+            Menu(
+                Strings.get("menu.edit"),
+                Strings.get("menu.edit.mnemonic")[0],
+                content = {
+                Item(
+                    Strings.get("menu.edit.copy"),
+                    Strings.get("menu.edit.copy.mnemonic")[0],
+                ) { println("menu.edit.copy") }
+                Item(
+                    Strings.get("menu.edit.cut"),
+                    Strings.get("menu.edit.cut.mnemonic")[0],
+                ) { println("menu.edit.cut") }
+                Item(
+                    Strings.get("menu.edit.paste"),
+                    Strings.get("menu.edit.paste.mnemonic")[0],
+                ) { println("menu.edit.paste") }
+            })
+            Menu(
+                Strings.get("menu.help"),
+                Strings.get("menu.help.mnemonic")[0],
+                content = {
+                Item(
+                    Strings.get("menu.help.about"),
+                    Strings.get("menu.help.about.mnemonic")[0],
+                ) { println("menu.help.about") }
+            })
         }
+
+        MainScreen()
     }
 }
