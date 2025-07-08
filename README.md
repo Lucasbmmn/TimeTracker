@@ -55,12 +55,12 @@ The application uses SQLite with the following main entities:
 - ✅ Project structure setup
 - ✅ Model classes (Client, Project, Task, etc.)
 - ✅ Basic Gradle configuration
+- ✅ Database connection and DAOs
 
 **Currently Working On:**
-- 🔄 Database connection and DAOs
+- 🔄 Basic UI screens with Compose Desktop
 
 **Next Steps:**
-- ⏳ Basic UI screens with Compose Desktop
 - ⏳ Core time tracking functionality
 - ⏳ User interface development
 - ⏳ Testing setup
@@ -109,37 +109,13 @@ For testing and development purposes, you can also run the console application:
 ./gradlew :consoleApp:run
 ```
 
-## 🛠️ Development Notes
-
-As a beginner to desktop development, I'm documenting my learning journey:
-
-### What I've Learned So Far:
-- Database design and relationships
-- Kotlin Multiplatform project structure
-- Model class creation and data modeling
-
-### What I'm Currently Learning:
-- Database connectivity with SQLite
-
-### What I'm Learning Next:
-- Compose Desktop UI development
-- State management in Compose
-- Testing strategies
-
-### Key Components (Planned):
-- **DatabaseManager**: SQLite connection handling
-- **DAOs**: Data access for each entity type
-- **Services**: Business logic layer
-- **UI Screens**: Different app sections
-- **Components**: Reusable UI elements
-
 ## 🌐 Internationalization
 
-The app will supports multiple languages, including:
-- English (default): `strings.xml`
-- French: `strings-fr.xml`
+The app will support multiple languages, including:
+- English (default): `strings_en.properties`
+- French: `strings_fr.properties`
 
-To add a new language, create a new `strings-{locale}.xml` file in the resources directory.
+To add a new language, create a new `strings_{locale}.properties` file in the resources directory.
 
 ## 📊 Database Design
 
@@ -169,7 +145,6 @@ If you're also learning, feel free to:
 - Each commit shows small, incremental progress
 - Comments in code explain my thought process
 - Issues document problems I'm solving
-- Wiki (planned) will have learning resources I find helpful
 
 ## 📝 License
 
@@ -181,8 +156,8 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - [x] Database schema design
 - [x] Project structure setup
 - [x] Model classes
-- [ ] Database connectivity *(In progress)*
-- [ ] Basic CRUD operations *(In progress)*
+- [x] Database connectivity *(In progress)*
+- [x] Basic CRUD operations *(In progress)*
 
 **Phase 2 - Core Features**
 - [ ] Time tracking functionality
@@ -223,3 +198,7 @@ Special thanks to the developer community for sharing knowledge and helping begi
 **Learning in public! 📚✨**
 
 *Feel free to follow along with my development journey. Every commit is a step forward in learning something new!*
+
+---
+
+*README file redacted with the help of ChatGPT.*
