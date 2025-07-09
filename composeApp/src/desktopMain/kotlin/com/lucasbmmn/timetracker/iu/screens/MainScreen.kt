@@ -13,6 +13,7 @@ import androidx.compose.material.icons.rounded.Settings
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.lucasbmmn.timetracker.iu.clients.ClientsScreen
 import com.lucasbmmn.timetracker.iu.components.SideBar
 import com.lucasbmmn.timetracker.iu.components.SideBarItem
 import com.lucasbmmn.timetracker.iu.themes.LocalTheme
@@ -64,6 +65,9 @@ fun MainScreen(
                 .fillMaxSize()
                 .background(theme.background)
         ) {
+            when (selectedSideBarItem) {
+                2 -> ClientsScreen()
+            }
         }
     }
 }
